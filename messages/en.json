@@ -92,7 +92,7 @@
       "badgeReal": "100% real listings",
       "badgeSeo": "Local SEO optimized",
       "badgeFast": "Fast delivery",
-      "badgeSupport": "EkoMedia support"
+      "badgeSupport": "EkoLink support"
     },
     "trust": {
       "secureH": "Secure purchase", "secureP": "3D Secure payment",
@@ -223,10 +223,10 @@
     "guaranteedTransfer": "Guaranteed transfer",
     "quickTitle": "Quick overview",
     "quick": { "metier": "Trade", "ville": "City", "etat": "Status", "delivery": "Delivery", "deliveryVal": "24-48h", "optimisation": "Optimization", "optimisationVal": "Complete", "claim": "Claim", "claimVal": "Included" },
-    "verified": "Listing verified by EkoMedia",
+    "verified": "Listing verified by EkoLink",
     "status": { "available": "Available", "reserved": "Reserved", "sold": "Sold" },
     "seoTitle": "SEO indicators",
-    "seo": { "rating": "Average rating", "reviews": "Number of reviews", "optimisation": "Profile optimization", "coverage": "Local coverage", "categories": "Optimized categories", "photos": "Photos already added", "citations": "Local citations", "potential": "Visibility potential", "potentialVal": "High" },
+    "seo": { "rating": "Average rating", "reviews": "Number of reviews", "optimisation": "Profile optimization", "coverage": "Local coverage", "categories": "Optimized categories", "photos": "Photos already added", "citations": "Local citations", "potential": "Visibility potential", "potentialVal": "High", "visLow": "Low", "visMedium": "Medium", "visHigh": "High" },
     "includedTitle": "What's included",
     "included": [
       { "t": "Full access to the listing", "d": "Listing 100% accessible after transfer." },
@@ -244,7 +244,7 @@
     "guaranteesTitle": "Our guarantees",
     "guarantees": [
       { "t": "Secure transfer", "items": ["100% secure process", "Transfer via Google's procedure", "Success guarantee"] },
-      { "t": "Verified data", "items": ["Listing verified by EkoMedia", "Authentic reviews and data", "Compliant with Google's rules"] },
+      { "t": "Verified data", "items": ["Listing verified by EkoLink", "Authentic reviews and data", "Compliant with Google's rules"] },
       { "t": "Dedicated support", "items": ["Experts available 7 days/7", "Fast reply guaranteed", "Complete guidance"] },
       { "t": "Fast delivery", "items": ["Delivery within 24 to 48h", "All information provided", "Ready to be claimed"] }
     ],
@@ -257,7 +257,7 @@
     "ctaTitle": "Ready to buy this Google Business profile?",
     "ctaText": "Gain local visibility and grow your business today in {city}.",
     "ctaOther": "See other listings",
-    "ctaTrust": ["100% secure payment", "Listing verified by EkoMedia", "Delivery in 24 to 48h", "Satisfaction guaranteed"],
+    "ctaTrust": ["100% secure payment", "Listing verified by EkoLink", "Delivery in 24 to 48h", "Satisfaction guaranteed"],
     "genericTrade": "Service"
   },
   "blog": {
@@ -382,14 +382,14 @@
       { "title": "Guidance", "desc": "We support you at every step, all the way to taking over your listing." }
     ],
     "storyTitle": "Our story",
-    "storyP1": "EkoMedia, an agency specialized in digital solutions, launched EkoLink to meet a growing need among professionals: quickly achieving effective and lasting local visibility.",
-    "storyP2": "Backed by our expertise in local SEO and Google listing management, we built a one-of-a-kind marketplace, with a secure and compliant process.",
-    "storyCta": "Learn more about EkoMedia",
+    "storyP1": "EkoLink is a Google Partner digital agency based in Paris since 2015. We accelerate the digital growth of French SMEs: websites, online advertising (Google Ads, Meta Ads), local SEO and AI solutions.",
+    "storyP2": "To meet a growing need for local visibility, we launched this marketplace of ready-to-use Google Business listings, with a secure and compliant process.",
+    "storyCta": "Discover the EkoLink agency",
     "story": [
-      { "title": "EkoMedia launch", "desc": "Agency founded and first local SEO assignments." },
-      { "title": "GBP expertise", "desc": "Building our know-how on Google Business Profile." },
-      { "title": "EkoLink idea", "desc": "Identifying a real market need and designing the project." },
-      { "title": "Marketplace launch", "desc": "EkoLink is born to support professionals every day." }
+      { "title": "EkoLink founded", "desc": "Launch of the Google Partner digital agency in Paris." },
+      { "title": "Ads & local SEO expertise", "desc": "Ramp-up on Google Ads, Meta Ads and local search." },
+      { "title": "Google Business know-how", "desc": "Specialization in optimizing Google Business Profiles." },
+      { "title": "GMB marketplace launch", "desc": "EkoLink opens its marketplace of ready-to-use Google Business listings." }
     ],
     "ctaLabel": "Ready to boost your visibility?",
     "ctaTitle": "Find the ideal listing for your business",
@@ -606,6 +606,9 @@
       "state": "State", "stateVierge": "Optimized, no reviews", "stateHistorique": "With review history",
       "image": "Image (URL)", "photos": "Photos", "reviews": "Reviews", "rating": "Rating (/5)", "seo": "SEO score (/100)",
       "description": "Optimization description",
+      "categoriesCount": "Optimized categories", "localCitations": "Local citations", "visibility": "Visibility potential",
+      "visLow": "Low", "visMedium": "Medium", "visHigh": "High",
+      "galleryLabel": "Listing images (URL + title)", "addImage": "Add an image", "imageUrl": "Image URL", "imageTitle": "Title / caption", "removeImage": "Remove image", "galleryHint": "The 1st image is used as the catalog thumbnail.",
       "saveEdit": "Save changes", "create": "Create listing"
     },
     "categoryForm": {

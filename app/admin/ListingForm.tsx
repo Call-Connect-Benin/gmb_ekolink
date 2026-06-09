@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { saveListingAction } from "./actions";
+import GalleryField from "./GalleryField";
 import type { Category, Listing } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,19 +68,15 @@ export default function ListingForm({
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="grid gap-2">
-              <Label htmlFor="state">{t("state")}</Label>
-              <Select id="state" name="state" required defaultValue={listing?.state ?? "vierge"}>
-                <option value="vierge">{t("stateVierge")}</option>
-                <option value="historique">{t("stateHistorique")}</option>
-              </Select>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="image">{t("image")}</Label>
-              <Input id="image" name="image" type="text" defaultValue={listing?.images?.[0] ?? "/assets/listings/default.png"} />
-            </div>
+          <div className="grid gap-2">
+            <Label htmlFor="state">{t("state")}</Label>
+            <Select id="state" name="state" required defaultValue={listing?.state ?? "vierge"}>
+              <option value="vierge">{t("stateVierge")}</option>
+              <option value="historique">{t("stateHistorique")}</option>
+            </Select>
           </div>
+
+          <GalleryField initial={listing?.gallery?.length ? listing.gallery : (listing?.images?.length ? listing.images.map((u) => ({ url: u, title: "" })) : [])} />
 
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="grid gap-2">
@@ -99,6 +96,25 @@ export default function ListingForm({
           <div className="grid gap-2">
             <Label htmlFor="seo_score">{t("seo")}</Label>
             <Input id="seo_score" name="seo_score" type="number" min={0} max={100} defaultValue={listing?.seo_score ?? 85} />
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-2">
+              <Label htmlFor="categories_count">{t("categoriesCount")}</Label>
+              <Input id="categories_count" name="categories_count" type="number" min={0} defaultValue={listing?.categories_count ?? 3} />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="local_citations">{t("localCitations")}</Label>
+              <Input id="local_citations" name="local_citations" type="number" min={0} defaultValue={listing?.local_citations ?? 0} />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="visibility">{t("visibility")}</Label>
+              <Select id="visibility" name="visibility" defaultValue={listing?.visibility ?? "high"}>
+                <option value="low">{t("visLow")}</option>
+                <option value="medium">{t("visMedium")}</option>
+                <option value="high">{t("visHigh")}</option>
+              </Select>
+            </div>
           </div>
 
           <div className="grid gap-2">

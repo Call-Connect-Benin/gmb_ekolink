@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Users, Star, ShieldCheck, Zap, Handshake, Heart, ShoppingCart, ArrowRight } from "lucide-react";
+import { Users, Star, ShieldCheck, Gauge, Handshake, Heart, ShoppingCart, ArrowRight } from "lucide-react";
 import { getListings } from "@/lib/queries";
 import { getTranslations } from "next-intl/server";
 
@@ -15,11 +15,11 @@ export const metadata: Metadata = {
 
 const VALUE_META = [
   { icon: ShieldCheck, box: "bg-primary/10 text-primary" },
-  { icon: Zap, box: "bg-accent/15 text-[#d97706]" },
+  { icon: Gauge, box: "bg-accent/15 text-[#d97706]" },
   { icon: Handshake, box: "bg-success/12 text-success" },
   { icon: Heart, box: "bg-[#7c3aed]/10 text-[#7c3aed]" },
 ];
-const STORY_YEARS = ["2021", "2022", "2023", "2024"];
+const STORY_YEARS = ["2015", "2018", "2023", "2026"];
 
 export default async function APropos() {
   const listings = await getListings();
@@ -90,7 +90,7 @@ export default async function APropos() {
             <h2 className="text-[clamp(1.6rem,3vw,2.2rem)] font-extrabold tracking-tight">{t("storyTitle")}</h2>
             <p className="mt-4 text-muted-foreground">{t("storyP1")}</p>
             <p className="mt-3 text-muted-foreground">{t("storyP2")}</p>
-            <Link href="/contact" className="mt-6 inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-bold hover:bg-secondary">{t("storyCta")}</Link>
+            <a href="https://ekolink.dev" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-bold hover:bg-secondary">{t("storyCta")}</a>
           </div>
           <ol className="relative space-y-7 border-l-2 border-border pl-8">
             {story.map((s) => (

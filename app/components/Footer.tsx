@@ -66,8 +66,8 @@ export default function Footer() {
           <div>
             <h4 className="mb-4 text-sm font-bold text-white">{t("contact")}</h4>
             <ul className="flex flex-col gap-2.5 text-sm">
-              <li><a href="mailto:support@ekolink.com" className="flex items-center gap-2 hover:text-white"><Mail className="size-4 shrink-0 text-primary" /> support@ekolink.com</a></li>
-              <li><a href="tel:+33184800000" className="flex items-center gap-2 hover:text-white"><Phone className="size-4 shrink-0 text-primary" /> +33 1 84 80 00 00</a></li>
+              <li><a href="mailto:contact@ekolink.fr" className="flex items-center gap-2 hover:text-white"><Mail className="size-4 shrink-0 text-primary" /> contact@ekolink.fr</a></li>
+              <li><a href="tel:+33617030308" className="flex items-center gap-2 hover:text-white"><Phone className="size-4 shrink-0 text-primary" /> +33 6 17 03 03 08</a></li>
               <li className="flex items-center gap-2"><Clock className="size-4 shrink-0 text-primary" /> {t("hours")}</li>
               <li className="flex items-center gap-2"><MapPin className="size-4 shrink-0 text-primary" /> {t("location")}</li>
             </ul>

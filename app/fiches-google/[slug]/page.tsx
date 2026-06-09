@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   Check, Star, MapPin, MessageSquare, Lock, Headphones, ShieldCheck,
-  CheckCircle2, Wrench, Camera, Link2, TrendingUp, KeyRound, BookOpen, Pencil, Zap,
+  CheckCircle2, Wrench, Camera, Link2, TrendingUp, KeyRound, BookOpen, Pencil, PackageCheck,
   Settings, FileText, Target, Truck, ChevronDown, ArrowRight, ShoppingCart,
 } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title };
 }
 
-const INCLUDED_ICONS = [KeyRound, BookOpen, Pencil, Headphones, Zap, Settings];
+const INCLUDED_ICONS = [KeyRound, BookOpen, Pencil, Headphones, PackageCheck, Settings];
 const GUARANTEE_ICONS = [ShieldCheck, CheckCircle2, Headphones, Truck];
 
 export default async function FicheDetail({ params }: { params: Promise<{ slug: string }> }) {
@@ -50,11 +50,16 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
         city: real.city,
         price: real.price,
         rating: (real.rating ?? 0).toFixed(1),
+        ratingNum: real.rating ?? 0,
         avis: real.reviews_count,
         status: real.status,
         img: listingImage(real.category_slug, real.city, real.images?.[0]),
         seo: real.seo_score,
         photos: real.photos_count,
+        categoriesCount: real.categories_count ?? 3,
+        citations: real.local_citations ?? 0,
+        visibility: real.visibility ?? "high",
+        description: real.description ?? "",
       }
     : {
         title: cap(slug.replace(/-/g, " ")),
@@ -62,25 +67,32 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
         city: "France",
         price: 199,
         rating: "—",
+        ratingNum: 0,
         avis: 0,
         status: "available" as Listing["status"],
         img: "/assets/listings/default.png",
         seo: null as number | null,
         photos: 0,
+        categoriesCount: 0,
+        citations: 0,
+        visibility: "high" as Listing["visibility"],
+        description: "",
       };
 
   const metierLower = f.metier.toLowerCase();
   const statusLabel = (s: Listing["status"]) => t(`status.${s}`);
+  const clampPct = (n: number) => Math.max(6, Math.min(100, Math.round(n)));
+  const visPct = { low: 30, medium: 60, high: 90 }[f.visibility];
 
   const SEO = [
-    { icon: Star, t: t("seo.rating"), v: `${f.rating}/5` },
-    { icon: MessageSquare, t: t("seo.reviews"), v: `${f.avis}` },
-    { icon: Target, t: t("seo.optimisation"), v: f.seo ? `${f.seo}%` : "100%" },
-    { icon: MapPin, t: t("seo.coverage"), v: f.city },
-    { icon: CheckCircle2, t: t("seo.categories"), v: "3" },
-    { icon: Camera, t: t("seo.photos"), v: `${f.photos || 18}` },
-    { icon: Link2, t: t("seo.citations"), v: "22" },
-    { icon: TrendingUp, t: t("seo.potential"), v: t("seo.potentialVal") },
+    { icon: Star, t: t("seo.rating"), v: `${f.rating}/5`, pct: clampPct((f.ratingNum / 5) * 100) },
+    { icon: MessageSquare, t: t("seo.reviews"), v: `${f.avis}`, pct: clampPct((f.avis / 50) * 100) },
+    { icon: Target, t: t("seo.optimisation"), v: f.seo ? `${f.seo}%` : "—", pct: clampPct(f.seo ?? 0) },
+    { icon: MapPin, t: t("seo.coverage"), v: f.city, pct: f.city ? 100 : 6 },
+    { icon: CheckCircle2, t: t("seo.categories"), v: `${f.categoriesCount}`, pct: clampPct((f.categoriesCount / 8) * 100) },
+    { icon: Camera, t: t("seo.photos"), v: `${f.photos}`, pct: clampPct((f.photos / 30) * 100) },
+    { icon: Link2, t: t("seo.citations"), v: `${f.citations}`, pct: clampPct((f.citations / 30) * 100) },
+    { icon: TrendingUp, t: t("seo.potential"), v: t(`seo.vis${f.visibility === "low" ? "Low" : f.visibility === "medium" ? "Medium" : "High"}`), pct: visPct },
   ];
   const QUICK = [
     { icon: Wrench, t: t("quick.metier"), v: f.metier },
@@ -91,7 +103,11 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
     { icon: KeyRound, t: t("quick.claim"), v: t("quick.claimVal"), ok: true },
   ];
 
-  const thumbs = t.raw("thumbs") as string[];
+  const galleryImgs = real?.gallery?.length ? real.gallery : [];
+  const mainImg = galleryImgs[0]?.url || f.img;
+  const thumbList = galleryImgs.length
+    ? galleryImgs
+    : (t.raw("thumbs") as string[]).map((title) => ({ url: f.img, title }));
   const cardBullets = t.raw("cardBullets") as string[];
   const included = (t.raw("included") as { t: string; d: string }[]).map((x, i) => ({ ...x, icon: INCLUDED_ICONS[i] }));
   const guarantees = (t.raw("guarantees") as { t: string; items: string[] }[]).map((x, i) => ({ ...x, icon: GUARANTEE_ICONS[i] }));
@@ -111,13 +127,15 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
             <p className="mt-3 max-w-lg text-muted-foreground">{t("lead", { metier: metierLower, city: f.city })}</p>
             <h2 className="mb-3 mt-7 font-bold">{t("screenshots")}</h2>
             <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
-              <img src={f.img} alt={f.title} className="aspect-[16/10] w-full object-cover" />
+              <img src={mainImg} alt={f.title} className="aspect-[16/10] w-full object-cover" />
             </div>
-            <div className="mt-3 grid grid-cols-4 gap-3">
-              {thumbs.map((l) => (
-                <div key={l} className="overflow-hidden rounded-xl border border-border"><img src={f.img} alt="" className="aspect-[4/3] w-full object-cover" /><p className="px-2 py-1.5 text-center text-[10px] text-muted-foreground">{l}</p></div>
-              ))}
-            </div>
+            {thumbList.length > 0 && (
+              <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {thumbList.map((g, i) => (
+                  <div key={i} className="overflow-hidden rounded-xl border border-border"><img src={g.url} alt={g.title} className="aspect-[4/3] w-full object-cover" />{g.title && <p className="px-2 py-1.5 text-center text-[10px] text-muted-foreground">{g.title}</p>}</div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Purchase card */}
@@ -150,7 +168,7 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
           <h2 className="mb-5 text-xl font-extrabold">{t("seoTitle")}</h2>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {SEO.map((s) => (
-              <div key={s.t} className="rounded-2xl border border-border bg-card p-4 shadow-sm"><div className="flex items-center gap-2 text-sm text-muted-foreground"><s.icon className="size-4 text-primary" /> {s.t}</div><p className="mt-2 text-xl font-extrabold">{s.v}</p><div className="mt-2 h-1.5 rounded-full bg-muted"><div className="h-full rounded-full bg-primary" style={{ width: "80%" }} /></div></div>
+              <div key={s.t} className="rounded-2xl border border-border bg-card p-4 shadow-sm"><div className="flex items-center gap-2 text-sm text-muted-foreground"><s.icon className="size-4 text-primary" /> {s.t}</div><p className="mt-2 text-xl font-extrabold">{s.v}</p><div className="mt-2 h-1.5 rounded-full bg-muted"><div className="h-full rounded-full bg-primary" style={{ width: `${s.pct}%` }} /></div></div>
             ))}
           </div>
         </section>
@@ -169,7 +187,7 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
         <section className="pb-8">
           <h2 className="mb-5 text-xl font-extrabold">{t("descTitle")}</h2>
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="flex gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm"><span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10"><FileText className="size-5 text-primary" /></span><div><h3 className="font-bold">{t("desc1H")}</h3><p className="mt-1 text-sm text-muted-foreground">{t("desc1P", { metier: metierLower, city: f.city })}</p></div></div>
+            <div className="flex gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm"><span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10"><FileText className="size-5 text-primary" /></span><div><h3 className="font-bold">{t("desc1H")}</h3><p className="mt-1 text-sm text-muted-foreground">{f.description || t("desc1P", { metier: metierLower, city: f.city })}</p></div></div>
             <div className="flex gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm"><span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent/15"><Target className="size-5 text-[#d97706]" /></span><div><h3 className="font-bold">{t("desc2H")}</h3><p className="mt-1 text-sm text-muted-foreground">{t("desc2P")}</p></div></div>
           </div>
         </section>

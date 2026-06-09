@@ -35,7 +35,7 @@ export default async function PolitiqueConfidentialite() {
 
               <h2>1. Data controller</h2>
               <p>The data controller is <strong>EkoLink S.A.S.</strong>, with registered office at 7 Rue Vulpian, 75013 Paris, SIRET 1179695284.</p>
-              <p>Contact: <a href="mailto:contact@ekolink.fr">contact@ekolink.fr</a> — Phone: <a href="tel:+33641479836">+33&nbsp;6&nbsp;41&nbsp;47&nbsp;98&nbsp;36</a></p>
+              <p>Contact: <a href="mailto:contact@ekolink.fr">contact@ekolink.fr</a> — Phone: <a href="tel:+33617030308">+33&nbsp;6&nbsp;17&nbsp;03&nbsp;03&nbsp;08</a></p>
               <p>GDPR / DPO contact: <span className="placeholder">[TO COMPLETE — email of the DPO or the person in charge of data protection]</span></p>
 
               <h2>2. Personal data collected</h2>
@@ -133,7 +133,7 @@ export default async function PolitiqueConfidentialite() {
 
               <h2>1. Responsable du traitement</h2>
               <p>Le responsable du traitement des données est <strong>EkoLink S.A.S.</strong>, dont le siège social est situé 7 Rue Vulpian, 75013 Paris, SIRET 1179695284.</p>
-              <p>Contact : <a href="mailto:contact@ekolink.fr">contact@ekolink.fr</a> — Téléphone : <a href="tel:+33641479836">+33&nbsp;6&nbsp;41&nbsp;47&nbsp;98&nbsp;36</a></p>
+              <p>Contact : <a href="mailto:contact@ekolink.fr">contact@ekolink.fr</a> — Téléphone : <a href="tel:+33617030308">+33&nbsp;6&nbsp;17&nbsp;03&nbsp;03&nbsp;08</a></p>
               <p>Contact RGPD / DPO : <span className="placeholder">[À COMPLÉTER — email du DPO ou de la personne en charge de la protection des données]</span></p>
 
               <h2>2. Données personnelles collectées</h2>

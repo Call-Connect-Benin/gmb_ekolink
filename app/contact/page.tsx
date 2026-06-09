@@ -19,7 +19,7 @@ const jsonLd = {
   mainEntity: {
     "@type": "Organization",
     name: "EkoLink",
-    telephone: "+33-6-41-47-98-36",
+    telephone: "+33-6-17-03-03-08",
     email: "contact@ekolink.fr",
     address: {
       "@type": "PostalAddress",
@@ -35,7 +35,7 @@ export default async function Contact() {
   const t = await getTranslations("contact");
   const coords = [
     { t: t("email"), v: <a href="mailto:contact@ekolink.fr" className="text-primary hover:underline">contact@ekolink.fr</a> },
-    { t: t("phone"), v: <a href="tel:+33641479836" className="text-primary hover:underline">+33 6 41 47 98 36</a> },
+    { t: t("phone"), v: <a href="tel:+33617030308" className="text-primary hover:underline">+33 6 17 03 03 08</a> },
     { t: t("address"), v: <>{t("addressVal1")}<br />{t("addressVal2")}<br />{t("addressVal3")}</> },
     { t: t("hours"), v: <>{t("hoursVal1")}<br />{t("hoursVal2")}</> },
     { t: t("responseGuaranteed"), v: t("responseVal") },

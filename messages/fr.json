@@ -92,7 +92,7 @@
       "badgeReal": "Fiches 100% réelles",
       "badgeSeo": "Optimisées SEO local",
       "badgeFast": "Livraison rapide",
-      "badgeSupport": "Support EkoMedia"
+      "badgeSupport": "Support EkoLink"
     },
     "trust": {
       "secureH": "Achat sécurisé", "secureP": "Paiement 3D Secure",
@@ -223,10 +223,10 @@
     "guaranteedTransfer": "Transfert garanti",
     "quickTitle": "Aperçu rapide",
     "quick": { "metier": "Métier", "ville": "Ville", "etat": "État", "delivery": "Livraison", "deliveryVal": "24-48h", "optimisation": "Optimisation", "optimisationVal": "Complète", "claim": "Revendication", "claimVal": "Incluse" },
-    "verified": "Fiche vérifiée par EkoMedia",
+    "verified": "Fiche vérifiée par EkoLink",
     "status": { "available": "Disponible", "reserved": "Réservé", "sold": "Vendu" },
     "seoTitle": "Indicateurs SEO",
-    "seo": { "rating": "Note moyenne", "reviews": "Nombre d'avis", "optimisation": "Optimisation du profil", "coverage": "Couverture locale", "categories": "Catégories optimisées", "photos": "Photos déjà ajoutées", "citations": "Citations locales", "potential": "Potentiel de visibilité", "potentialVal": "Élevé" },
+    "seo": { "rating": "Note moyenne", "reviews": "Nombre d'avis", "optimisation": "Optimisation du profil", "coverage": "Couverture locale", "categories": "Catégories optimisées", "photos": "Photos déjà ajoutées", "citations": "Citations locales", "potential": "Potentiel de visibilité", "potentialVal": "Élevé", "visLow": "Faible", "visMedium": "Moyen", "visHigh": "Élevé" },
     "includedTitle": "Ce qui est inclus",
     "included": [
       { "t": "Accès complet à la fiche", "d": "Fiche 100% accessible après transfert." },
@@ -244,7 +244,7 @@
     "guaranteesTitle": "Nos garanties",
     "guarantees": [
       { "t": "Transfert sécurisé", "items": ["Processus 100% sécurisé", "Transfert via procédure Google", "Garantie de réussite"] },
-      { "t": "Données vérifiées", "items": ["Fiche vérifiée par EkoMedia", "Avis et données authentiques", "Conforme aux règles Google"] },
+      { "t": "Données vérifiées", "items": ["Fiche vérifiée par EkoLink", "Avis et données authentiques", "Conforme aux règles Google"] },
       { "t": "Support dédié", "items": ["Experts disponibles 7j/7", "Réponse rapide garantie", "Accompagnement complet"] },
       { "t": "Livraison rapide", "items": ["Livraison sous 24 à 48h", "Toutes les infos fournies", "Prêt à être revendiqué"] }
     ],
@@ -257,7 +257,7 @@
     "ctaTitle": "Prêt à acheter cette fiche Google Business ?",
     "ctaText": "Gagnez en visibilité locale et développez votre activité dès aujourd'hui à {city}.",
     "ctaOther": "Voir d'autres fiches",
-    "ctaTrust": ["Paiement 100% sécurisé", "Fiche vérifiée par EkoMedia", "Livraison 24 à 48h", "Satisfaction garantie"],
+    "ctaTrust": ["Paiement 100% sécurisé", "Fiche vérifiée par EkoLink", "Livraison 24 à 48h", "Satisfaction garantie"],
     "genericTrade": "Service"
   },
   "blog": {
@@ -382,14 +382,14 @@
       { "title": "Accompagnement", "desc": "Nous vous accompagnons à chaque étape, jusqu'à la prise en main de votre fiche." }
     ],
     "storyTitle": "Notre histoire",
-    "storyP1": "EkoMedia, agence spécialisée en solutions digitales, a lancé EkoLink pour répondre à un besoin croissant des professionnels : obtenir rapidement une visibilité locale efficace et durable.",
-    "storyP2": "Fort de notre expertise en SEO local et en gestion de fiches Google, nous avons créé une marketplace unique en son genre, avec un processus sécurisé et conforme.",
-    "storyCta": "En savoir plus sur EkoMedia",
+    "storyP1": "EkoLink est une agence digitale Google Partner basée à Paris depuis 2015. Nous accélérons la croissance digitale des PME françaises : création de sites, publicité en ligne (Google Ads, Meta Ads), SEO local et solutions IA.",
+    "storyP2": "Pour répondre à un besoin croissant de visibilité locale, nous avons lancé cette marketplace de fiches Google Business prêtes à l'emploi, avec un processus sécurisé et conforme.",
+    "storyCta": "Découvrir l'agence EkoLink",
     "story": [
-      { "title": "Lancement d'EkoMedia", "desc": "Création de l'agence et premières missions SEO local." },
-      { "title": "Expertise GBP", "desc": "Développement de notre savoir-faire sur Google Business Profile." },
-      { "title": "Idée EkoLink", "desc": "Constat d'un réel besoin du marché et conception du projet." },
-      { "title": "Lancement de la marketplace", "desc": "EkoLink voit le jour pour accompagner les pros au quotidien." }
+      { "title": "Création d'EkoLink", "desc": "Lancement de l'agence digitale Google Partner à Paris." },
+      { "title": "Expertise Ads & SEO local", "desc": "Montée en puissance sur Google Ads, Meta Ads et le référencement local." },
+      { "title": "Savoir-faire Google Business", "desc": "Spécialisation dans l'optimisation des fiches Google Business Profile." },
+      { "title": "Lancement de la marketplace GMB", "desc": "EkoLink ouvre sa marketplace de fiches Google Business prêtes à l'emploi." }
     ],
     "ctaLabel": "Prêt à booster votre visibilité ?",
     "ctaTitle": "Trouvez la fiche idéale pour votre activité",
@@ -606,6 +606,9 @@
       "state": "État", "stateVierge": "Vierge optimisée", "stateHistorique": "Avec historique d'avis",
       "image": "Image (URL)", "photos": "Photos", "reviews": "Avis", "rating": "Note (/5)", "seo": "Score SEO (/100)",
       "description": "Description de l'optimisation",
+      "categoriesCount": "Catégories optimisées", "localCitations": "Citations locales", "visibility": "Potentiel de visibilité",
+      "visLow": "Faible", "visMedium": "Moyen", "visHigh": "Élevé",
+      "galleryLabel": "Images de la fiche (URL + titre)", "addImage": "Ajouter une image", "imageUrl": "URL de l'image", "imageTitle": "Titre / légende", "removeImage": "Supprimer l'image", "galleryHint": "La 1re image sert de vignette au catalogue.",
       "saveEdit": "Enregistrer les modifications", "create": "Créer la fiche"
     },
     "categoryForm": {

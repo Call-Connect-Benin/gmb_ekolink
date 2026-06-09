@@ -49,7 +49,7 @@ export default async function MentionsLegales() {
                 <li><strong>Trade register (RCS):</strong> <span className="placeholder">[Paris — to complete with the full number]</span></li>
                 <li><strong>Intra-EU VAT no.:</strong> <span className="placeholder">[TO COMPLETE — FR XX XXXXXXXXX]</span></li>
                 <li><strong>Registered office:</strong> 7 Rue Vulpian, 75013 Paris, France</li>
-                <li><strong>Phone:</strong> <a href="tel:+33641479836">+33&nbsp;6&nbsp;41&nbsp;47&nbsp;98&nbsp;36</a></li>
+                <li><strong>Phone:</strong> <a href="tel:+33617030308">+33&nbsp;6&nbsp;17&nbsp;03&nbsp;03&nbsp;08</a></li>
                 <li><strong>Email:</strong> <a href="mailto:contact@ekolink.fr">contact@ekolink.fr</a></li>
               </ul>
 
@@ -118,7 +118,7 @@ export default async function MentionsLegales() {
                 <li><strong>RCS :</strong> <span className="placeholder">[Paris — à compléter avec le numéro complet]</span></li>
                 <li><strong>N° TVA intracommunautaire :</strong> <span className="placeholder">[À COMPLÉTER — FR XX XXXXXXXXX]</span></li>
                 <li><strong>Siège social :</strong> 7 Rue Vulpian, 75013 Paris, France</li>
-                <li><strong>Téléphone :</strong> <a href="tel:+33641479836">+33&nbsp;6&nbsp;41&nbsp;47&nbsp;98&nbsp;36</a></li>
+                <li><strong>Téléphone :</strong> <a href="tel:+33617030308">+33&nbsp;6&nbsp;17&nbsp;03&nbsp;03&nbsp;08</a></li>
                 <li><strong>Email :</strong> <a href="mailto:contact@ekolink.fr">contact@ekolink.fr</a></li>
               </ul>
 

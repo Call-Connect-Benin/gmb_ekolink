@@ -31,10 +31,14 @@ export type Listing = {
   state: ListingState;
   description: string | null;
   images: string[];
+  gallery: { url: string; title: string }[];
   seo_score: number | null;
   photos_count: number;
   reviews_count: number;
   rating: number | null;
+  categories_count: number;
+  local_citations: number;
+  visibility: "low" | "medium" | "high";
   created_at: string;
 };
 

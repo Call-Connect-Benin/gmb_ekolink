@@ -2,7 +2,7 @@
 // La table `categories` ne peut pas stocker un composant React : on mappe ici.
 import {
   Droplet, Lock, Stethoscope, Building2, UtensilsCrossed, Lightbulb,
-  Wrench, Key, Zap, Home, Scissors, Hammer, Car, Scale, Paintbrush,
+  Wrench, Key, Home, Scissors, Hammer, Car, Scale, Paintbrush,
   Briefcase, type LucideIcon,
 } from "lucide-react";
 
@@ -10,7 +10,7 @@ const ICONS: Record<string, LucideIcon> = {
   // valeurs du seed
   wrench: Wrench,
   key: Key,
-  zap: Zap,
+  zap: Lightbulb,
   home: Home,
   utensils: UtensilsCrossed,
   scissors: Scissors,

@@ -20,7 +20,18 @@ export async function saveListingAction(formData: FormData) {
   const admin = createAdminClient();
 
   const id = str(formData.get("id"));
-  const imageUrl = str(formData.get("image")) || "/assets/listings/default.png";
+  let gallery: { url: string; title: string }[] = [];
+  try {
+    const raw: unknown = JSON.parse(str(formData.get("gallery")) || "[]");
+    if (Array.isArray(raw)) {
+      gallery = raw
+        .filter((g): g is { url: string; title?: string } => Boolean(g) && typeof (g as { url?: unknown }).url === "string" && (g as { url: string }).url.trim() !== "")
+        .map((g) => ({ url: g.url.trim(), title: typeof g.title === "string" ? g.title : "" }));
+    }
+  } catch {
+    gallery = [];
+  }
+  const images = gallery.length ? gallery.map((g) => g.url) : ["/assets/listings/default.png"];
   const ratingRaw = str(formData.get("rating"));
 
   const payload = {
@@ -33,11 +44,17 @@ export async function saveListingAction(formData: FormData) {
     status: str(formData.get("status")) || "available",
     state: str(formData.get("state")) || "vierge",
     description: str(formData.get("description")) || null,
-    images: [imageUrl],
+    images,
+    gallery,
     photos_count: Number(str(formData.get("photos_count")) || 0),
     reviews_count: Number(str(formData.get("reviews_count")) || 0),
     rating: ratingRaw ? Number(ratingRaw) : null,
     seo_score: Number(str(formData.get("seo_score")) || 0),
+    categories_count: Number(str(formData.get("categories_count")) || 0),
+    local_citations: Number(str(formData.get("local_citations")) || 0),
+    visibility: ["low", "medium", "high"].includes(str(formData.get("visibility")))
+      ? str(formData.get("visibility"))
+      : "high",
   };
 
   if (id) {
