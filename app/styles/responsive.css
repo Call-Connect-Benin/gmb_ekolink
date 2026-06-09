@@ -1,0 +1,241 @@
+/* =============================================================
+   FicheBoost — responsive.css
+   Approche Mobile-First : on part de styles mobiles puis on
+   surcharge pour les écrans plus grands.
+   Breakpoints :
+     Mobile S : 320 – 480
+     Mobile L : 481 – 767
+     Tablette : 768 – 1023
+     Desktop  : 1024 – 1439
+     Large    : 1440+
+   ============================================================= */
+
+/* ---------------------------------------------------------------
+   MOBILE (par défaut, hérité des styles principaux)
+   --------------------------------------------------------------- */
+@media (max-width:767px){
+    .section{padding:64px 0}
+    .section-header{margin-bottom:40px}
+    .section-eyebrow{padding:7px 14px}
+    .container{padding:0 18px}
+    .page-content{
+        padding:28px 22px 36px;
+        margin-bottom:64px;
+        border-radius:24px;
+    }
+
+    /* Section 3 : Problèmes */
+    .problems-grid{
+        grid-template-columns:1fr;
+        gap:16px;
+    }
+    .problem-card{padding:24px 20px}
+
+    /* Section 4 : Solution */
+    .solution-grid{
+        grid-template-columns:1fr;
+        gap:40px;
+    }
+    .solution-list{padding:24px}
+    .solution-intro h3{font-size:1.75rem}
+    .solution-proof{flex-direction:column;align-items:stretch}
+    .comparison{
+        grid-template-columns:1fr;
+    }
+
+    /* Section 5 : Fonctionnalités */
+    .features-grid{
+        grid-template-columns:1fr;
+        gap:16px;
+    }
+    .feature-card{padding:24px 20px}
+    .inline-testimonial{padding:28px 24px;border-radius:28px}
+    .inline-testimonial p{font-size:1.05rem}
+
+    /* Section 6 : Preuves Sociales */
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:16px;
+        padding:28px 20px;
+        border-radius:28px;
+    }
+    .testimonials-grid{
+        grid-template-columns:1fr;
+        gap:16px;
+    }
+    .testimonial-card{padding:24px 20px}
+
+    /* Section 7 : Tarifs */
+    .pricing-grid{
+        grid-template-columns:1fr;
+        gap:32px;
+    }
+    .pricing-card-featured{transform:none}
+    .pricing-card-featured:hover{transform:translateY(-4px)}
+    .pricing-card{padding:32px 24px}
+    .payment-trust{
+        width:100%;
+        border-radius:24px;
+        padding:14px 16px;
+    }
+    .payment-logos{gap:8px}
+
+    /* Section 8 : FAQ */
+    .faq-item summary{padding:16px 18px;font-size:.95rem}
+    .faq-content{padding:0 18px 18px}
+
+    /* Section 9 : Garanties */
+    .warranties-grid{
+        grid-template-columns:1fr;
+        gap:16px;
+    }
+    .warranty-card{padding:28px 22px}
+
+    /* Section 10 : CTA Final */
+    .cta-final{padding:64px 0}
+    .cta-final-inner{padding:28px 22px;border-radius:28px}
+    .cta-bullets{gap:14px;flex-direction:column;align-items:center}
+
+    /* Footer */
+    .site-footer{padding:48px 0 24px}
+    .footer-grid{
+        grid-template-columns:1fr;
+        gap:32px;
+        margin-bottom:32px;
+    }
+    .footer-brand p{max-width:none}
+
+    /* Cookie banner */
+    .cookie-banner{
+        bottom:12px;
+        left:12px;
+        right:12px;
+        padding:16px;
+    }
+    .back-to-top{
+        right:16px;
+        bottom:16px;
+        width:52px;
+        height:52px;
+    }
+    .cookie-inner{
+        flex-direction:column;
+        align-items:stretch;
+    }
+    .cookie-actions{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+    }
+
+    /* Boutons - taille tactile minimum */
+    .btn{min-height:48px}
+    .form-card,
+    .form-side,
+    .recap-card,
+    .cta-final-inner{padding:24px 20px}
+}
+
+/* ---------------------------------------------------------------
+   MOBILE S (320 – 480) : ajustements typographiques
+   --------------------------------------------------------------- */
+@media (max-width:480px){
+    .container{padding:0 16px}
+    .hero{padding:100px 0 48px}
+    .page-hero{padding:108px 0 44px}
+    .hero h1{font-size:1.85rem}
+    .hero p.lead{font-size:1rem}
+    .hero-eyebrow{font-size:.8rem}
+    .hero-trust span{width:100%;justify-content:center}
+    .hero-visual{padding:12px;border-radius:26px}
+    .section-header h2{font-size:1.6rem}
+    .section-lead{font-size:1rem}
+    .hero-ctas .btn{width:100%}
+    .stats-grid{grid-template-columns:1fr}
+    .comparison-card{padding:10px 10px 20px}
+    .comparison-card h3,
+    .comparison-card ul{padding:0 10px}
+    .comparison-highlight{margin:0 10px 16px}
+    .pricing-card .price .amount{font-size:2.5rem}
+    .stat-number{font-size:1.85rem}
+    .nav{height:60px}
+    .nav-brand{font-size:1rem}
+    .nav-menu.open{inset:60px 0 0 0}
+    .checkout-step{min-width:0}
+    .cta-bullets li{justify-content:center;text-align:center}
+    .page-content{
+        padding:24px 18px 30px;
+        border-radius:22px;
+    }
+}
+
+/* ---------------------------------------------------------------
+   TABLETTE (768 – 1023)
+   --------------------------------------------------------------- */
+@media (min-width:768px) and (max-width:1023px){
+    .solution-grid{
+        grid-template-columns:1fr;
+        gap:40px;
+    }
+    .comparison{
+        grid-template-columns:1fr;
+    }
+    .problems-grid{grid-template-columns:repeat(2,1fr)}
+    .features-grid{grid-template-columns:repeat(2,1fr)}
+    .warranties-grid{grid-template-columns:repeat(3,1fr)}
+    .testimonials-grid{grid-template-columns:repeat(2,1fr)}
+    .testimonials-grid .testimonial-card:nth-child(3){
+        grid-column:span 2;
+        max-width:560px;
+        margin:0 auto;
+    }
+    .stats-grid{grid-template-columns:repeat(4,1fr)}
+    .pricing-grid{
+        grid-template-columns:1fr;
+        max-width:480px;
+        margin:0 auto;
+    }
+    .footer-grid{
+        grid-template-columns:2fr 1fr 1fr;
+    }
+    .footer-brand{grid-column:span 3}
+}
+
+/* ---------------------------------------------------------------
+   DESKTOP (1024 – 1439)
+   --------------------------------------------------------------- */
+@media (min-width:1024px){
+    /* Mise en page complète — voir style.css (par défaut desktop) */
+    .container{padding:0 32px}
+}
+
+/* ---------------------------------------------------------------
+   LARGE (1440+)
+   --------------------------------------------------------------- */
+@media (min-width:1440px){
+    :root{--container:1280px}
+    .section{padding:120px 0}
+    .hero{padding:160px 0 100px}
+    .section-header{margin-bottom:72px}
+}
+
+/* ---------------------------------------------------------------
+   ULTRA LARGE (1920+) : optionnel pour grands écrans
+   --------------------------------------------------------------- */
+@media (min-width:1920px){
+    :root{--container:1360px}
+    body{font-size:17px}
+}
+
+/* ---------------------------------------------------------------
+   EkoLink-inspired hero refinements
+   --------------------------------------------------------------- */
+@media (max-width:1023px){
+    .hero{padding:128px 0 64px}
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+}
+
+@media (max-width:480px){
+    .hero{padding:110px 0 52px}
+    .hero h1{font-size:2.3rem}
+    .hero-eyebrow{font-size:.72rem}
+}

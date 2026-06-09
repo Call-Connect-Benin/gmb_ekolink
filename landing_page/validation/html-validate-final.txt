@@ -1,0 +1,4 @@
+C:\Mes Projets\no_backend\landing_page\commander.html:74:24: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\commander.html:74:33: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\commander.html:99:44: error [aria-label-misuse] "aria-label" is strictly allowed but is not recommended to be used on this element
+C:\Mes Projets\no_backend\landing_page\index.html:926:46: error [aria-label-misuse] "aria-label" is strictly allowed but is not recommended to be used on this element

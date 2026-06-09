@@ -1,0 +1,129 @@
+/* =============================================================
+   FicheBoost — animations.css
+   Animations déclenchées par Intersection Observer (animations.js)
+   ============================================================= */
+
+/* Element en attente d'apparition */
+.reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .7s cubic-bezier(.16,1,.3,1),
+               transform .7s cubic-bezier(.16,1,.3,1);
+    will-change:opacity,transform;
+}
+
+/* Élément révélé (classe ajoutée par animations.js) */
+.reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* Variantes – décalage progressif pour grilles d'enfants */
+.problems-grid .reveal:nth-child(2){transition-delay:.05s}
+.problems-grid .reveal:nth-child(3){transition-delay:.1s}
+.problems-grid .reveal:nth-child(4){transition-delay:.15s}
+.problems-grid .reveal:nth-child(5){transition-delay:.2s}
+.problems-grid .reveal:nth-child(6){transition-delay:.25s}
+
+.features-grid .reveal:nth-child(2){transition-delay:.05s}
+.features-grid .reveal:nth-child(3){transition-delay:.1s}
+.features-grid .reveal:nth-child(4){transition-delay:.15s}
+.features-grid .reveal:nth-child(5){transition-delay:.2s}
+.features-grid .reveal:nth-child(6){transition-delay:.25s}
+.features-grid .reveal:nth-child(7){transition-delay:.3s}
+.features-grid .reveal:nth-child(8){transition-delay:.35s}
+
+.warranties-grid .reveal:nth-child(2){transition-delay:.08s}
+.warranties-grid .reveal:nth-child(3){transition-delay:.16s}
+
+.testimonials-grid .reveal:nth-child(2){transition-delay:.08s}
+.testimonials-grid .reveal:nth-child(3){transition-delay:.16s}
+
+.pricing-grid .reveal:nth-child(2){transition-delay:.08s}
+.pricing-grid .reveal:nth-child(3){transition-delay:.16s}
+
+/* ---------- Animation du compteur (stat-number) ---------- */
+.stat-number{
+    transition:color .3s ease;
+}
+
+/* ---------- Pulse subtil sur le badge "Recommandé" ---------- */
+@keyframes pulse-badge{
+    0%,100%{transform:translateX(-50%) scale(1);box-shadow:0 0 0 0 rgba(234,67,53,.4)}
+    50%{transform:translateX(-50%) scale(1.05);box-shadow:0 0 0 8px rgba(234,67,53,0)}
+}
+.pricing-badge{
+    animation:pulse-badge 2.4s ease-in-out infinite;
+}
+
+/* ---------- Animation hover des cartes (renforcée) ---------- */
+.problem-card,
+.feature-card,
+.warranty-card,
+.testimonial-card,
+.pricing-card{
+    will-change:transform;
+}
+
+/* ---------- Animation de l'icône hero (flottement léger) ---------- */
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-8px)}
+}
+@media (prefers-reduced-motion:no-preference){
+    .hero-visual svg{
+        animation:float 6s ease-in-out infinite;
+    }
+}
+
+/* ---------- Smooth fade-in du body au chargement initial ---------- */
+@keyframes body-fade{
+    from{opacity:0}
+    to{opacity:1}
+}
+body{
+    animation:body-fade .4s ease-out;
+}
+
+/* ---------- Animation du bouton CTA (légère mise en valeur) ---------- */
+@keyframes glow{
+    0%,100%{box-shadow:0 0 0 0 rgba(234,67,53,.5)}
+    50%{box-shadow:0 0 0 12px rgba(234,67,53,0)}
+}
+@media (prefers-reduced-motion:no-preference){
+    .hero .btn-accent.btn-lg{
+        animation:glow 2.5s ease-in-out infinite;
+    }
+}
+
+/* ---------- Animation du chevron FAQ (fluide) ---------- */
+.faq-chevron{
+    transition:transform .3s cubic-bezier(.4,0,.2,1),color .2s ease;
+}
+
+/* ---------- État focus visible (accessibilité) ---------- */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible{
+    outline:3px solid rgba(26,115,232,.5);
+    outline-offset:3px;
+    border-radius:4px;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+    .reveal{
+        opacity:1;
+        transform:none;
+        transition:none;
+    }
+    .pricing-badge,
+    .hero-visual svg,
+    .hero .btn-accent.btn-lg,
+    body{
+        animation:none !important;
+    }
+}

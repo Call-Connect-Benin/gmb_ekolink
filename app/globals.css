@@ -1,26 +1,140 @@
-@import "tailwindcss";
+/* ============================================================
+   shadcn/ui + Tailwind v4 — thème EkoMedia
+   IMPORTANT : on importe Tailwind SANS le preflight (reset global)
+   pendant la migration, pour ne pas casser les pages encore en CSS
+   d'origine. À la fin de la migration, on pourra repasser au
+   `@import "tailwindcss";` standard.
+   ============================================================ */
+@layer theme, base, legacy, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "tw-animate-css";
+
+/* CSS d'origine EkoLink (pages pas encore migrées vers shadcn) placé dans une
+   couche basse `legacy` : les utilitaires Tailwind/shadcn gagnent sur les pages
+   converties, tandis que les pages non converties gardent leur rendu. */
+@import "./styles/critical.css" layer(legacy);
+@import "./styles/style.css" layer(legacy);
+@import "./styles/animations.css" layer(legacy);
+@import "./styles/responsive.css" layer(legacy);
+@import "./styles/app.css" layer(legacy);
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
+  --radius: 0.625rem;
+
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0e1116;
+  --card: #ffffff;
+  --card-foreground: #0e1116;
+  --popover: #ffffff;
+  --popover-foreground: #0e1116;
+
+  /* Bleu EkoLink */
+  --primary: #1a73e8;
+  --primary-foreground: #ffffff;
+  /* Cream / off-white chaud */
+  --secondary: #f4f0e5;
+  --secondary-foreground: #0e1116;
+  --muted: #f6f7f9;
+  --muted-foreground: #5a5f6b;
+  /* Orange brand */
+  --accent: #f89f1b;
+  --accent-foreground: #1a1206;
+
+  --destructive: #b42318;
+  --success: #34a853;
+
+  --border: #e5e2d9;
+  --input: #e5e2d9;
+  --ring: #1a73e8;
 }
 
 @theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-inter), "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Reset au-dessus du CSS legacy (couche components > legacy) : les liens héritent
+   de la couleur du texte et ne sont pas soulignés (sinon le `a{color:bleu}` +
+   `a:hover{underline}` d'origine teinte/souligne tout le nouveau design). */
+@layer components {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  /* Logo de l'en-tête : taille fixe, prioritaire sur `img{height:auto}` du legacy. */
+  .site-logo {
+    height: 60px;
+    width: auto;
+    max-width: 230px;
+  }
+  /* Illustration du bandeau d'aide (catalogue) : taille fixe, prioritaire
+     sur `img{height:auto}` du legacy. */
+  .support-illustration {
+    height: 7rem;
+    width: auto;
+    max-width: 210px;
+  }
+  /* Icônes réseaux sociaux du footer : taille fixe (prioritaire sur le legacy). */
+  .social-icon {
+    height: 1.875rem;
+    width: 1.875rem;
+  }
+  /* Logo EkoLink du footer : taille fixe (prioritaire sur `img{height:auto}`). */
+  .footer-logo {
+    height: 38px;
+    width: auto;
+    max-width: 180px;
+  }
+  /* Selects stylés du catalogue (prioritaires sur le CSS legacy). */
+  .cat-select {
+    height: 2.5rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    background: var(--background);
+    padding: 0 2rem 0 0.75rem;
+    font-size: 0.875rem;
+    color: var(--foreground);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235a5f6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+  }
+  .cat-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }

@@ -1,0 +1,20 @@
+# robots.txt — Ekolink
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /tmp/
+Disallow: /*?utm_*
+Disallow: /*?fbclid=*
+Disallow: /*?gclid=*
+
+# Sitemap
+Sitemap: https://ekolink.dev/sitemap.xml
+
+# Crawl-delay raisonnable pour les bots agressifs
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10

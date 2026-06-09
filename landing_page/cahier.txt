@@ -1,0 +1,1011 @@
+CAHIER DES CHARGES - Landing Page Fiches Google                                                     Confidentiel
+
+
+
+
+                     CAHIER DES CHARGES
+                     Développement d’une Landing Page
+                   Promotion & Vente de Fiches Google Optimisées
+
+
+
+ Version               1.0
+
+ Date                  2026
+
+ Statut                Document de travail - Confidentiel
+
+ Technologies          HTML5 / CSS3 / JavaScript (Vanilla)
+
+ Objectif              Créer une landing page haute performance pour la vente de fiches Google prêtes à
+                       l’emploi
+
+
+
+
+                                               Page 1 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                          Confidentiel
+
+
+
+
+  1. Contexte et Problématique
+
+
+
+1.1 Contexte du Projet
+
+De nombreuses entreprises locales, indépendants et professionnels possèdent une présence en ligne insuffisante
+sur Google. La Fiche Google Business (anciennement Google My Business) est aujourd’hui l’un des outils les
+plus puissants pour acquérir de la visibilité locale, attirer de nouveaux clients et renforcer la crédibilité d’une
+enseigne. Or, créer et optimiser une fiche Google de manière professionnelle reste un défi pour la majorité des
+propriétaires de commerce.
+
+Notre solution : proposer des fiches Google clés en main, pré-configurées, optimisées et prêtes à l’emploi,
+disponibles à l’achat via une landing page dédiée, convaincante et hautement performante.
+
+
+
+
+1.2 Problèmes Identifiés
+
+
+
+Problème 1 - Difficulté de Création
+
+La création d’une fiche Google Business requiert de suivre un processus de vérification complexe (vérification
+postale, téléphonique ou vidéo). Beaucoup d’entrepreneurs abandonnent en cours de route, faute de temps ou de
+maîtrise technique. Les erreurs de configuration initiales (nom d’entreprise, catégories, zone de service) sont
+fréquentes et difficiles à corriger après validation.
+
+
+
+Problème 2 - Absence d’Optimisation SEO Local
+
+Même lorsqu’une fiche est créée, elle reste sous-optimisée : description générique, aucune photo professionnelle,
+catégories mal sélectionnées, horaires incomplets, services non renseignés. Une fiche mal optimisée n’apparaît
+pas dans le « Pack Local » de Google (les 3 premiers résultats) et ne génère aucune conversion.
+
+
+
+Problème 3 - Suppression des Avis par Google
+
+
+
+                                                    Page 2 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                          Confidentiel
+
+
+
+De nombreux avis clients sont automatiquement supprimés par l’algorithme de Google lorsque la fiche ne
+respecte pas les bonnes pratiques : profil incomplet, signaux de confiance insuffisants, manque de cohérence
+NAP (Nom, Adresse, Téléphone). Cela frustre les propriétaires et décrédibilise leur établissement.
+
+
+
+Problème 4 - Manque de Visibilité sur Google Maps
+
+Sans optimisation poussée, un établissement n’apparaît tout simplement pas dans les recherches locales. Les
+concurrents mieux positionnés captent 90 % du trafic local, laissant les autres invisibles. Le classement dans
+Google Maps dépend de facteurs précis (proximité, pertinence, notoriété) que seule une fiche stratégiquement
+construite peut exploiter.
+
+
+
+Problème 5 - Perte de Clients et de Chiffre d’Affaires
+
+97 % des consommateurs cherchent une entreprise locale en ligne avant de s’y rendre. Une fiche absente ou mal
+tenue equivaut à fermer la porte à ses clients. Le manque de photos, de réponses aux avis et d’informations
+pratiques fait fuir les prospects vers des concurrents mieux présentés.
+
+
+
+Problème 6 - Méconnaissance des Fonctionnalités Avancées
+
+La plupart des propriétaires ignorent les fonctionnalités puissantes de Google Business : publications (Google
+Posts), questions-réponses, produits/services, attributs spécifiques au secteur, messages directs, réservations
+intégrées. Ces fonctionnalités, lorsqu’elles sont activées et renseignées, démultiplent la conversion.
+
+
+
+Problème 7 - Absence de Cohérence avec le Site Web
+
+La non-concordance entre les informations de la fiche Google et celles du site web (NAP incohérent, URL
+différentes) génère des pénalités SEO implicites et réduit la confiance accordée par l’algorithme Google.
+
+
+
+
+1.3 Notre Solution
+
+Nous commercialisons des fiches Google Business entièrement configurées, optimisées et prêtes à l’emploi.
+Chaque fiche est :
+
+
+                                                  Page 3 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                     Confidentiel
+
+
+
+   •   Complètement renseignée (informations, catégories, description SEO, horaires, services)
+   •   Optimisée pour le référencement local (mots-clés stratégiques, attributs, zone de service)
+   •   Configurée pour maximiser la réception et la conservation des avis clients
+   •   Préte à recevoir les photos, publications Google et réservations
+   •   Livrée avec un guide de prise en main et un support post-livraison
+
+
+
+
+                                                 Page 4 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                                 Confidentiel
+
+
+
+
+  2. Objectifs du Projet
+
+
+
+2.1 Objectifs Stratégiques
+
+La landing page doit accomplir les missions suivantes avec le plus haut niveau de qualité :
+
+
+
+ Objectif                                                Description
+
+ Conversion                                              Transformer les visiteurs en acheteurs via un tunnel de
+                                                         vente optimisé
+
+ Crédibilité                                             Inspirer confiance par un design professionnel et des
+                                                         preuves sociales
+
+ Visibilité SEO                                          Attirer   du     trafic   organique   qualifié   via   le
+                                                         référencement naturel
+
+ Performance                                             Offrir une expérience ultra-rapide sur mobile et
+                                                         desktop
+
+ Accessibilité                                           Respecter les standards WCAG 2.1 pour une
+                                                         accessibilité universelle
+
+
+
+
+2.2 Objectifs de Performance Mesurables
+
+Les résultats attendus après mise en ligne sont les suivants :
+
+
+
+ Indicateur                  Cible Minimum              Cible Idéale                   Outil de Mesure
+
+ Taux de conversion          2%                         5 %+                           Google Analytics
+
+ Score PageSpeed (mobile)    85/100                     95+/100                        Lighthouse
+
+ Score PageSpeed (desktop)   90/100                     98+/100                        Lighthouse
+
+
+
+
+                                                   Page 5 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                      Confidentiel
+
+
+
+ Temps de chargement        < 2,5s                < 1,5s    GTmetrix / WebPageTest
+
+ First Contentful Paint     < 1,8s                < 1,2s    Lighthouse
+
+ Largest Contentful Paint   < 2,5s                < 2,0s    Lighthouse
+
+ Cumulative Layout Shift    < 0,1                 < 0,05    Lighthouse
+
+ Time to Interactive        < 3,8s                < 3,0s    Lighthouse
+
+ Taux de rebond             < 60 %                < 45 %    Google Analytics
+
+ Score SEO (Lighthouse)     90+/100               100/100   Lighthouse
+
+
+
+
+                                           Page 6 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                                                   Confidentiel
+
+
+
+
+  3. Audience Cible & Personas
+
+
+
+3.1 Profils Utilisateurs (Personas)
+
+
+ Persona 1 : Le Commerce Local              Persona 2 : Le Professionnel               Persona         3     :      L’Agence        /
+                                            Libéral                                    Revendeur
+
+ Restaurant,     boulangerie,   coiffeur,   Médecin, avocat, comptable, coach...       Agence         web,       consultant    SEO,
+ garage... Besoin : visibilité locale       Besoin : crédibilité en ligne, premières   freelance...        Besoin      :      produit
+ immédiate, avis clients, appels directs    impressions positives, référencement       revendable,         marges     intéressantes,
+ depuis Google                              local                                      livraison rapide pour ses clients
+
+
+
+
+                                                           Page 7 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                     Confidentiel
+
+
+
+
+  4. Structure & Contenu de la Landing Page
+
+
+
+4.1 Architecture des Sections (Ordre Strict)
+
+
+La page doit être construite selon l’ordre suivant, optimisé pour le parcours de conversion :
+
+
+
+ N°        Section                       Objectif Principal                              Priorité
+
+ 1         Navigation fixe (sticky)      Liens d’ancrage + CTA                           CRITIQUE
+
+ 2         Hero Section                  Accrocher, convaincre, convertir                CRITIQUE
+
+ 3         Problèmes / Douleurs          Identification du prospect                      HAUTE
+
+ 4         Notre Solution                Présentation produit                            HAUTE
+
+ 5         Fonctionnalités & Bénéfices   Détails de l’offre                              HAUTE
+
+ 6         Preuves Sociales / Avis       Réassurance et confiance                        HAUTE
+
+ 7         Offres & Tarifs               Choix de l’offre et achat                       CRITIQUE
+
+ 8         FAQ                           Lever les objections                            MOYENNE
+
+ 9         Garanties                     Réduction du risque percu                       HAUTE
+
+ 10        CTA Final                     Dernière incitation à l’achat                   CRITIQUE
+
+ 11        Footer                        Liens légaux, contact, SEO                      MOYENNE
+
+
+
+
+4.2 Détail de Chaque Section
+
+
+
+Section 1 : Navigation Fixe (Sticky Header)
+
+      •   Logo en haut à gauche (alt text optimisé SEO)
+      •   Menu avec ancres vers chaque section principale
+
+                                                     Page 8 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                              Confidentiel
+
+
+
+   •   Bouton CTA visible en permanence (« Commander maintenant » ou « Obtenir ma fiche »)
+   •   Fond semi-transparent avec effet backdrop-filter sur scroll
+   •   Menu hamburger responsive sur mobile
+
+
+
+Section 2 : Hero Section
+
+   •   Titre H1 : Accroche principale percutante avec mot-clé cible
+   •   Sous-titre : Clarification de la proposition de valeur en 1 phrase
+   •   Image/illustration : Mockup d’une fiche Google optimisée (format WebP)
+   •   CTA principal : Bouton coloré contrasté (« Obtenir ma fiche Google prête »)
+   •   CTA secondaire : Lien texte (« Voir un exemple » ou « En savoir plus »)
+   •   Bandeau de réassurance : logos clients, note 5 étoiles, nombre de fiches livrées
+
+
+
+Section 3 : Problèmes / Points de Douleur
+
+   •   Titre H2 accrocheur : « Vous reconnaissez-vous ? »
+   •   3 à 6 problèmes illustrés (icônes SVG + texte court et percutant)
+   •   Présentation en grille ou carrés colorés pour impact visuel
+   •   Ton empathique et direct, éviter le jargon technique
+
+
+
+Section 4 : Notre Solution
+
+   •   Transition naturelle depuis les problèmes (« Nous avons la solution »)
+   •   Description des fiches Google prêtes à l’emploi en bullet points clés
+   •   Comparatif avant/après : fiche basique vs fiche optimisée
+   •   Mise en avant des différenciateurs uniques
+
+
+
+Section 5 : Fonctionnalités & Bénéfices
+
+   •   Grille de features : icône + titre + description courte
+
+
+
+
+                                                  Page 9 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                 Confidentiel
+
+
+
+   •   Inclure : Optimisation SEO local, configuration catégories, description keyword-rich, gestion avis,
+       Google Posts, zone de service, photos optimisées
+   •   Témoignage court intégré dans la section
+
+
+
+Section 6 : Preuves Sociales
+
+   •   3 à 5 témoignages clients avec photo, prénom, type de commerce et note
+   •   Compteurs animés : nombre de fiches livrées, clients satisfaits, étoiles moyennes
+   •   Logos de partenaires ou médias si disponibles
+
+
+
+Section 7 : Offres & Tarifs
+
+   •   3 formules maximum (Starter, Pro, Agence)
+
+   •   Mise en valeur de l’offre recommandée (badge + couleur différente)
+   •   Détail des inclusions par formule en tableau comparé
+   •   CTA individuel par formule
+   •   Bouton de paiement sécurisé (logo Visa, Mastercard, PayPal visible)
+
+
+
+Section 8 : FAQ
+
+   •   Minimum 6 questions-réponses en accordeon (JavaScript)
+   •   Questions couvrant : délai de livraison, processus de transfert, garantie, support
+   •   Schéma JSON-LD FAQPage pour le référencement (rich snippets Google)
+
+
+
+Section 9 : Garanties
+
+   •   Garantie satisfait ou remboursé (ex. 14 ou 30 jours)
+   •   Garantie de confidentialité des données
+   •   Garantie de livraison dans les délais annoncés
+
+   •   Icônes de bouclier/cadenas pour renforcer la confiance visuelle
+
+
+
+
+                                                 Page 10 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                      Confidentiel
+
+
+
+Section 10 : CTA Final
+
+   •   Titre H2 urgent et persuasif
+   •   Résumé des bénéfices clés en 3 points
+
+   •   Bouton CTA principal (couleur contrastante, grande taille)
+   •   Note de réassurance sous le bouton (« Paiement sécurisé • Livraison rapide • Satisfaction garantie »)
+
+
+
+Section 11 : Footer
+
+   •   Logo + description courte de l’entreprise
+   •   Liens : CGV, Politique de confidentialité, Mentions légales, Contact
+   •   Liens réseaux sociaux (icônes SVG)
+   •   Copyright et année mise à jour automatiquement (JavaScript)
+   •   Texte alt sur tous les liens d’icônes pour l’accessibilité
+
+
+
+
+                                                  Page 11 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                       Confidentiel
+
+
+
+
+  5. Spécifications Techniques
+
+
+
+5.1 Technologies Requises
+
+Le développement doit être réalisé exclusivement avec les technologies suivantes, sans dépendances externes
+non nécessaires :
+
+
+
+ Technologie                 Usage                                         Contrainte
+
+ HTML5                       Structure sémantique de la page               Balises           sémantiques
+                                                                           obligatoires
+
+ CSS3                        Styles, animations, responsive                Pas      de   framework   CSS
+                                                                           (Bootstrap interdit)
+
+ JavaScript (ES6+)           Interactivité, animations, formulaires        Vanilla JS uniquement, pas
+                                                                           de jQuery/React
+
+ SVG                         Icônes et illustrations vectorielles          Inline         SVG        pour
+                                                                           performance
+
+ JSON-LD                     Données structurées SEO                       Schema.org obligatoire
+
+
+
+
+5.2 Structure des Fichiers
+
+Le projet doit respecter l’arborescence suivante :
+
+
+
+    projet-landing/
+
+    ├── index.html // Page principale
+    ├── css/
+    │ ├── style.css // Styles principaux
+    │ ├── animations.css // Animations et transitions
+    │ └── responsive.css // Media queries mobile-first
+    ├── js/
+    │ ├── main.js // Scripts principaux
+
+                                                         Page 12 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                     Confidentiel
+
+
+
+    │ ├── animations.js // Animations au scroll (Intersection Observer)
+    │ └── faq.js // Accordeon FAQ
+    ├── assets/
+    │ ├── images/ // Images en WebP (avec fallback PNG)
+    │ └── icons/ // Icônes SVG
+    ├── fonts/ // Polices auto-hébergées (no Google Fonts ext.)
+    └── sitemap.xml // Plan du site pour Google
+        robots.txt // Instructions pour les robots d’indexation
+
+
+
+
+5.3 Responsive Design & Mobile-First
+
+La page doit être développée en approche mobile-first. Plus de 60 % du trafic provient de mobiles. Les
+breakpoints suivants sont obligatoires :
+
+
+
+ Breakpoint                                                        Largeur
+
+ Mobile S                                                          320px - 480px
+
+ Mobile L                                                          481px - 767px
+
+ Tablette                                                          768px - 1023px
+
+ Desktop                                                           1024px - 1439px
+
+ Large Screen                                                      1440px et +
+
+
+
+
+5.4 Performance - Exigences Techniques Obligatoires
+
+
+
+Images
+
+    •     Toutes les images doivent être en format WebP avec balise <picture> et fallback PNG/JPG
+    •     Attributs width et height obligatoires sur toutes les balises <img> (prévention du CLS)
+    •     loading="lazy" pour toutes les images hors zone visible initiale
+
+
+                                                             Page 13 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                        Confidentiel
+
+
+
+   •   Taille maximale : 200 Ko par image, 50 Ko pour les icônes WebP
+
+
+
+CSS
+
+   •   CSS critique (above-the-fold) inline dans le <head>
+   •   CSS non-critique chargé en asynchrone avec preload/media trick
+   •   Minification obligatoire en production
+   •   Utilisation de variables CSS (custom properties) pour la thématisation
+   •   Pas de @import dans les fichiers CSS (ralentit le chargement)
+
+
+
+JavaScript
+
+   •   Tous les scripts chargés avec l’attribut defer ou async
+
+   •   Aucun script bloquant dans le <head>
+   •   Code minifié et si possible bundle en un seul fichier
+   •   Utilisation de l’Intersection Observer API pour les animations au scroll (pas de scroll event listener)
+   •   Pas de jQuery, pas de librairie externe inutile
+
+
+
+Polices de Caractères
+
+   •   Polices auto-hébergées obligatoires (pas de Google Fonts en externe - RGPD + performance)
+   •   Format WOFF2 en priorité, WOFF en fallback
+   •   <link rel="preload"> pour la police principale
+   •   font-display: swap pour éviter le FOIT
+   •   Maximum 2 polices différentes sur la page
+
+
+
+
+5.5 SEO On-Page - Exigences Obligatoires
+
+
+
+Balises HTML Sémantiques
+
+
+                                                 Page 14 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                     Confidentiel
+
+
+
+    •    Une seule balise H1 par page (titre principal de la Hero Section)
+    •    Hiérarchie des titres stricte : H1 > H2 > H3 (pas de saut)
+    •    Utilisation de <header>, <main>, <section>, <article>, <aside>, <footer>
+    •    Attributs ARIA pour les éléments interactifs
+
+
+
+Balises Meta
+
+Les balises meta suivantes sont toutes obligatoires dans le <head> :
+
+
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Titre principal - 60 caractères max]</title>
+    <meta name="description" content="[Description - 150–160 caractères]">
+    <link rel="canonical" href="https://votre-domaine.com/">
+
+
+
+
+Données Structurées (JSON-LD)
+
+    •    Schema.org Product ou Service : présentation de l’offre
+    •    Schema.org FAQPage : toutes les questions de la section FAQ
+    •    Schema.org Organization : informations de l’entreprise
+    •    Schema.org AggregateRating : note moyenne et nombre d’avis
+
+
+
+Open Graph & Twitter Cards
+
+    •    Balises og:title, og:description, og:image, og:url, og:type
+    •    Balises twitter:card, twitter:title, twitter:description, twitter:image
+    •    Image OG : 1200 x 630 pixels en WebP
+
+
+
+
+                                                           Page 15 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                         Confidentiel
+
+
+
+
+  6. Design & Expérience Utilisateur (UX/UI)
+
+
+
+6.1 Principes de Design
+
+    •   Design épuré et professionnel :
+
+Utiliser une palette colorée liée à Google (bleu, vert, rouge, jaune) tout en maintenant un aspect moderne et haut
+de gamme.
+
+    •   Hirarchie visuelle forte :
+
+Chaque section doit avoir un titre clair, une action secondaire et un CTA bien visible.
+
+    •   Contraste WCAG AA minimum :
+
+Ratio de contraste 4,5:1 pour les textes normaux, 3:1 pour les grands textes.
+
+    •   Espaces blancs généreux :
+
+Une page aérée est plus facile à lire et convertit mieux.
+
+
+
+
+6.2 Charte Graphique Recommandée
+
+
+ Élément                                                    Valeur
+
+ Couleur primaire                                           #1A73E8 (Bleu Google)
+
+ Couleur secondaire                                         #34A853 (Vert Google)
+
+ Couleur d’accent/CTA                                       #EA4335 (Rouge vif) ou #FBBC04 (Jaune)
+
+ Fond principal                                             #FFFFFF (Blanc)
+
+ Fond secondaire                                            #F8F9FA (Gris très clair)
+
+ Texte principal                                            #202124 (Quasi-noir)
+
+ Texte secondaire                                           #5F6368 (Gris)
+
+
+
+
+                                                  Page 16 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                            Confidentiel
+
+
+
+
+ Police principale                                     Inter ou Poppins (WOFF2 auto-hébergé)
+
+ Police secondaire                                     Optionnel - même famille pour simplicité
+
+ Radius boutons                                        6px à 8px (aspect moderne sans être trop arrondi)
+
+
+
+
+6.3 Éléments d’UX Obligatoires
+
+   •    Boutons CTA : fond coloré + texte blanc + ombre douce + effet hover avec transition 0,2s
+   •    Formulaires : label visible, messages d’erreur inline, indicateur de chargement
+
+   •    Loading states : skeleton screens ou spinners CSS pur
+   •    Animations d’entrée : fade-in + slide-up au scroll via Intersection Observer (aucun layout shift)
+   •    Smooth scroll : comportement scroll-behavior: smooth sur les ancres
+   •    Sticky header : header fixe avec ombre apparaissant au défilement
+   •    Progression visuelle : indicateur de progression ou barre de confiance si formulaire multi-étapes
+   •    Curseur pointer sur tous les éléments cliquables
+
+
+
+
+                                                 Page 17 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                      Confidentiel
+
+
+
+
+  7. Accessibilité, Sécurité & RGPD
+
+7.1 Accessibilité (WCAG 2.1 Niveau AA)
+
+   •   Tous les attributs alt renseignés sur les images (descriptif pour les images informatives, vide pour les
+       images décoratives)
+   •   Navigation entièrement fonctionnelle au clavier (tabulation logique, focus visible)
+   •   Rôles ARIA sur les composants interactifs (accordeon, slider, modal)
+   •   Langues déclarées : <html lang="fr">
+   •   Skip to main content : lien d’évitement en début de page
+   •   Pas d’élément à clignotement rapide (risques épilepsie)
+
+
+7.2 Sécurité
+
+   •   HTTPS obligatoire - certificat SSL (Let’s Encrypt ou équivalent)
+   •   Content Security Policy (CSP) via en-tête HTTP
+   •   Protection CSRF sur tout formulaire
+   •   Attribut rel="noopener noreferrer" sur tous les liens externes
+   •   Aucune dépendance CDN externe pour les scripts critiques
+
+
+7.3 Conformité RGPD
+
+   •   Bandeau de consentement cookies (solution légère en JS pur, pas de Cookiebot payant)
+
+   •   Chargement conditionnel de Google Analytics/Tag Manager après consentement
+   •   Politique de confidentialité accessible depuis chaque page
+   •   Formulaires avec case à cocher de consentement non pré-cochée
+   •   Droit à l’oubli : adresse email de contact visible pour les demandes RGPD
+
+
+
+
+                                                Page 18 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                        Confidentiel
+
+
+
+
+  8. Plan de Tests & Validation
+
+8.1 Tests de Performance
+
+
+ Test                         Outil                      Cible                      Fréquence
+
+ Score Lighthouse (mobile)    Chrome DevTools            85+ (idéal 95+)            Chaque livraison
+
+ Score Lighthouse (desktop)   Chrome DevTools            90+ (idéal 98+)            Chaque livraison
+
+ Temps de chargement          GTmetrix / WebPageTest     < 2,5s                     Chaque livraison
+
+ Core Web Vitals              PageSpeed Insights         Tous « Bon »               Chaque livraison
+
+ Poids total de la page       Chrome DevTools Network    < 500 Ko                   Chaque livraison
+
+
+
+
+8.2 Tests de Compatibilité Navigateurs
+
+
+ Navigateur                   Version Minimum            Mobile                     Desktop
+
+ Chrome                       Version N-2                ✓ Obligatoire              ✓ Obligatoire
+
+
+ Firefox                      Version N-2                ✓ Obligatoire              ✓ Obligatoire
+
+
+ Safari                       Version N-2                ✓ Obligatoire              ✓ Obligatoire
+
+
+ Edge                         Version N-2                ✓ Obligatoire              ✓ Obligatoire
+
+
+ Samsung Internet             Version N-2                ✓ Obligatoire              N/A
+
+
+
+
+8.3 Tests de Référencement
+
+    •      Validation HTML W3C : https://validator.w3.org - Zéro erreur tolérée
+    •      Validation CSS W3C : https://jigsaw.w3.org/css-validator - Zéro erreur
+    •      Test données structurées Google : https://search.google.com/test/rich-results
+
+                                                    Page 19 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                      Confidentiel
+
+
+
+   •   Vérification mobile Google : https://search.google.com/test/mobile-friendly
+   •   Score SEO Lighthouse : 90+ obligatoire
+
+
+8.4 Tests d’Accessibilité
+
+   •   WAVE Accessibility Tool : https://wave.webaim.org - Zéro erreur critique
+   •   axe DevTools (extension Chrome) : Zéro violation
+   •   Test de navigation clavier complet (Tab, Enter, Escape, flèches)
+
+   •   Test lecteur d’écran : VoiceOver (Mac/iOS) ou NVDA (Windows)
+
+
+8.5 Tests Fonctionnels
+
+   •   Vérification de tous les liens (aucun lien mort)
+   •   Test des boutons CTA - tous redirigent correctement
+   •   Test de l’accordeon FAQ sur mobile et desktop
+   •   Vérification de la navigation sticky et du menu hamburger
+   •   Test du formulaire de contact (envoi, erreurs, succès)
+   •   Test des animations au scroll sur différentes vitesses de connexion
+
+
+
+
+                                                 Page 20 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                Confidentiel
+
+
+
+
+  9. Livrables Attendus
+
+9.1 Livrables Techniques
+
+   •     Code source HTML/CSS/JS complet, propre et commenté
+   •     Fichiers optimisés pour la production (CSS/JS minifiés, images compressées en WebP)
+   •     Sitemap.xml et robots.txt correctement configurés
+   •     Documentation d’intégration (README.md - instructions de mise en ligne)
+
+
+9.2 Livrables de Validation
+
+   •     Capture d’écran du rapport Lighthouse mobile : score 85+ sur chaque métrique
+   •     Capture d’écran du rapport Lighthouse desktop : score 90+ sur chaque métrique
+   •     Rapport de validation HTML W3C (zéro erreur)
+   •     Rapport de test données structurées Google
+   •     Capture d’écran rendu mobile (iPhone 14 et Samsung Galaxy S22)
+   •     Capture d’écran rendu desktop (1920x1080 et 1280x720)
+
+
+9.3 Délais de Livraison
+
+
+ Étape                                                Délai
+
+ Maquette (wireframe + design)                        Jours 1 à 3
+
+ Validation de la maquette                            Jour 4
+
+ Développement HTML/CSS/JS                            Jours 5 à 12
+
+ Intégration contenu final                            Jours 13 à 14
+
+ Tests et optimisation performance                    Jours 15 à 16
+
+ Livraison finale + documentation                     Jour 17
+
+ Corrections post-livraison (si nécessaire)           Jours 18 à 21
+
+
+
+                                                Page 21 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                   Confidentiel
+
+
+
+
+  10. Critères d’Acceptation Finaux
+
+
+La livraison sera acceptée uniquement si TOUS les critères suivants sont satisfaits. Tout critère non valide
+entraînera un refus avec corrections demandées.
+
+
+
+ #       Critère                                                     Priorité      Statut
+
+ 1       Score Lighthouse mobile ≥ 85 sur les 4 catégories           BLOQUANT      □ À valider
+
+
+ 2       Score Lighthouse desktop ≥ 90 sur les 4 catégories          BLOQUANT      □ À valider
+
+
+ 3       LCP < 2,5s sur mobile (connexion 4G simulée)                BLOQUANT      □ À valider
+
+
+ 4       CLS < 0,1 sur toutes les pages                              BLOQUANT      □ À valider
+
+
+ 5       Zéro erreur de validation HTML W3C                          BLOQUANT      □ À valider
+
+
+ 6       Zéro erreur WAVE Accessibility                              BLOQUANT      □ À valider
+
+
+ 7       Données structurées validées par Google Rich Results Test   BLOQUANT      □ À valider
+
+
+ 8       Affichage correct sur iOS Safari (iPhone 12 et +)           BLOQUANT      □ À valider
+
+
+ 9       Affichage correct sur Chrome Android (Samsung S22 et +)     BLOQUANT      □ À valider
+
+
+ 10      Tous les liens et CTA fonctionnels                          BLOQUANT      □ À valider
+
+
+ 11      Navigation clavier intégralement fonctionnelle              IMPORTANT □ À valider
+
+
+ 12      Formulaire de contact opérationnel et sécurisé              IMPORTANT □ À valider
+
+
+ 13      Bandeau RGPD fonctionnel                                    IMPORTANT □ À valider
+
+
+ 14      Code proprement commenté et documenté                       IMPORTANT □ À valider
+
+
+ 15      Sitemap.xml et robots.txt valides                           MOYEN         □ À valider
+
+
+
+
+                                                    Page 22 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                           Confidentiel
+
+
+
+
+  11. Annexes & Références
+
+11.1 Outils de Test et de Validation
+
+   •   Google PageSpeed Insights : https://pagespeed.web.dev
+   •   Google Lighthouse (Chrome DevTools) : Onglet « Lighthouse »
+   •   GTmetrix : https://gtmetrix.com
+   •   WebPageTest : https://www.webpagetest.org
+   •   W3C Validator HTML : https://validator.w3.org
+   •   W3C Validator CSS : https://jigsaw.w3.org/css-validator
+   •   Google Rich Results Test : https://search.google.com/test/rich-results
+   •   Google Mobile-Friendly Test : https://search.google.com/test/mobile-friendly
+   •   WAVE Accessibility : https://wave.webaim.org
+   •   axe DevTools : Extension Chrome disponible sur le Chrome Web Store
+
+
+11.2 Ressources et Standards de Référence
+
+   •   WCAG 2.1 : https://www.w3.org/TR/WCAG21
+   •   Schema.org : https://schema.org
+   •   Google Search Central (bonnes pratiques SEO) : https://developers.google.com/search/docs
+   •   Core Web Vitals : https://web.dev/vitals
+   •   RGPD - CNIL : https://www.cnil.fr/fr/rgpd
+
+
+11.3 Glossaire
+
+
+ Terme                                                  Définition
+
+ LCP (Largest Contentful Paint)                         Temps de rendu du plus grand élément visible - mesure
+                                                        la vitesse d’affichage
+
+ FCP (First Contentful Paint)                           Temps avant que le premier élément de contenu soit
+                                                        affiché
+
+
+
+                                                  Page 23 sur 24
+CAHIER DES CHARGES - Landing Page Fiches Google                                                         Confidentiel
+
+
+
+
+ CLS (Cumulative Layout Shift)                    Mesure de la stabilité visuelle - éviter les décalages de
+                                                  mise en page
+
+ TTI (Time to Interactive)                        Temps avant que la page soit entièrement interactive
+
+ Core Web Vitals                                  Ensemble des métriques Google de qualité (LCP, FID,
+                                                  CLS)
+
+ Mobile-First                                     Approche      de   développement     commencant       par
+                                                  l’interface mobile
+
+ SEO Local                                        Optimisation pour les recherches géographiques («
+                                                  près de moi »)
+
+ JSON-LD                                          Format de données structurées injecté en JavaScript
+                                                  pour le SEO
+
+ CTA (Call To Action)                             Bouton ou lien incitant le visiteur à passer à l’action
+
+ WCAG                                             Web Content Accessibility Guidelines - standards
+                                                  d’accessibilité
+
+ RGPD                                             Règlement Général sur la Protection des Données (UE)
+
+ WebP                                             Format d’image moderne de Google, plus léger que
+                                                  JPEG/PNG
+
+ WOFF2                                            Format de police web compressé, standard pour les
+                                                  performances
+
+
+
+
+                                           Page 24 sur 24
+

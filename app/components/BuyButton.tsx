@@ -1,0 +1,65 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { ShoppingCart } from "lucide-react";
+
+export default function BuyButton({
+  listingId,
+  slug,
+  className = "",
+  label,
+}: {
+  listingId: string;
+  slug: string;
+  className?: string;
+  label?: string;
+}) {
+  const t = useTranslations("common");
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const buy = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ listingId }),
+      });
+      if (res.status === 401) {
+        router.push(`/connexion?next=/fiches-google/${slug}`);
+        return;
+      }
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || t("errGeneric"));
+      if (data.url) {
+        window.location.href = data.url as string;
+        return;
+      }
+      throw new Error(t("sessionUnavailable"));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t("errGeneric"));
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={buy}
+        disabled={loading}
+        className={className || "inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold text-white hover:bg-primary/90 disabled:opacity-70"}
+      >
+        <ShoppingCart className="size-4" /> {loading ? t("buyRedirecting") : (label ?? t("buyNow"))}
+      </button>
+      {error && (
+        <p className="mt-2 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive" role="alert">{error}</p>
+      )}
+    </>
+  );
+}

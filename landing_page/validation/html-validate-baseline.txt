@@ -1,0 +1,85 @@
+C:\Mes Projets\no_backend\landing_page\a-propos.html:1:1: error [no-utf8-bom] File should be saved without UTF-8 BOM
+C:\Mes Projets\no_backend\landing_page\a-propos.html:41:51: error [no-redundant-role] Redundant role "banner" on <header>
+C:\Mes Projets\no_backend\landing_page\a-propos.html:43:36: error [no-redundant-role] Redundant role "navigation" on <nav>
+C:\Mes Projets\no_backend\landing_page\a-propos.html:146:39: error [no-redundant-role] Redundant role "contentinfo" on <footer>
+C:\Mes Projets\no_backend\landing_page\blog.html:1:1: error [no-utf8-bom] File should be saved without UTF-8 BOM
+C:\Mes Projets\no_backend\landing_page\blog.html:25:51: error [no-redundant-role] Redundant role "banner" on <header>
+C:\Mes Projets\no_backend\landing_page\blog.html:27:36: error [no-redundant-role] Redundant role "navigation" on <nav>
+C:\Mes Projets\no_backend\landing_page\blog.html:124:39: error [no-redundant-role] Redundant role "contentinfo" on <footer>
+C:\Mes Projets\no_backend\landing_page\cgv.html:1:1: error [no-utf8-bom] File should be saved without UTF-8 BOM
+C:\Mes Projets\no_backend\landing_page\cgv.html:31:51: error [no-redundant-role] Redundant role "banner" on <header>
+C:\Mes Projets\no_backend\landing_page\cgv.html:33:36: error [no-redundant-role] Redundant role "navigation" on <nav>
+C:\Mes Projets\no_backend\landing_page\cgv.html:83:61: error [no-raw-characters] Raw "&" must be encoded as "&amp;"
+C:\Mes Projets\no_backend\landing_page\cgv.html:162:39: error [no-redundant-role] Redundant role "contentinfo" on <footer>
+C:\Mes Projets\no_backend\landing_page\commander.html:1:1: error [no-utf8-bom] File should be saved without UTF-8 BOM
+C:\Mes Projets\no_backend\landing_page\commander.html:60:51: error [no-redundant-role] Redundant role "banner" on <header>
+C:\Mes Projets\no_backend\landing_page\commander.html:62:36: error [no-redundant-role] Redundant role "navigation" on <nav>
+C:\Mes Projets\no_backend\landing_page\commander.html:73:24: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\commander.html:73:33: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\commander.html:98:44: error [aria-label-misuse] "aria-label" is strictly allowed but is not recommended to be used on this element
+C:\Mes Projets\no_backend\landing_page\commander.html:100:22: error [element-permitted-content] <div> element is not permitted as content under <ol>
+C:\Mes Projets\no_backend\landing_page\commander.html:102:22: error [element-permitted-content] <div> element is not permitted as content under <ol>
+C:\Mes Projets\no_backend\landing_page\commander.html:122:34: error [element-permitted-content] <div> element is not permitted as content under <label>
+C:\Mes Projets\no_backend\landing_page\commander.html:130:34: error [element-permitted-content] <div> element is not permitted as content under <label>
+C:\Mes Projets\no_backend\landing_page\commander.html:132:117: error [no-raw-characters] Raw "&" must be encoded as "&amp;"
+C:\Mes Projets\no_backend\landing_page\commander.html:138:34: error [element-permitted-content] <div> element is not permitted as content under <label>
+C:\Mes Projets\no_backend\landing_page\commander.html:212:96: error [valid-autocomplete] "street-address" cannot be used on <input type="text">
+C:\Mes Projets\no_backend\landing_page\commander.html:344:39: error [no-redundant-role] Redundant role "contentinfo" on <footer>
+C:\Mes Projets\no_backend\landing_page\contact.html:1:1: error [no-utf8-bom] File should be saved without UTF-8 BOM
+C:\Mes Projets\no_backend\landing_page\contact.html:68:51: error [no-redundant-role] Redundant role "banner" on <header>
+C:\Mes Projets\no_backend\landing_page\contact.html:70:36: error [no-redundant-role] Redundant role "navigation" on <nav>
+C:\Mes Projets\no_backend\landing_page\contact.html:210:63: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\contact.html:210:65: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\contact.html:210:68: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\contact.html:210:71: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\contact.html:210:74: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\contact.html:248:39: error [no-redundant-role] Redundant role "contentinfo" on <footer>
+C:\Mes Projets\no_backend\landing_page\contact.html:258:58: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\contact.html:258:60: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\contact.html:258:63: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\contact.html:258:66: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\contact.html:258:69: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\index.html:1:1: error [no-utf8-bom] File should be saved without UTF-8 BOM
+C:\Mes Projets\no_backend\landing_page\index.html:323:51: error [no-redundant-role] Redundant role "banner" on <header>
+C:\Mes Projets\no_backend\landing_page\index.html:325:36: error [no-redundant-role] Redundant role "navigation" on <nav>
+C:\Mes Projets\no_backend\landing_page\index.html:369:53: error [aria-label-misuse] "aria-label" cannot be used on this element
+C:\Mes Projets\no_backend\landing_page\index.html:491:43: error [no-raw-characters] Raw "&" must be encoded as "&amp;"
+C:\Mes Projets\no_backend\landing_page\index.html:529:117: error [no-raw-characters] Raw "&" must be encoded as "&amp;"
+C:\Mes Projets\no_backend\landing_page\index.html:620:30: error [no-raw-characters] Raw "&" must be encoded as "&amp;"
+C:\Mes Projets\no_backend\landing_page\index.html:659:57: error [aria-label-misuse] "aria-label" cannot be used on this element
+C:\Mes Projets\no_backend\landing_page\index.html:670:57: error [aria-label-misuse] "aria-label" cannot be used on this element
+C:\Mes Projets\no_backend\landing_page\index.html:681:57: error [aria-label-misuse] "aria-label" cannot be used on this element
+C:\Mes Projets\no_backend\landing_page\index.html:733:239: error [no-raw-characters] Raw "&" must be encoded as "&amp;"
+C:\Mes Projets\no_backend\landing_page\index.html:763:73: error [aria-label-misuse] "aria-label" is strictly allowed but is not recommended to be used on this element
+C:\Mes Projets\no_backend\landing_page\index.html:764:73: error [aria-label-misuse] "aria-label" is strictly allowed but is not recommended to be used on this element
+C:\Mes Projets\no_backend\landing_page\index.html:765:73: error [aria-label-misuse] "aria-label" is strictly allowed but is not recommended to be used on this element
+C:\Mes Projets\no_backend\landing_page\index.html:766:73: error [aria-label-misuse] "aria-label" is strictly allowed but is not recommended to be used on this element
+C:\Mes Projets\no_backend\landing_page\index.html:913:39: error [no-redundant-role] Redundant role "contentinfo" on <footer>
+C:\Mes Projets\no_backend\landing_page\index.html:923:527: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\index.html:923:529: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\index.html:923:532: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\index.html:923:535: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\index.html:923:538: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\index.html:926:46: error [aria-label-misuse] "aria-label" is strictly allowed but is not recommended to be used on this element
+C:\Mes Projets\no_backend\landing_page\mentions-legales.html:1:1: error [no-utf8-bom] File should be saved without UTF-8 BOM
+C:\Mes Projets\no_backend\landing_page\mentions-legales.html:31:51: error [no-redundant-role] Redundant role "banner" on <header>
+C:\Mes Projets\no_backend\landing_page\mentions-legales.html:33:36: error [no-redundant-role] Redundant role "navigation" on <nav>
+C:\Mes Projets\no_backend\landing_page\mentions-legales.html:88:84: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\mentions-legales.html:88:86: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\mentions-legales.html:88:89: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\mentions-legales.html:88:92: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\mentions-legales.html:88:95: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\mentions-legales.html:135:39: error [no-redundant-role] Redundant role "contentinfo" on <footer>
+C:\Mes Projets\no_backend\landing_page\politique-confidentialite.html:1:1: error [no-utf8-bom] File should be saved without UTF-8 BOM
+C:\Mes Projets\no_backend\landing_page\politique-confidentialite.html:25:51: error [no-redundant-role] Redundant role "banner" on <header>
+C:\Mes Projets\no_backend\landing_page\politique-confidentialite.html:27:36: error [no-redundant-role] Redundant role "navigation" on <nav>
+C:\Mes Projets\no_backend\landing_page\politique-confidentialite.html:65:133: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\politique-confidentialite.html:65:135: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\politique-confidentialite.html:65:138: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\politique-confidentialite.html:65:141: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\politique-confidentialite.html:65:144: error [tel-non-breaking] " " should be replaced with "&nbsp;" (non-breaking space) in telephone number
+C:\Mes Projets\no_backend\landing_page\politique-confidentialite.html:155:39: error [no-redundant-role] Redundant role "contentinfo" on <footer>
+C:\Mes Projets\no_backend\landing_page\politique-cookies.html:1:1: error [no-utf8-bom] File should be saved without UTF-8 BOM
+C:\Mes Projets\no_backend\landing_page\politique-cookies.html:25:51: error [no-redundant-role] Redundant role "banner" on <header>
+C:\Mes Projets\no_backend\landing_page\politique-cookies.html:27:36: error [no-redundant-role] Redundant role "navigation" on <nav>
+C:\Mes Projets\no_backend\landing_page\politique-cookies.html:114:39: error [no-redundant-role] Redundant role "contentinfo" on <footer>

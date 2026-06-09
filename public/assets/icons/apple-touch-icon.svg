@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+    <title>EkoLink</title>
+    <defs>
+        <linearGradient id="ati-orange" x1="0.2" y1="0" x2="0.8" y2="1">
+            <stop offset="0%" stop-color="#FFC25A"/>
+            <stop offset="55%" stop-color="#F89F1B"/>
+            <stop offset="100%" stop-color="#D77509"/>
+        </linearGradient>
+        <linearGradient id="ati-blue" x1="0.2" y1="0" x2="0.8" y2="1">
+            <stop offset="0%" stop-color="#5BA8FF"/>
+            <stop offset="55%" stop-color="#2D8FF7"/>
+            <stop offset="100%" stop-color="#1554B5"/>
+        </linearGradient>
+    </defs>
+    <rect width="180" height="180" rx="40" fill="#FFFFFF"/>
+    <g transform="translate(40,40)">
+        <path d="M 14 50 L 14 30 L 50 10 L 86 30 L 86 50 L 60 50"
+              stroke="url(#ati-orange)" stroke-width="13"
+              fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="55" cy="50" r="9" fill="url(#ati-orange)"/>
+        <path d="M 86 50 L 86 70 L 50 90 L 14 70 L 14 50 L 40 50"
+              stroke="url(#ati-blue)" stroke-width="13"
+              fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="45" cy="50" r="9" fill="url(#ati-blue)"/>
+    </g>
+</svg>

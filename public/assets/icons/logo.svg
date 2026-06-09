@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 120" width="380" height="120">
+    <title>EkoLink</title>
+    <defs>
+        <linearGradient id="logo-orange" x1="0.2" y1="0" x2="0.8" y2="1">
+            <stop offset="0%" stop-color="#FFC25A"/>
+            <stop offset="55%" stop-color="#F89F1B"/>
+            <stop offset="100%" stop-color="#D77509"/>
+        </linearGradient>
+        <linearGradient id="logo-blue" x1="0.2" y1="0" x2="0.8" y2="1">
+            <stop offset="0%" stop-color="#5BA8FF"/>
+            <stop offset="55%" stop-color="#2D8FF7"/>
+            <stop offset="100%" stop-color="#1554B5"/>
+        </linearGradient>
+    </defs>
+    <!-- Hexagonal mark (pointy-top) -->
+    <g transform="translate(10,10)">
+        <path d="M 14 50 L 14 30 L 50 10 L 86 30 L 86 50 L 60 50"
+              stroke="url(#logo-orange)" stroke-width="11"
+              fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="55" cy="50" r="7.5" fill="url(#logo-orange)"/>
+        <path d="M 86 50 L 86 70 L 50 90 L 14 70 L 14 50 L 40 50"
+              stroke="url(#logo-blue)" stroke-width="11"
+              fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="45" cy="50" r="7.5" fill="url(#logo-blue)"/>
+    </g>
+    <!-- Wordmark "EkoLink" -->
+    <text x="130" y="78" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="68" font-weight="900" letter-spacing="-2">
+        <tspan fill="url(#logo-orange)">Eko</tspan><tspan fill="url(#logo-blue)">Link</tspan>
+    </text>
+</svg>
