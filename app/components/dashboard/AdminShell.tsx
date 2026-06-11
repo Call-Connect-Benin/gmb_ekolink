@@ -7,14 +7,14 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
   LayoutGrid, Users, ShoppingCart, FileText, ShieldCheck, Tags,
-  LogOut, Menu, X, Search, Bell, ChevronDown,
+  LogOut, Menu, X, Search, User, ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import LocaleSwitcher from "../LocaleSwitcher";
 
 type Item = { href: string; label: string; icon: typeof Users };
 
-function Nav({ pathname, onNav }: { pathname: string; onNav?: () => void }) {
+function Nav({ pathname, onNav, isSuperAdmin }: { pathname: string; onNav?: () => void; isSuperAdmin?: boolean }) {
   const t = useTranslations("dashboard");
   const SECTIONS: { title?: string; items: Item[] }[] = [
     { items: [{ href: "/admin", label: t("clientDashboard"), icon: LayoutGrid }] },
@@ -30,16 +30,18 @@ function Nav({ pathname, onNav }: { pathname: string; onNav?: () => void }) {
     {
       title: t("sectionSettings"),
       items: [
-        { href: "/admin/roles", label: t("roles"), icon: ShieldCheck },
+        // Rôles & Permissions réservé au super administrateur.
+        ...(isSuperAdmin ? [{ href: "/admin/roles", label: t("roles"), icon: ShieldCheck }] : []),
+        { href: "/admin/profil", label: t("myProfile"), icon: User },
       ],
     },
   ];
   const isActive = (href: string) => (href === "/admin" ? pathname === "/admin" : pathname.startsWith(href));
   return (
-    <nav className="flex-1 overflow-y-auto px-3 py-2">
+    <nav className="px-3 py-2">
       {SECTIONS.map((sec) => (
-        <div key={sec.title} className="mb-4">
-          {sec.title && <p className="px-3 pb-1.5 pt-2 text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground">{sec.title}</p>}
+        <div key={sec.title ?? sec.items[0]?.href} className="mb-3">
+          {sec.title && <p className="px-3 pb-1 pt-1.5 text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground">{sec.title}</p>}
           <div className="flex flex-col gap-0.5">
             {sec.items.map((it) => {
               const on = isActive(it.href);
@@ -49,7 +51,7 @@ function Nav({ pathname, onNav }: { pathname: string; onNav?: () => void }) {
                   href={it.href}
                   onClick={onNav}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    "flex items-center gap-3 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
                     on ? "bg-primary/10 text-primary" : "text-foreground/70 hover:bg-secondary hover:text-foreground"
                   )}
                 >
@@ -65,7 +67,7 @@ function Nav({ pathname, onNav }: { pathname: string; onNav?: () => void }) {
   );
 }
 
-function SidebarInner({ pathname, onNav }: { pathname: string; onNav?: () => void }) {
+function SidebarInner({ pathname, onNav, isSuperAdmin }: { pathname: string; onNav?: () => void; isSuperAdmin?: boolean }) {
   const t = useTranslations("dashboard");
   return (
     <>
@@ -74,7 +76,25 @@ function SidebarInner({ pathname, onNav }: { pathname: string; onNav?: () => voi
           <img src="/assets/icons/logo-tight.png" alt="EkoLink" className="h-7 w-auto" />
         </Link>
       </div>
-      <Nav pathname={pathname} onNav={onNav} />
+      {/* Menu : seule zone qui défile si l'écran est court (barre masquée). Le flex-1 le fait remplir la hauteur sur grand écran et colle l'encart en bas. */}
+      <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <Nav pathname={pathname} onNav={onNav} isSuperAdmin={isSuperAdmin} />
+      </div>
+
+      {/* Encart compact épinglé : shrink-0 => toujours entièrement visible, sans défilement */}
+      <div className="shrink-0 p-3">
+        <div className="rounded-xl bg-[linear-gradient(160deg,#0b1119,#0a1a33)] p-3 text-white">
+          <div className="flex items-center gap-2.5">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-white/10"><ExternalLink className="size-4 text-accent" /></span>
+            <p className="text-sm font-bold leading-tight text-accent">{t("sideViewTitle")}</p>
+          </div>
+          <p className="mt-2 line-clamp-1 text-xs text-white/70">{t("sideViewText")}</p>
+          <a href="/" target="_blank" rel="noopener noreferrer" className="mt-2.5 inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-[#0b1119] hover:bg-white/90">
+            {t("sideViewCta")} <ExternalLink className="size-3.5" />
+          </a>
+        </div>
+      </div>
+
       <div className="shrink-0 border-t border-border p-3">
         <form action="/auth/signout" method="post">
           <button type="submit" className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-foreground/70 transition-colors hover:bg-destructive/10 hover:text-destructive">
@@ -86,7 +106,19 @@ function SidebarInner({ pathname, onNav }: { pathname: string; onNav?: () => voi
   );
 }
 
-export default function AdminShell({ children }: { children: React.ReactNode }) {
+export default function AdminShell({
+  children,
+  userName = "Admin",
+  userInitial = "A",
+  userAvatar = "",
+  isSuperAdmin = false,
+}: {
+  children: React.ReactNode;
+  userName?: string;
+  userInitial?: string;
+  userAvatar?: string;
+  isSuperAdmin?: boolean;
+}) {
   const t = useTranslations("dashboard");
   const pathname = usePathname() || "/admin";
   const [open, setOpen] = useState(false);
@@ -95,7 +127,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     <div className="min-h-screen bg-[#f6f7f9]">
       {/* Sidebar fixe (desktop) */}
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-border bg-white lg:flex">
-        <SidebarInner pathname={pathname} />
+        <SidebarInner pathname={pathname} isSuperAdmin={isSuperAdmin} />
       </aside>
 
       {/* Drawer mobile */}
@@ -104,7 +136,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
           <aside className="absolute inset-y-0 left-0 flex w-64 flex-col border-r border-border bg-white">
             <button className="absolute right-3 top-4 text-muted-foreground" onClick={() => setOpen(false)} aria-label={t("close")}><X className="size-5" /></button>
-            <SidebarInner pathname={pathname} onNav={() => setOpen(false)} />
+            <SidebarInner pathname={pathname} onNav={() => setOpen(false)} isSuperAdmin={isSuperAdmin} />
           </aside>
         </div>
       )}
@@ -113,24 +145,24 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       <div className="lg:pl-64">
         <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-border bg-white/95 px-4 backdrop-blur sm:px-6">
           <button className="flex size-9 items-center justify-center rounded-lg text-foreground hover:bg-secondary lg:hidden" onClick={() => setOpen(true)} aria-label={t("menu")}><Menu className="size-5" /></button>
-          <div className="relative hidden max-w-md flex-1 sm:block">
+          <form action="/admin/recherche" method="get" className="relative hidden w-full max-w-md sm:block">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <input placeholder={t("searchAdmin")} className="h-10 w-full rounded-xl border border-border bg-secondary/50 pl-9 pr-12 text-sm outline-none focus:border-primary focus:bg-white" />
+            <input name="q" placeholder={t("searchAdmin")} className="h-10 w-full rounded-xl border border-border bg-secondary/50 pl-9 pr-12 text-sm outline-none focus:border-primary focus:bg-white" />
             <kbd className="absolute right-3 top-1/2 hidden -translate-y-1/2 rounded border border-border bg-white px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground md:block">⌘ K</kbd>
-          </div>
-          <div className="flex flex-1 items-center justify-end gap-3 sm:flex-none">
-            <button className="relative flex size-10 items-center justify-center rounded-xl text-foreground/70 hover:bg-secondary" aria-label={t("notifications")}>
-              <Bell className="size-5" />
-            </button>
+          </form>
+          <div className="ml-auto flex items-center gap-3">
             <LocaleSwitcher />
-            <button className="flex items-center gap-2.5 rounded-xl p-1 pr-2 hover:bg-secondary">
-              <span className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">A</span>
+            <Link href="/admin/profil" className="flex items-center gap-2.5 rounded-xl p-1 pr-2 hover:bg-secondary">
+              {userAvatar ? (
+                <img src={userAvatar} alt={userName} className="size-9 rounded-full object-cover" />
+              ) : (
+                <span className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">{userInitial}</span>
+              )}
               <span className="hidden text-left sm:block">
-                <span className="block text-sm font-bold leading-tight">{t("admin")}</span>
-                <span className="block text-xs text-muted-foreground">{t("superAdmin")}</span>
+                <span className="block max-w-[160px] truncate text-sm font-bold leading-tight">{userName}</span>
+                <span className="block text-xs text-muted-foreground">{isSuperAdmin ? t("superAdmin") : t("admin")}</span>
               </span>
-              <ChevronDown className="size-4 text-muted-foreground" />
-            </button>
+            </Link>
           </div>
         </header>
 

@@ -118,6 +118,11 @@ export default function ListingForm({
           </div>
 
           <div className="grid gap-2">
+            <Label htmlFor="delivery_time">{t("deliveryTime")}</Label>
+            <Input id="delivery_time" name="delivery_time" type="text" defaultValue={listing?.delivery_time ?? "24-48h"} placeholder="24-48h" />
+          </div>
+
+          <div className="grid gap-2">
             <Label htmlFor="description">{t("description")}</Label>
             <Textarea id="description" name="description" rows={4} defaultValue={listing?.description ?? ""} />
           </div>

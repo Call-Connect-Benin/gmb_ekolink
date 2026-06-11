@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import {
   Check, Star, MapPin, MessageSquare, Lock, Headphones, ShieldCheck,
   CheckCircle2, Wrench, Camera, Link2, TrendingUp, KeyRound, BookOpen, Pencil, PackageCheck,
@@ -38,46 +39,32 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
   const locale = await getLocale();
   const [real, categories] = await Promise.all([getListingBySlug(slug), getCategories()]);
 
+  // MD1 — Une fiche inexistante renvoie une vraie 404 (plus de fiche factice achetable).
+  if (!real) notFound();
+
   const catName = (s: string) => {
     const c = categories.find((x) => x.slug === s);
     return c ? (locale === "en" ? c.name_en : c.name_fr) : cap(s);
   };
 
-  const f = real
-    ? {
-        title: real.title,
-        metier: catName(real.category_slug),
-        city: real.city,
-        price: real.price,
-        rating: (real.rating ?? 0).toFixed(1),
-        ratingNum: real.rating ?? 0,
-        avis: real.reviews_count,
-        status: real.status,
-        img: listingImage(real.category_slug, real.city, real.images?.[0]),
-        seo: real.seo_score,
-        photos: real.photos_count,
-        categoriesCount: real.categories_count ?? 3,
-        citations: real.local_citations ?? 0,
-        visibility: real.visibility ?? "high",
-        description: real.description ?? "",
-      }
-    : {
-        title: cap(slug.replace(/-/g, " ")),
-        metier: t("genericTrade"),
-        city: "France",
-        price: 199,
-        rating: "—",
-        ratingNum: 0,
-        avis: 0,
-        status: "available" as Listing["status"],
-        img: "/assets/listings/default.png",
-        seo: null as number | null,
-        photos: 0,
-        categoriesCount: 0,
-        citations: 0,
-        visibility: "high" as Listing["visibility"],
-        description: "",
-      };
+  const f = {
+    title: real.title,
+    metier: catName(real.category_slug),
+    city: real.city,
+    price: real.price,
+    rating: (real.rating ?? 0).toFixed(1),
+    ratingNum: real.rating ?? 0,
+    avis: real.reviews_count,
+    status: real.status,
+    img: listingImage(real.category_slug, real.city, real.images?.[0]),
+    seo: real.seo_score,
+    photos: real.photos_count,
+    categoriesCount: real.categories_count ?? 0,
+    citations: real.local_citations ?? 0,
+    visibility: real.visibility ?? "high",
+    delivery: real.delivery_time || t("quick.deliveryVal"),
+    description: real.description ?? "",
+  };
 
   const metierLower = f.metier.toLowerCase();
   const statusLabel = (s: Listing["status"]) => t(`status.${s}`);
@@ -98,7 +85,7 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
     { icon: Wrench, t: t("quick.metier"), v: f.metier },
     { icon: MapPin, t: t("quick.ville"), v: f.city },
     { icon: CheckCircle2, t: t("quick.etat"), v: statusLabel(f.status), ok: f.status === "available" },
-    { icon: Truck, t: t("quick.delivery"), v: t("quick.deliveryVal") },
+    { icon: Truck, t: t("quick.delivery"), v: f.delivery },
     { icon: Target, t: t("quick.optimisation"), v: t("quick.optimisationVal"), ok: true },
     { icon: KeyRound, t: t("quick.claim"), v: t("quick.claimVal"), ok: true },
   ];
@@ -142,13 +129,9 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
           <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
             <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
               <div className="flex items-center gap-3"><span className="text-3xl font-extrabold text-primary">{f.price} €</span><span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${STATUS_TONE[f.status]}`}>{statusLabel(f.status)}</span></div>
-              <div className="mt-2 flex flex-wrap items-center gap-2 border-b border-border pb-3 text-sm"><span className="font-bold">{f.rating}</span><span className="inline-flex text-[#fbbc04]">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="size-3.5 fill-current" />)}</span><span className="text-muted-foreground">{t("reviews", { count: f.avis })}</span><span className="ml-auto inline-flex items-center gap-1 text-muted-foreground"><MapPin className="size-3.5" /> {f.city}</span><span className="rounded bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">{f.metier}</span></div>
+              <div className="mt-2 flex flex-wrap items-center gap-2 border-b border-border pb-3 text-sm"><span className="font-bold">{f.rating}</span><span className="inline-flex text-[#fbbc04]">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`size-3.5 ${i < Math.round(f.ratingNum) ? "fill-current" : "fill-transparent text-border"}`} />)}</span><span className="text-muted-foreground">{t("reviews", { count: f.avis })}</span><span className="ml-auto inline-flex items-center gap-1 text-muted-foreground"><MapPin className="size-3.5" /> {f.city}</span><span className="rounded bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">{f.metier}</span></div>
               <ul className="my-3 space-y-2 text-sm">{cardBullets.map((i) => <li key={i} className="flex items-center gap-2"><Check className="size-4 text-success" /> {i}</li>)}</ul>
-              {real ? (
-                <BuyButton listingId={real.id} slug={slug} label={t("buyNow")} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold text-white hover:bg-primary/90 disabled:opacity-70" />
-              ) : (
-                <Link href={`/connexion?next=/fiches-google/${slug}`} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold text-white hover:bg-primary/90"><ShoppingCart className="size-4" /> {t("buyNow")}</Link>
-              )}
+              <BuyButton listingId={real.id} slug={slug} label={t("buyNow")} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold text-white hover:bg-primary/90 disabled:opacity-70" />
               <a href="https://wa.me/33644678642" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3 text-sm font-bold text-accent-foreground hover:bg-accent/90"><MessageSquare className="size-4" /> {t("contactExpert")}</a>
               <div className="mt-3 flex justify-between border-t border-border pt-3 text-xs text-muted-foreground"><span className="inline-flex items-center gap-1"><Lock className="size-3.5" /> {t("securePay")}</span><span className="inline-flex items-center gap-1"><Headphones className="size-3.5" /> {t("dedicatedSupport")}</span><span className="inline-flex items-center gap-1"><ShieldCheck className="size-3.5" /> {t("guaranteedTransfer")}</span></div>
             </div>
@@ -219,7 +202,7 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
             <div><h2 className="text-2xl font-extrabold">{t("ctaTitle")}</h2><p className="mt-1 text-sm text-white/70">{t("ctaText", { city: f.city })}</p></div>
             <div className="flex flex-wrap gap-3">
-              <Link href={`/connexion?next=/fiches-google/${slug}`} className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white hover:bg-primary/90"><ShoppingCart className="size-4" /> {t("buyNow")}</Link>
+              <Link href={`/inscription?next=${encodeURIComponent(`/fiches-google/${slug}?buy=1`)}`} className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white hover:bg-primary/90"><ShoppingCart className="size-4" /> {t("buyNow")}</Link>
               <Link href="/fiches-google" className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-bold text-accent-foreground hover:bg-accent/90">{t("ctaOther")} <ArrowRight className="size-4" /></Link>
             </div>
           </div>

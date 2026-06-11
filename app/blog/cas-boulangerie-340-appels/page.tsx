@@ -3,8 +3,10 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import { TrendingUp } from "lucide-react";
 import { getLocale } from "next-intl/server";
 import ArticleSidebar from "@/app/components/ArticleSidebar";
+import BackToBlog from "@/app/components/BackToBlog";
 import ArticleCta from "@/app/components/ArticleCta";
 
 export const metadata: Metadata = {
@@ -19,28 +21,23 @@ export default async function ArticleCasBoulangerie() {
 
   return (
     <main id="main">
-      <section className="page-hero">
-        <div className="container">
-          <nav className="breadcrumb" aria-label="Breadcrumb">
-            <Link href="/">{en ? "Home" : "Accueil"}</Link>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
-            <Link href="/blog">Blog</Link>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
-            <span aria-current="page">{en ? "+340% calls — Paris bakery" : "+340% d'appels — Boulangerie Paris"}</span>
-          </nav>
-          <h1>{en ? "+340% calls in 60 days: a Parisian bakery case" : "+340% d'appels en 60 jours : le cas d'une boulangerie parisienne"}</h1>
-          <p className="lead">
-            {en
-              ? "From 3 to 13 calls a day thanks to 4 strategic optimizations. The complete methodology detailed step by step."
-              : "De 3 à 13 appels par jour grâce à 4 optimisations stratégiques. La méthodologie complète détaillée étape par étape."}
-          </p>
-          <p className="article-meta">{en ? "April 28, 2026 · Case study · 12 min read · By " : "28 avril 2026 · Étude de cas · 12 min de lecture · Par "}<strong>EkoLink</strong></p>
+      <section className="relative overflow-hidden border-b border-border bg-[linear-gradient(180deg,#ffffff_0%,#ffffff_55%,#f4f8ff_100%)] pb-12 pt-28">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute right-[-6rem] top-10 hidden h-80 w-80 rounded-full bg-[radial-gradient(circle,#e3edff,transparent_60%)] lg:block" />
+          <div className="absolute bottom-[-4rem] left-[-5rem] hidden h-72 w-72 rounded-full bg-[radial-gradient(circle,#fff1dc,transparent_62%)] lg:block" />
+        </div>
+        <div className="relative mx-auto max-w-[1180px] px-5">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.07] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <TrendingUp className="size-3.5" /> {en ? "Case study" : "Étude de cas"}
+          </span>
+          <h1 className="mt-4 max-w-[880px] text-[clamp(2rem,4.4vw,3.2rem)] font-extrabold leading-[1.08] tracking-tight">{en ? "+340% calls in 60 days: a Parisian bakery case" : "+340% d'appels en 60 jours : le cas d'une boulangerie parisienne"}</h1>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{en ? "From 3 to 13 calls a day thanks to 4 strategic optimizations. The complete methodology detailed step by step." : "De 3 à 13 appels par jour grâce à 4 optimisations stratégiques. La méthodologie complète détaillée étape par étape."}</p>
+          <p className="mt-4 text-sm text-muted-foreground">{en ? "April 28, 2026 · 12 min read · By " : "28 avril 2026 · 12 min de lecture · Par "}<strong className="text-foreground">EkoLink</strong></p>
         </div>
       </section>
 
       <figure className="article-cover">
         <picture>
-          <source srcSet="/assets/images/cover-cas-boulangerie.webp" type="image/webp" />
           <img src="/assets/images/cover-cas-boulangerie.png" alt="" width={1200} height={675} loading="eager" decoding="async" />
         </picture>
       </figure>
@@ -111,7 +108,7 @@ export default async function ArticleCasBoulangerie() {
                 <div className="info-box info-box--centered">
                   <strong>Reproduce this result for your business</strong>
                   EkoLink applies this complete methodology in 48-72h.{" "}
-                  <Link href="/commander">Order my optimized listing →</Link>
+                  <Link href="/fiches-google">Order my optimized listing →</Link>
                 </div>
               </>
             ) : (
@@ -177,10 +174,11 @@ export default async function ArticleCasBoulangerie() {
                 <div className="info-box info-box--centered">
                   <strong>Reproduire ce résultat pour votre commerce</strong>
                   EkoLink applique cette méthodologie complète en 48-72 h.{" "}
-                  <Link href="/commander">Commander ma fiche optimisée →</Link>
+                  <Link href="/fiches-google">Commander ma fiche optimisée →</Link>
                 </div>
               </>
             )}
+            <BackToBlog />
           </article>
 
           <ArticleSidebar />

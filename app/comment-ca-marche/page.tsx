@@ -165,22 +165,22 @@ export default async function CommentCaMarchePage() {
                   </div>
                 ) : null}
                 <article className="h-full rounded-2xl border border-[#e8eef7] bg-white p-4 shadow-[0_22px_60px_rgba(21,37,68,0.06)]">
-                  <div className="mb-5 flex size-11 items-center justify-center rounded-full bg-primary text-base font-extrabold text-white shadow-[0_10px_26px_rgba(26,115,232,0.24)]">
+                  <div className="mb-3 flex size-9 items-center justify-center rounded-full bg-primary text-sm font-extrabold text-white shadow-[0_10px_26px_rgba(26,115,232,0.24)]">
                     {card.id}
                   </div>
-                  <div className="rounded-[1.5rem] bg-[radial-gradient(circle_at_top,#f7fbff,#f3f7fd)] p-4">
+                  <div className="rounded-[1.25rem] bg-[radial-gradient(circle_at_top,#f7fbff,#f3f7fd)] p-3">
                     <Image
                       src={card.image}
                       alt={card.title}
                       width={420}
                       height={320}
-                      className="mx-auto h-auto w-full max-w-[250px]"
+                      className="mx-auto h-auto w-full max-w-[150px]"
                     />
                   </div>
-                  <h3 className="mt-6 text-[1.75rem] font-extrabold tracking-[-0.04em] text-slate-900">
+                  <h3 className="mt-4 text-xl font-extrabold tracking-[-0.03em] text-slate-900">
                     {card.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-7 text-slate-600">
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
                     {card.description}
                   </p>
                 </article>

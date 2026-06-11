@@ -65,12 +65,12 @@ export default function Header() {
     href.startsWith("/#") ? false : href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   // Pages à hero sombre : header transparent + texte blanc tant qu'on n'a pas scrollé.
-  const onDark = !scrolled && (pathname === "/a-propos" || pathname === "/faq");
+  const onDark = !scrolled && (pathname === "/a-propos" || pathname === "/faq" || pathname === "/blog");
 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-[1000] border-b transition-all",
+        "fixed inset-x-0 top-0 z-[1000] border-b transition-all print:hidden",
         scrolled
           ? "border-border bg-white/90 shadow-[0_8px_30px_rgba(11,18,28,0.06)] backdrop-blur-xl"
           : "border-transparent bg-transparent"

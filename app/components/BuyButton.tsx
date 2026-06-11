@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ShoppingCart } from "lucide-react";
 
@@ -20,6 +20,7 @@ export default function BuyButton({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const autoStarted = useRef(false);
 
   const buy = async () => {
     setLoading(true);
@@ -31,7 +32,9 @@ export default function BuyButton({
         body: JSON.stringify({ listingId }),
       });
       if (res.status === 401) {
-        router.push(`/connexion?next=/fiches-google/${slug}`);
+        // Non authentifié → inscription, puis retour ici avec ?buy=1 pour relancer le paiement.
+        const next = encodeURIComponent(`/fiches-google/${slug}?buy=1`);
+        router.push(`/inscription?next=${next}`);
         return;
       }
       const data = await res.json();
@@ -46,6 +49,17 @@ export default function BuyButton({
       setLoading(false);
     }
   };
+
+  // Retour d'inscription/connexion : ?buy=1 relance automatiquement le paiement.
+  useEffect(() => {
+    if (autoStarted.current) return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("buy") === "1") {
+      autoStarted.current = true;
+      buy();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

@@ -3,8 +3,10 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BookOpen } from "lucide-react";
 import { getLocale } from "next-intl/server";
 import ArticleSidebar from "@/app/components/ArticleSidebar";
+import BackToBlog from "@/app/components/BackToBlog";
 import ArticleCta from "@/app/components/ArticleCta";
 
 export const metadata: Metadata = {
@@ -19,24 +21,23 @@ export default async function ArticlePackLocal() {
 
   return (
     <main id="main">
-      <section className="page-hero">
-        <div className="container">
-          <nav className="breadcrumb" aria-label="Breadcrumb">
-            <Link href="/">{en ? "Home" : "Accueil"}</Link>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
-            <Link href="/blog">Blog</Link>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
-            <span aria-current="page">{en ? "Local Pack in 30 days" : "Pack Local en 30 jours"}</span>
-          </nav>
-          <h1>{en ? "How to reach the Google Local Pack in 30 days" : "Comment apparaître dans le Pack Local Google en 30 jours"}</h1>
-          <p className="lead">{en ? "The 7 concrete levers to go from invisibility to the first page of Google Maps, illustrated by a real client case." : "Les 7 leviers concrets pour passer de l'invisibilité à la première page de Google Maps, illustrés par un cas client réel."}</p>
-          <p className="article-meta">{en ? "May 22, 2026 · Guide · 8 min read · By " : "22 mai 2026 · Guide · 8 min de lecture · Par "}<strong>EkoLink</strong></p>
+      <section className="relative overflow-hidden border-b border-border bg-[linear-gradient(180deg,#ffffff_0%,#ffffff_55%,#f4f8ff_100%)] pb-12 pt-28">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute right-[-6rem] top-10 hidden h-80 w-80 rounded-full bg-[radial-gradient(circle,#e3edff,transparent_60%)] lg:block" />
+          <div className="absolute bottom-[-4rem] left-[-5rem] hidden h-72 w-72 rounded-full bg-[radial-gradient(circle,#fff1dc,transparent_62%)] lg:block" />
+        </div>
+        <div className="relative mx-auto max-w-[1180px] px-5">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.07] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <BookOpen className="size-3.5" /> {en ? "Guide" : "Guide"}
+          </span>
+          <h1 className="mt-4 max-w-[880px] text-[clamp(2rem,4.4vw,3.2rem)] font-extrabold leading-[1.08] tracking-tight">{en ? "How to reach the Google Local Pack in 30 days" : "Comment apparaître dans le Pack Local Google en 30 jours"}</h1>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{en ? "The 7 concrete levers to go from invisibility to the first page of Google Maps, illustrated by a real client case." : "Les 7 leviers concrets pour passer de l'invisibilité à la première page de Google Maps, illustrés par un cas client réel."}</p>
+          <p className="mt-4 text-sm text-muted-foreground">{en ? "May 22, 2026 · 8 min read · By " : "22 mai 2026 · 8 min de lecture · Par "}<strong className="text-foreground">EkoLink</strong></p>
         </div>
       </section>
 
       <figure className="article-cover">
         <picture>
-          <source srcSet="/assets/images/cover-pack-local.webp" type="image/webp" />
           <img src="/assets/images/cover-pack-local.png" alt="" width={1200} height={675} loading="eager" decoding="async" />
         </picture>
       </figure>
@@ -112,7 +113,7 @@ export default async function ArticlePackLocal() {
 
                 <div className="info-box info-box--centered">
                   <strong>Want to save time?</strong>
-                  {" "}EkoLink applies these 7 levers for you in 48 to 72h, with a 30-day satisfaction-or-refund guarantee. <Link href="/#tarifs">See our plans →</Link>
+                  {" "}EkoLink applies these 7 levers for you in 48 to 72h, with a 30-day satisfaction-or-refund guarantee. <Link href="/fiches-google">See our plans →</Link>
                 </div>
               </>
             ) : (
@@ -183,10 +184,11 @@ export default async function ArticlePackLocal() {
 
                 <div className="info-box info-box--centered">
                   <strong>Vous voulez gagner du temps ?</strong>
-                  {" "}EkoLink applique ces 7 leviers pour vous en 48 à 72 h, avec garantie satisfait ou remboursé 30 jours. <Link href="/#tarifs">Voir nos formules →</Link>
+                  {" "}EkoLink applique ces 7 leviers pour vous en 48 à 72 h, avec garantie satisfait ou remboursé 30 jours. <Link href="/fiches-google">Voir nos formules →</Link>
                 </div>
               </>
             )}
+            <BackToBlog />
           </article>
 
           <ArticleSidebar />

@@ -30,13 +30,12 @@ export default function Footer() {
   ];
   const RESSOURCES = [
     { href: "/blog", label: t("links.blog") },
-    { href: "/blog", label: t("links.guides") },
-    { href: "/blog", label: t("links.seoTips") },
     { href: "/cgv", label: t("links.terms") },
     { href: "/politique-confidentialite", label: t("links.privacy") },
+    { href: "/politique-cookies", label: t("links.cookies") },
   ];
   return (
-    <footer className="relative overflow-hidden bg-[linear-gradient(160deg,#0b1119,#0a1a33)] text-white/60">
+    <footer className="relative overflow-hidden bg-[linear-gradient(160deg,#0b1119,#0a1a33)] text-white/60 print:hidden">
       <div className="absolute -bottom-24 right-0 size-80 rounded-full bg-primary/10 blur-3xl" />
       <div className="relative mx-auto max-w-[1240px] px-5 py-14">
         <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr_1.2fr_1fr_1fr]">
@@ -48,10 +47,10 @@ export default function Footer() {
             <p className="mb-5 max-w-[260px] text-sm leading-relaxed">{t("blurb")}</p>
             <ul className="flex list-none gap-3 pl-0" aria-label="Réseaux sociaux">
               {[
-                { label: "Facebook", href: "https://web.facebook.com/people/EkoLink/100086166664875/", icon: "facebook" },
-                { label: "Instagram", href: "https://www.instagram.com/ekolink", icon: "instagram" },
-                { label: "LinkedIn", href: "https://www.linkedin.com/company/ekolink", icon: "linkedin" },
-                { label: "YouTube", href: "https://www.youtube.com/@AlbertLanneAds", icon: "youtube" },
+                { label: "Facebook", href: "#", icon: "facebook" },
+                { label: "Instagram", href: "#", icon: "instagram" },
+                { label: "LinkedIn", href: "#", icon: "linkedin" },
+                { label: "YouTube", href: "#", icon: "youtube" },
               ].map((s) => (
                 <li key={s.label}>
                   <a href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer" className="block transition-transform hover:-translate-y-0.5 hover:opacity-90">
@@ -68,18 +67,18 @@ export default function Footer() {
             <ul className="flex flex-col gap-2.5 text-sm">
               <li><a href="mailto:contact@ekolink.fr" className="flex items-center gap-2 hover:text-white"><Mail className="size-4 shrink-0 text-primary" /> contact@ekolink.fr</a></li>
               <li><a href="tel:+33617030308" className="flex items-center gap-2 hover:text-white"><Phone className="size-4 shrink-0 text-primary" /> +33 6 17 03 03 08</a></li>
-              <li className="flex items-center gap-2"><Clock className="size-4 shrink-0 text-primary" /> {t("hours")}</li>
-              <li className="flex items-center gap-2"><MapPin className="size-4 shrink-0 text-primary" /> {t("location")}</li>
+              <li><span className="flex items-center gap-2"><Clock className="size-4 shrink-0 text-primary" /> {t("hours")}</span></li>
+              <li><span className="flex items-center gap-2"><MapPin className="size-4 shrink-0 text-primary" /> {t("location")}</span></li>
+              <li><Link href="/contact" className="font-semibold text-accent hover:text-white">{t("contactCta")}</Link></li>
             </ul>
           </div>
           <Column title={t("resources")} links={RESSOURCES} />
           <div>
             <h4 className="mb-4 text-sm font-bold text-white">{t("securePayments")}</h4>
-            <div className="mb-3 flex flex-wrap gap-2">
+            <div className="mb-3 flex flex-col items-start gap-2">
               <svg width="40" height="26" viewBox="0 0 38 24" aria-label="Visa"><rect width="38" height="24" rx="4" fill="#fff" /><text x="19" y="16" textAnchor="middle" fontFamily="Arial" fontSize="9" fontWeight="900" fill="#1434CB">VISA</text></svg>
               <svg width="40" height="26" viewBox="0 0 38 24" aria-label="Mastercard"><rect width="38" height="24" rx="4" fill="#fff" /><circle cx="16" cy="12" r="6" fill="#EB001B" /><circle cx="23" cy="12" r="6" fill="#F79E1B" opacity=".9" /></svg>
               <svg width="40" height="26" viewBox="0 0 38 24" aria-label="PayPal"><rect width="38" height="24" rx="4" fill="#fff" /><text x="19" y="16" textAnchor="middle" fontFamily="Arial" fontSize="8" fontWeight="900" fill="#003087">PayPal</text></svg>
-              <svg width="40" height="26" viewBox="0 0 38 24" aria-label="Apple Pay"><rect width="38" height="24" rx="4" fill="#000" /><text x="19" y="16" textAnchor="middle" fontFamily="Arial" fontSize="8" fontWeight="900" fill="#fff">Pay</text></svg>
             </div>
             <p className="flex items-center gap-1.5 text-xs text-success"><Lock className="size-3.5" /> {t("secureSite")}</p>
           </div>

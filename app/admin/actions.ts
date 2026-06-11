@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { isCurrentUserAdmin } from "@/lib/queries";
+import { isCurrentUserAdmin, isCurrentUserSuperAdmin } from "@/lib/queries";
 
 async function assertAdmin() {
   if (!(await isCurrentUserAdmin())) {
@@ -11,8 +11,65 @@ async function assertAdmin() {
   }
 }
 
+async function assertSuperAdmin() {
+  if (!(await isCurrentUserSuperAdmin())) {
+    throw new Error("Accès refusé : réservé au super administrateur.");
+  }
+}
+
+/** Crée un administrateur (rôle admin ou super_admin). Réservé au super admin. */
+export async function createAdminAction(formData: FormData) {
+  await assertSuperAdmin();
+  const admin = createAdminClient();
+
+  const email = str(formData.get("email"));
+  const password = str(formData.get("password"));
+  const fullName = str(formData.get("full_name"));
+  const role = ["admin", "super_admin"].includes(str(formData.get("role"))) ? str(formData.get("role")) : "admin";
+  if (!email || password.length < 6) {
+    throw new Error("Email requis et mot de passe d'au moins 6 caractères.");
+  }
+
+  const { data, error } = await admin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: { full_name: fullName },
+  });
+  if (error) throw new Error(error.message);
+  if (data.user) {
+    await admin.from("profiles").update({ full_name: fullName, role }).eq("id", data.user.id);
+  }
+
+  revalidatePath("/admin/roles");
+  revalidatePath("/admin/utilisateurs");
+}
+
 function str(v: FormDataEntryValue | null): string {
   return typeof v === "string" ? v.trim() : "";
+}
+
+/** Téléverse une image dans le bucket 'listings' et renvoie son URL publique. */
+export async function uploadListingImageAction(formData: FormData): Promise<{ url?: string; error?: string }> {
+  await assertAdmin();
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) return { error: "Fichier manquant." };
+  if (!file.type.startsWith("image/")) return { error: "Le fichier doit être une image." };
+  if (file.size > 5 * 1024 * 1024) return { error: "Image trop lourde (max 5 Mo)." };
+
+  const admin = createAdminClient();
+  const ext = (file.name.split(".").pop() || "png").toLowerCase().replace(/[^a-z0-9]/g, "") || "png";
+  const path = `gallery/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const buffer = await file.arrayBuffer();
+
+  const { error } = await admin.storage.from("listings").upload(path, buffer, {
+    contentType: file.type || "image/png",
+    upsert: false,
+  });
+  if (error) return { error: error.message };
+
+  const { data } = admin.storage.from("listings").getPublicUrl(path);
+  return { url: data.publicUrl };
 }
 
 export async function saveListingAction(formData: FormData) {
@@ -33,6 +90,8 @@ export async function saveListingAction(formData: FormData) {
   }
   const images = gallery.length ? gallery.map((g) => g.url) : ["/assets/listings/default.png"];
   const ratingRaw = str(formData.get("rating"));
+  // Borne la note à 0–5 (la colonne est numeric(2,1) : une valeur > 9.9 ferait échouer l'insert).
+  const ratingVal = ratingRaw ? Math.min(5, Math.max(0, Number(ratingRaw) || 0)) : null;
 
   const payload = {
     title: str(formData.get("title")),
@@ -48,13 +107,14 @@ export async function saveListingAction(formData: FormData) {
     gallery,
     photos_count: Number(str(formData.get("photos_count")) || 0),
     reviews_count: Number(str(formData.get("reviews_count")) || 0),
-    rating: ratingRaw ? Number(ratingRaw) : null,
+    rating: ratingVal,
     seo_score: Number(str(formData.get("seo_score")) || 0),
     categories_count: Number(str(formData.get("categories_count")) || 0),
     local_citations: Number(str(formData.get("local_citations")) || 0),
     visibility: ["low", "medium", "high"].includes(str(formData.get("visibility")))
       ? str(formData.get("visibility"))
       : "high",
+    delivery_time: str(formData.get("delivery_time")) || "24-48h",
   };
 
   if (id) {
@@ -64,8 +124,9 @@ export async function saveListingAction(formData: FormData) {
   }
 
   revalidatePath("/admin");
+  revalidatePath("/admin/fiches");
   revalidatePath("/fiches-google");
-  redirect("/admin");
+  redirect("/admin/fiches");
 }
 
 export async function deleteListingAction(formData: FormData) {
@@ -73,9 +134,20 @@ export async function deleteListingAction(formData: FormData) {
   const id = str(formData.get("id"));
   if (id) {
     const admin = createAdminClient();
-    await admin.from("listings").delete().eq("id", id);
+    // M6 — Garde-fou FK : une fiche avec des commandes (orders.listing_id RESTRICT)
+    // ne peut pas être supprimée. On le signale explicitement plutôt que d'avaler l'erreur.
+    const { count } = await admin
+      .from("orders")
+      .select("id", { count: "exact", head: true })
+      .eq("listing_id", id);
+    if ((count ?? 0) > 0) {
+      throw new Error(`Impossible de supprimer cette fiche : ${count} commande(s) y sont rattachées.`);
+    }
+    const { error } = await admin.from("listings").delete().eq("id", id);
+    if (error) throw new Error(error.message);
   }
   revalidatePath("/admin");
+  revalidatePath("/admin/fiches");
   revalidatePath("/fiches-google");
 }
 
@@ -133,9 +205,11 @@ export async function updateOrderStatusAction(formData: FormData) {
   await assertAdmin();
   const id = str(formData.get("id"));
   const status = str(formData.get("status"));
-  if (id && status) {
+  const allowed = ["pending", "paid", "in_progress", "delivered", "validated", "cancelled"];
+  if (id && allowed.includes(status)) {
     const admin = createAdminClient();
     await admin.from("orders").update({ status }).eq("id", id);
   }
   revalidatePath("/admin");
+  revalidatePath("/admin/commandes");
 }

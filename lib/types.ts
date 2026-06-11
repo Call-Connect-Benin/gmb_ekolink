@@ -39,6 +39,7 @@ export type Listing = {
   categories_count: number;
   local_citations: number;
   visibility: "low" | "medium" | "high";
+  delivery_time: string; // délai de livraison affiché, ex. « 24-48h »
   created_at: string;
 };
 
@@ -58,7 +59,8 @@ export type Profile = {
   email: string;
   full_name: string | null;
   phone: string | null;
-  role: "buyer" | "admin";
+  avatar_url: string | null;
+  role: "buyer" | "admin" | "super_admin";
   created_at: string;
 };
 

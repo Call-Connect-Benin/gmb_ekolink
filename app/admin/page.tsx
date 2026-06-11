@@ -56,7 +56,7 @@ export default async function AdminDashboard() {
         <a href="/admin/export" className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground/80 hover:bg-secondary"><Download className="size-4" /> {t("admin.exportSales")}</a>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">{STATS.map((st) => <StatCard key={st.label} {...st} />)}</div>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">{STATS.map((st) => <StatCard key={st.label} {...st} />)}</div>
 
       <div className="grid gap-5 lg:grid-cols-2">
         <Panel>

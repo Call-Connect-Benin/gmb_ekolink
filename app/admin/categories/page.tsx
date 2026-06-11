@@ -3,9 +3,10 @@ import { Tags, Pencil, Trash2 } from "lucide-react";
 import { getCategories, getListings } from "@/lib/queries";
 import { categoryIcon } from "@/lib/categoryIcons";
 import { deleteCategoryAction } from "../actions";
-import { StatCard, Panel, PanelHeader, Pill, Table, Th, Td, Row } from "../../components/dashboard/ui";
+import { StatCard, Panel, Pill, Table, Th, Td, Row } from "../../components/dashboard/ui";
 import { PageHead, EmptyRow } from "../../components/dashboard/list";
 import CategoryForm from "../CategoryForm";
+import NewCategoryButton from "./NewCategoryButton";
 import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
@@ -13,12 +14,13 @@ export const metadata = { title: "Catégories — Admin" };
 
 export default async function AdminCategories() {
   const t = await getTranslations("dash.categoriesAdmin");
+  const td = await getTranslations("dashboard");
   const [categories, listings] = await Promise.all([getCategories(), getListings()]);
   const countFor = (slug: string) => listings.filter((l) => l.category_slug === slug).length;
 
   return (
     <div className="space-y-6">
-      <PageHead title={t("title")} subtitle={t("subtitle")} />
+      <PageHead title={t("title")} subtitle={t("subtitle")} actions={<NewCategoryButton label={t("newCategory")} title={t("newCategory")} closeLabel={td("close")}><CategoryForm /></NewCategoryButton>} />
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
         <StatCard icon={Tags} tone="blue" label={t("statCategories")} value={String(categories.length)} />
@@ -26,8 +28,7 @@ export default async function AdminCategories() {
         <StatCard icon={Tags} tone="purple" label={t("statEmpty")} value={String(categories.filter((c) => countFor(c.slug) === 0).length)} />
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <Panel className="p-0">
+      <Panel className="p-0">
           <Table head={<><Th className="pl-5">{t("thCategory")}</Th><Th>{t("thSlug")}</Th><Th>{t("thListings")}</Th><Th></Th></>}>
             {categories.length === 0 ? <EmptyRow cols={4} /> : categories.map((c) => {
               const Icon = categoryIcon(c.icon);
@@ -64,14 +65,6 @@ export default async function AdminCategories() {
             })}
           </Table>
         </Panel>
-
-        <aside>
-          <Panel>
-            <PanelHeader title={t("newCategory")} />
-            <CategoryForm />
-          </Panel>
-        </aside>
-      </div>
     </div>
   );
 }

@@ -99,11 +99,19 @@ export async function getCurrentProfile(): Promise<Profile | null> {
   }
 }
 
-/** Admin = rôle 'admin' en base OU email listé dans ADMIN_EMAILS. */
+/** Admin = rôle 'admin'/'super_admin' en base OU email listé dans ADMIN_EMAILS. */
 export async function isCurrentUserAdmin(): Promise<boolean> {
   const profile = await getCurrentProfile();
   if (!profile) return false;
-  if (profile.role === "admin") return true;
+  if (profile.role === "admin" || profile.role === "super_admin") return true;
+  return adminEmails().includes((profile.email || "").toLowerCase());
+}
+
+/** Super admin = rôle 'super_admin' en base OU email listé dans ADMIN_EMAILS (le propriétaire). */
+export async function isCurrentUserSuperAdmin(): Promise<boolean> {
+  const profile = await getCurrentProfile();
+  if (!profile) return false;
+  if (profile.role === "super_admin") return true;
   return adminEmails().includes((profile.email || "").toLowerCase());
 }
 

@@ -3,8 +3,10 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BarChart3 } from "lucide-react";
 import { getLocale } from "next-intl/server";
 import ArticleSidebar from "@/app/components/ArticleSidebar";
+import BackToBlog from "@/app/components/BackToBlog";
 import ArticleCta from "@/app/components/ArticleCta";
 
 export const metadata: Metadata = {
@@ -19,25 +21,24 @@ export default async function ArticleUpdateMaps() {
 
   return (
     <main id="main">
-      <section className="page-hero">
-        <div className="container">
-          <nav className="breadcrumb" aria-label="Breadcrumb">
-            <Link href="/">{en ? "Home" : "Accueil"}</Link>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
-            <Link href="/blog">Blog</Link>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
-            <span aria-current="page">{en ? "Maps update 2026" : "Update Maps 2026"}</span>
-          </nav>
-          <h1>{en ? "Google Maps 2026 update: what changes for local SEO" : "Update Google Maps 2026 : ce qui change pour le SEO local"}</h1>
-          <p className="lead">{en ? "The new ranking criteria in the Local Pack since the March 2026 update. What we measured on 50 client listings." : "Les nouveaux critères de ranking dans le Pack Local depuis la mise à jour de mars 2026. Ce que nous avons mesuré sur 50 fiches clients."}</p>
-          <p className="article-meta">{en ? "March 20, 2026 · Analysis · 10 min read · By " : "20 mars 2026 · Analyse · 10 min de lecture · Par "}<strong>EkoLink</strong></p>
+      <section className="relative overflow-hidden border-b border-border bg-[linear-gradient(180deg,#ffffff_0%,#ffffff_55%,#f4f8ff_100%)] pb-12 pt-28">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute right-[-6rem] top-10 hidden h-80 w-80 rounded-full bg-[radial-gradient(circle,#e3edff,transparent_60%)] lg:block" />
+          <div className="absolute bottom-[-4rem] left-[-5rem] hidden h-72 w-72 rounded-full bg-[radial-gradient(circle,#fff1dc,transparent_62%)] lg:block" />
+        </div>
+        <div className="relative mx-auto max-w-[1180px] px-5">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.07] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <BarChart3 className="size-3.5" /> {en ? "Analysis" : "Analyse"}
+          </span>
+          <h1 className="mt-4 max-w-[880px] text-[clamp(2rem,4.4vw,3.2rem)] font-extrabold leading-[1.08] tracking-tight">{en ? "Google Maps 2026 update: what changes for local SEO" : "Update Google Maps 2026 : ce qui change pour le SEO local"}</h1>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{en ? "The new ranking criteria in the Local Pack since the March 2026 update. What we measured on 50 client listings." : "Les nouveaux critères de ranking dans le Pack Local depuis la mise à jour de mars 2026. Ce que nous avons mesuré sur 50 fiches clients."}</p>
+          <p className="mt-4 text-sm text-muted-foreground">{en ? "March 20, 2026 · 10 min read · By " : "20 mars 2026 · 10 min de lecture · Par "}<strong className="text-foreground">EkoLink</strong></p>
         </div>
       </section>
 
       <figure className="article-cover">
         <picture>
-          <source srcSet="/assets/images/cover-update-maps-2026.webp" type="image/webp" />
-          <img src="/assets/images/cover-update-maps-2026.png" alt="" width={1200} height={675} loading="eager" decoding="async" />
+          <img src="/assets/images/solution-mockup.png" alt="" width={1200} height={675} loading="eager" decoding="async" />
         </picture>
       </figure>
 
@@ -113,7 +114,7 @@ export default async function ArticleUpdateMaps() {
 
                 <div className="info-box info-box--centered">
                   <strong>2026 update included in our Pro and Agency plans</strong>
-                  {" "}EkoLink adjusts your listing to the new update criteria and includes a monthly audit. <Link href="/#tarifs">See the plans →</Link>
+                  {" "}EkoLink adjusts your listing to the new update criteria and includes a monthly audit. <Link href="/fiches-google">See the plans →</Link>
                 </div>
               </>
             ) : (
@@ -185,10 +186,11 @@ export default async function ArticleUpdateMaps() {
 
                 <div className="info-box info-box--centered">
                   <strong>Mise à jour 2026 incluse dans nos formules Pro et Agence</strong>
-                  {" "}EkoLink ajuste votre fiche selon les nouveaux critères de l'update et inclut un audit mensuel. <Link href="/#tarifs">Voir les formules →</Link>
+                  {" "}EkoLink ajuste votre fiche selon les nouveaux critères de l'update et inclut un audit mensuel. <Link href="/fiches-google">Voir les formules →</Link>
                 </div>
               </>
             )}
+            <BackToBlog />
           </article>
 
           <ArticleSidebar />

@@ -22,6 +22,15 @@ export const metadata: Metadata = {
 
 const cap = (x: string) => (x ? x.charAt(0).toUpperCase() + x.slice(1) : "—");
 
+/** M8 — Convertit le délai de livraison (texte libre, ex. « 48h », « 48-72h ») en palier 24/48/72. */
+function deliveryBucket(dt: string | null | undefined): 24 | 48 | 72 {
+  const nums = (dt ?? "").match(/\d+/g)?.map(Number) ?? [];
+  const h = nums.length ? Math.max(...nums) : 24;
+  if (h <= 24) return 24;
+  if (h <= 48) return 48;
+  return 72;
+}
+
 /** Mappe une fiche Supabase vers le format attendu par le navigateur de catalogue. */
 function toCatItem(l: Listing, catName: Map<string, string>): CatItem {
   return {
@@ -35,7 +44,7 @@ function toCatItem(l: Listing, catName: Map<string, string>): CatItem {
     services: (l.description ?? "").replace(/\s+/g, " ").trim().slice(0, 70),
     price: l.price,
     status: l.status,
-    delivery: 24,
+    delivery: deliveryBucket(l.delivery_time),
     image: listingImage(l.category_slug, l.city, l.images?.[0]),
   };
 }

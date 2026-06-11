@@ -6,8 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
-  Home, ShoppingBag, Folder, Bell, User,
-  LogOut, Menu, X, ChevronDown, ArrowRight,
+  Home, ShoppingBag, Folder, User,
+  LogOut, Menu, X, ArrowRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import LocaleSwitcher from "../LocaleSwitcher";
@@ -69,7 +69,17 @@ function SidebarInner({ pathname, onNav }: { pathname: string; onNav?: () => voi
   );
 }
 
-export default function ClientShell({ children }: { children: React.ReactNode }) {
+export default function ClientShell({
+  children,
+  userName = "Mon compte",
+  userInitial = "C",
+  userAvatar = "",
+}: {
+  children: React.ReactNode;
+  userName?: string;
+  userInitial?: string;
+  userAvatar?: string;
+}) {
   const t = useTranslations("dashboard");
   const pathname = usePathname() || "/compte";
   const [open, setOpen] = useState(false);
@@ -94,15 +104,15 @@ export default function ClientShell({ children }: { children: React.ReactNode })
         <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-border bg-white/95 px-4 backdrop-blur sm:px-6">
           <button className="flex size-9 items-center justify-center rounded-lg text-foreground hover:bg-secondary lg:hidden" onClick={() => setOpen(true)} aria-label={t("menu")}><Menu className="size-5" /></button>
           <div className="flex flex-1 items-center justify-end gap-2 sm:gap-3">
-            <button className="relative flex size-10 items-center justify-center rounded-xl text-foreground/70 hover:bg-secondary" aria-label={t("notifications")}>
-              <Bell className="size-5" />
-            </button>
             <LocaleSwitcher />
-            <button className="flex items-center gap-2.5 rounded-xl p-1 pr-2 hover:bg-secondary">
-              <span className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary"><User className="size-4" /></span>
-              <span className="hidden text-sm font-bold sm:block">{t("myAccount")}</span>
-              <ChevronDown className="size-4 text-muted-foreground" />
-            </button>
+            <Link href="/compte/profil" className="flex items-center gap-2.5 rounded-xl p-1 pr-2 hover:bg-secondary">
+              {userAvatar ? (
+                <img src={userAvatar} alt={userName} className="size-9 rounded-full object-cover" />
+              ) : (
+                <span className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">{userInitial}</span>
+              )}
+              <span className="hidden max-w-[160px] truncate text-sm font-bold sm:block">{userName}</span>
+            </Link>
           </div>
         </header>
 

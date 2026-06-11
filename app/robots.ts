@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: "/commander",
+      disallow: ["/compte", "/admin", "/auth"],
     },
     sitemap: "https://ekolink.dev/sitemap.xml",
     host: "https://ekolink.dev",

@@ -22,7 +22,10 @@ export default function SiteChrome({
   const bare =
     pathname.startsWith("/admin") ||
     pathname.startsWith("/compte") ||
-    pathname === "/connexion";
+    pathname === "/connexion" ||
+    pathname === "/inscription" ||
+    pathname === "/mot-de-passe-oublie" ||
+    pathname.startsWith("/reset");
 
   if (bare) return <>{children}</>;
 

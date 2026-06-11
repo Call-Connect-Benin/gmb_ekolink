@@ -56,14 +56,14 @@ export function StatCard({
   const t = TONE[tone];
   const up = deltaDir !== "down";
   return (
-    <div className={cn("rounded-xl border border-border bg-card p-3.5 shadow-[0_1px_2px_rgba(11,18,28,0.04)]", className)}>
-      <div className="flex items-start gap-2.5">
-        <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-lg", t.soft)}>
-          <Icon className={cn("size-[18px]", t.fg)} strokeWidth={1.9} />
+    <div className={cn("rounded-xl border border-border bg-card p-3 shadow-[0_1px_2px_rgba(11,18,28,0.04)]", className)}>
+      <div className="flex items-center gap-2">
+        <span className={cn("flex size-8 shrink-0 items-center justify-center rounded-lg", t.soft)}>
+          <Icon className={cn("size-4", t.fg)} strokeWidth={1.9} />
         </span>
         <div className="min-w-0">
-          <p className="truncate text-xs font-medium text-muted-foreground">{label}</p>
-          <p className="mt-0.5 text-xl font-extrabold leading-tight">{value}</p>
+          <p className="truncate text-[11px] font-medium text-muted-foreground">{label}</p>
+          <p className="text-lg font-extrabold leading-tight">{value}</p>
         </div>
       </div>
       {delta && (
@@ -156,21 +156,55 @@ export function Row({ children, className }: { children: React.ReactNode; classN
 }
 
 /* ---------- Pagination ---------- */
-export function Pagination({ page = 1, pages = 1, label }: { page?: number; pages?: number; label?: string }) {
+export function Pagination({
+  page = 1,
+  pages = 1,
+  label,
+  basePath,
+  params,
+}: {
+  page?: number;
+  pages?: number;
+  label?: string;
+  /** Chemin de base + paramètres courants : si fournis, la pagination devient des liens réels. */
+  basePath?: string;
+  params?: Record<string, string>;
+}) {
   const nums = pages <= 4 ? Array.from({ length: pages }, (_, i) => i + 1) : [1, 2, 3, "…", pages];
+  // Construit l'URL d'une page en conservant les filtres courants.
+  const href = (p: number) => {
+    const sp = new URLSearchParams(params ?? {});
+    if (p <= 1) sp.delete("page");
+    else sp.set("page", String(p));
+    const qs = sp.toString();
+    return `${basePath ?? ""}${qs ? `?${qs}` : ""}`;
+  };
+  const linked = Boolean(basePath);
+  const cellBase = "flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground";
+
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 pt-2 text-sm text-muted-foreground">
       {label && <span>{label}</span>}
       <div className="flex items-center gap-1">
-        <button className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:enabled:border-primary/40 disabled:opacity-40" disabled>«</button>
+        {linked && page > 1 ? (
+          <Link href={href(page - 1)} className={cn(cellBase, "hover:border-primary/40")} aria-label="Précédent">«</Link>
+        ) : (
+          <span className={cn(cellBase, "opacity-40")}>«</span>
+        )}
         {nums.map((n, i) =>
           n === "…" ? (
             <span key={i} className="px-2">…</span>
+          ) : linked ? (
+            <Link key={i} href={href(n as number)} className={cn("flex size-8 items-center justify-center rounded-lg text-sm font-semibold", n === page ? "bg-primary text-white" : "border border-border text-foreground/70 hover:border-primary/40")}>{n}</Link>
           ) : (
-            <button key={i} className={cn("flex size-8 items-center justify-center rounded-lg text-sm font-semibold", n === page ? "bg-primary text-white" : "border border-border text-foreground/70 hover:border-primary/40")}>{n}</button>
+            <span key={i} className={cn("flex size-8 items-center justify-center rounded-lg text-sm font-semibold", n === page ? "bg-primary text-white" : "border border-border text-foreground/70")}>{n}</span>
           )
         )}
-        <button className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:enabled:border-primary/40">»</button>
+        {linked && page < pages ? (
+          <Link href={href(page + 1)} className={cn(cellBase, "hover:border-primary/40")} aria-label="Suivant">»</Link>
+        ) : (
+          <span className={cn(cellBase, "opacity-40")}>»</span>
+        )}
       </div>
     </div>
   );

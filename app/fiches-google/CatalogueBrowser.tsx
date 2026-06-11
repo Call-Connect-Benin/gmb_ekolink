@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
-  Search, MapPin, Star, LayoutGrid, List, ChevronLeft, ChevronRight,
+  Search, MapPin, Star, LayoutGrid, List, ChevronLeft, ChevronRight, ChevronDown,
   Droplet, Lock, Stethoscope, Building2, UtensilsCrossed, Lightbulb, RotateCcw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -89,11 +89,17 @@ export default function CatalogueBrowser({ items, categories }: { items?: CatIte
 
   const statusLabel = (s: ListingStatus) => t(s);
 
+  // Bornes de prix dérivées des fiches réelles (repli 100/2500 si catalogue vide).
+  const prices = data.map((l) => l.price).filter((p) => p > 0);
+  const priceMin = prices.length ? Math.floor(Math.min(...prices)) : 100;
+  const priceMax = prices.length ? Math.ceil(Math.max(...prices)) : 2500;
+
   const [metier, setMetier] = useState("");
+  const [showAllCats, setShowAllCats] = useState(false);
   const [q, setQ] = useState("");
   const [city, setCity] = useState("");
-  const [min, setMin] = useState("100");
-  const [max, setMax] = useState("2500");
+  const [min, setMin] = useState(() => String(priceMin));
+  const [max, setMax] = useState(() => String(priceMax));
   const [states, setStates] = useState<Set<ListingStatus>>(new Set());
   const [minRating, setMinRating] = useState(0);
   const [deliveries, setDeliveries] = useState<Set<number>>(new Set());
@@ -117,7 +123,8 @@ export default function CatalogueBrowser({ items, categories }: { items?: CatIte
     const cat = sp.get("category");
     if (cat) {
       const n = norm(cat);
-      const m = METIERS.find((mt) => mt.slug === n || norm(mt.name) === n);
+      // Cherche dans les catégories réelles (50) plutôt que la liste statique de repli.
+      const m = metiers.find((mt) => mt.slug === n || norm(mt.name) === n);
       if (m) setMetier(m.slug);
     }
 
@@ -185,7 +192,7 @@ export default function CatalogueBrowser({ items, categories }: { items?: CatIte
       return n;
     });
   const reset = () => {
-    setMetier(""); setQ(""); setCity(""); setMin("100"); setMax("2500");
+    setMetier(""); setQ(""); setCity(""); setMin(String(priceMin)); setMax(String(priceMax));
     setStates(new Set()); setMinRating(0); setDeliveries(new Set());
     setSort("recent"); setPage(1);
   };
@@ -252,9 +259,9 @@ export default function CatalogueBrowser({ items, categories }: { items?: CatIte
 
   return (
     <>
-      {/* Chips métiers */}
+      {/* Chips métiers (repliable au-delà de 11) */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-        {metiers.map((m) => {
+        {(showAllCats ? metiers : metiers.slice(0, 11)).map((m) => {
           const on = metier === m.slug;
           return (
             <button
@@ -272,6 +279,16 @@ export default function CatalogueBrowser({ items, categories }: { items?: CatIte
             </button>
           );
         })}
+        {metiers.length > 11 && (
+          <button
+            type="button"
+            onClick={() => setShowAllCats((v) => !v)}
+            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-primary/40 bg-primary/5 px-4 py-2.5 text-sm font-bold text-primary transition hover:bg-primary/10"
+          >
+            {showAllCats ? t("showLessCats") : t("showAllCats", { count: metiers.length })}
+            <ChevronDown className={`size-4 transition-transform ${showAllCats ? "rotate-180" : ""}`} />
+          </button>
+        )}
       </div>
 
       <div className="mt-7 grid items-start gap-7 lg:grid-cols-[270px_minmax(0,1fr)]">
@@ -304,7 +321,7 @@ export default function CatalogueBrowser({ items, categories }: { items?: CatIte
 
           <Field label={t("budget")}>
             <input
-              type="range" min={100} max={2500} step={10} value={Number(max)}
+              type="range" aria-label={t("budget")} min={priceMin} max={priceMax} step={10} value={Number(max)}
               onChange={(e) => { setMax(e.target.value); setPage(1); }}
               className="w-full accent-[#1a73e8]"
             />

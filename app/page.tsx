@@ -61,14 +61,17 @@ export default async function Home() {
     return c ? (locale === "en" ? c.name_en : c.name_fr) : cap(slug);
   };
 
-  // Catégories populaires (depuis la base, avec compteur réel de fiches).
-  const cats = categories.map((c) => ({
-    Icon: categoryIcon(c.icon),
-    name: locale === "en" ? c.name_en : c.name_fr,
-    slug: c.slug,
-    count: listings.filter((l) => l.category_slug === c.slug).length,
-    accent: false,
-  }));
+  // Catégories populaires (depuis la base) : top 12 par nombre de fiches.
+  const cats = categories
+    .map((c) => ({
+      Icon: categoryIcon(c.icon),
+      name: locale === "en" ? c.name_en : c.name_fr,
+      slug: c.slug,
+      count: listings.filter((l) => l.category_slug === c.slug).length,
+      accent: false,
+    }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+    .slice(0, 6);
 
   // Fiches mises en avant : uniquement les fiches DISPONIBLES.
   const available = listings.filter((l) => l.status === "available");

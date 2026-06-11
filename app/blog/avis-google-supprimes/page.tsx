@@ -1,9 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Lightbulb } from "lucide-react";
 import { getLocale } from "next-intl/server";
 import ArticleSidebar from "@/app/components/ArticleSidebar";
+import BackToBlog from "@/app/components/BackToBlog";
 import ArticleCta from "@/app/components/ArticleCta";
 
 export const metadata: Metadata = {
@@ -11,42 +12,31 @@ export const metadata: Metadata = {
   description:
     "Comprendre les critères de l'algorithme anti-avis-frauduleux de Google et appliquer les bonnes pratiques pour préserver tous vos avis légitimes.",
   alternates: { canonical: "/blog/avis-google-supprimes" },
-  openGraph: { images: ["/assets/images/og-cover.webp"] },
+  openGraph: { images: ["/assets/images/cover-avis-supprimes.png"] },
 };
-
-function Crumb({ en }: { en: boolean }) {
-  return (
-    <nav className="breadcrumb" aria-label="Breadcrumb">
-      <Link href="/">{en ? "Home" : "Accueil"}</Link>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
-      <Link href="/blog">Blog</Link>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
-      <span aria-current="page">{en ? "Removed reviews" : "Avis supprimés"}</span>
-    </nav>
-  );
-}
 
 export default async function ArticleAvisSupprimes() {
   const en = (await getLocale()) === "en";
 
   return (
     <main id="main">
-      <section className="page-hero">
-        <div className="container">
-          <Crumb en={en} />
-          <h1>{en ? "Why Google removes your reviews (and how to avoid it)" : "Pourquoi Google supprime vos avis (et comment l'éviter)"}</h1>
-          <p className="lead">
-            {en
-              ? "Google's anti-fraud review algorithm causes a lot of collateral damage. Understanding its criteria lets you preserve all your legitimate reviews."
-              : "L'algorithme anti-avis-frauduleux de Google fait beaucoup de dégâts collatéraux. Comprendre ses critères vous permet de préserver tous vos avis légitimes."}
-          </p>
-          <p className="article-meta">{en ? "May 10, 2026 · Tutorial · 6 min read · By " : "10 mai 2026 · Tutoriel · 6 min de lecture · Par "}<strong>EkoLink</strong></p>
+      <section className="relative overflow-hidden border-b border-border bg-[linear-gradient(180deg,#ffffff_0%,#ffffff_55%,#f4f8ff_100%)] pb-12 pt-28">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute right-[-6rem] top-10 hidden h-80 w-80 rounded-full bg-[radial-gradient(circle,#e3edff,transparent_60%)] lg:block" />
+          <div className="absolute bottom-[-4rem] left-[-5rem] hidden h-72 w-72 rounded-full bg-[radial-gradient(circle,#fff1dc,transparent_62%)] lg:block" />
+        </div>
+        <div className="relative mx-auto max-w-[1180px] px-5">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.07] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <Lightbulb className="size-3.5" /> {en ? "Tutorial" : "Tutoriel"}
+          </span>
+          <h1 className="mt-4 max-w-[880px] text-[clamp(2rem,4.4vw,3.2rem)] font-extrabold leading-[1.08] tracking-tight">{en ? "Why Google removes your reviews (and how to avoid it)" : "Pourquoi Google supprime vos avis (et comment l'éviter)"}</h1>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{en ? "Google's anti-fraud review algorithm causes a lot of collateral damage. Understanding its criteria lets you preserve all your legitimate reviews." : "L'algorithme anti-avis-frauduleux de Google fait beaucoup de dégâts collatéraux. Comprendre ses critères vous permet de préserver tous vos avis légitimes."}</p>
+          <p className="mt-4 text-sm text-muted-foreground">{en ? "May 10, 2026 · 6 min read · By " : "10 mai 2026 · 6 min de lecture · Par "}<strong className="text-foreground">EkoLink</strong></p>
         </div>
       </section>
 
       <figure className="article-cover">
         <picture>
-          <source srcSet="/assets/images/cover-avis-supprimes.webp" type="image/webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/assets/images/cover-avis-supprimes.png" alt="" width={1200} height={675} loading="eager" decoding="async" />
         </picture>
@@ -122,6 +112,7 @@ export default async function ArticleAvisSupprimes() {
                 <p>Pour les avis effectivement légitimes mais supprimés à tort, vous pouvez faire une <strong>demande de réexamen</strong> via la <a href="https://support.google.com/business/gethelp" target="_blank" rel="noopener noreferrer">Google Business Help Center</a>. Le taux de restauration est d'environ 30 %, et le délai 5 à 20 jours ouvrés.</p>
               </>
             )}
+            <BackToBlog />
           </article>
 
           <ArticleSidebar />

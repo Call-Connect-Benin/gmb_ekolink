@@ -31,16 +31,14 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // === CHANTIER : protection /admin & /compte désactivée pendant l'intégration ===
-  // À réactiver en fin de chantier (décommenter le bloc ci-dessous).
-  // const path = request.nextUrl.pathname;
-  // const isProtected = path.startsWith("/compte") || path.startsWith("/admin");
-  // if (!user && isProtected) {
-  //   const redirectUrl = new URL("/connexion", request.url);
-  //   redirectUrl.searchParams.set("next", path);
-  //   return NextResponse.redirect(redirectUrl);
-  // }
-  void user;
+  // Protection des routes privées : redirige vers /connexion si non authentifié.
+  const path = request.nextUrl.pathname;
+  const isProtected = path.startsWith("/compte") || path.startsWith("/admin");
+  if (!user && isProtected) {
+    const redirectUrl = new URL("/connexion", request.url);
+    redirectUrl.searchParams.set("next", path);
+    return NextResponse.redirect(redirectUrl);
+  }
 
   return response;
 }
