@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Plus, X, UserPlus, ChevronRight } from "lucide-react";
 import { createUserAction } from "./actions";
 
@@ -25,7 +25,13 @@ export default function AddUserButton({
   variant?: "button" | "quick";
 }) {
   const [open, setOpen] = useState(false);
+  const [state, formAction, isPending] = useActionState(createUserAction, null);
   const input = "h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary";
+
+  // E9 — ne fermer la modale qu'en cas de succès réel.
+  useEffect(() => {
+    if (state?.ok) setOpen(false);
+  }, [state]);
 
   const trigger =
     variant === "quick" ? (
@@ -60,11 +66,7 @@ export default function AddUserButton({
               <h2 className="text-lg font-extrabold">{labels.modalTitle}</h2>
               <button type="button" onClick={() => setOpen(false)} aria-label={labels.cancel} className="text-muted-foreground hover:text-foreground"><X className="size-5" /></button>
             </div>
-            <form
-              action={createUserAction}
-              onSubmit={() => setTimeout(() => setOpen(false), 0)}
-              className="flex flex-col gap-3"
-            >
+            <form action={formAction} className="flex flex-col gap-3">
               <div className="grid gap-1.5">
                 <label className="text-sm font-semibold">{labels.fullName}</label>
                 <input name="full_name" type="text" className={input} placeholder="Forlan LAIN" />
@@ -75,7 +77,7 @@ export default function AddUserButton({
               </div>
               <div className="grid gap-1.5">
                 <label className="text-sm font-semibold">{labels.password}</label>
-                <input name="password" type="password" required minLength={6} className={input} placeholder="••••••••" />
+                <input name="password" type="password" required minLength={8} className={input} placeholder="••••••••" />
               </div>
               <div className="grid gap-1.5">
                 <label className="text-sm font-semibold">{labels.role}</label>
@@ -85,9 +87,10 @@ export default function AddUserButton({
                   ))}
                 </select>
               </div>
+              {state?.error && <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{state.error}</p>}
               <div className="mt-2 flex justify-end gap-2">
                 <button type="button" onClick={() => setOpen(false)} className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:bg-secondary">{labels.cancel}</button>
-                <button type="submit" className="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-primary/90">{labels.create}</button>
+                <button type="submit" disabled={isPending} className="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-primary/90 disabled:opacity-70">{labels.create}</button>
               </div>
             </form>
           </div>

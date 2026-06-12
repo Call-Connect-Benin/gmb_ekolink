@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { Crown, ShieldCheck, UserRound, Users, Check } from "lucide-react";
 import { StatCard, Panel } from "../../components/dashboard/ui";
 import { PageHead, StatRow } from "../../components/dashboard/list";
-import { table, s } from "@/lib/dash";
+import { tableAdmin, s } from "@/lib/dash";
 import { isCurrentUserSuperAdmin } from "@/lib/queries";
 import { getTranslations, getLocale } from "next-intl/server";
 import AddAdminButton from "./AddAdminButton";
@@ -19,7 +19,7 @@ export default async function AdminRoles() {
   const t = await getTranslations("dash.rolesAdmin");
   const en = (await getLocale()) === "en";
 
-  const profiles = await table<{ role: string }>("profiles", (r) => ({ role: s(r.role, "buyer") }), []);
+  const profiles = await tableAdmin<{ role: string }>("profiles", (r) => ({ role: s(r.role, "buyer") }));
   const supers = profiles.filter((p) => p.role === "super_admin").length;
   const admins = profiles.filter((p) => p.role === "admin").length;
   const buyers = profiles.filter((p) => p.role === "buyer").length;

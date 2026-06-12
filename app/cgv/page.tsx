@@ -41,18 +41,8 @@ const FR_SECTIONS: LegalSection[] = [
     content: (
       <>
         <h2 id="art2">Article 2 — Tarifs</h2>
-        <p>Les tarifs en vigueur sont indiqués en euros et toutes taxes comprises (TTC) sur le site, à la date de la commande. Trois formules sont proposées :</p>
-        <table>
-          <thead>
-            <tr><th>Formule</th><th>Prix TTC</th><th>Délai</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Starter</td><td>149&nbsp;€</td><td>72h ouvrées</td></tr>
-            <tr><td>Pro</td><td>299&nbsp;€</td><td>48h ouvrées</td></tr>
-            <tr><td>Agence (5 fiches)</td><td>599&nbsp;€</td><td>48h ouvrées</td></tr>
-          </tbody>
-        </table>
-        <p>EkoLink se réserve le droit de modifier ses tarifs à tout moment, étant entendu que tout produit sera facturé sur la base du tarif en vigueur au moment de la commande.</p>
+        <p>Chaque fiche est proposée à un prix unitaire, indiqué en euros toutes taxes comprises (TTC) sur sa page, à la date de la commande. Le prix applicable est celui affiché sur la fiche au moment de la validation du paiement.</p>
+        <p>EkoLink se réserve le droit de modifier ses tarifs à tout moment, étant entendu que toute fiche sera facturée sur la base du tarif affiché au moment de la commande.</p>
       </>
     ),
   },
@@ -73,13 +63,8 @@ const FR_SECTIONS: LegalSection[] = [
     content: (
       <>
         <h2 id="art4">Article 4 — Paiement</h2>
-        <p>Le paiement est exigible immédiatement à la commande. Les moyens de paiement acceptés sont :</p>
-        <ul>
-          <li>Carte bancaire (Visa, Mastercard, American Express) via Stripe ;</li>
-          <li>PayPal ;</li>
-          <li>Virement bancaire (sur demande, délai de traitement majoré).</li>
-        </ul>
-        <p>Les transactions par carte bancaire sont sécurisées par le protocole TLS 1.3 et 3D Secure. EkoLink ne conserve aucune donnée bancaire.</p>
+        <p>Le paiement est exigible immédiatement à la commande, par carte bancaire (Visa, Mastercard, American Express) via notre prestataire Stripe.</p>
+        <p>Les transactions par carte bancaire sont sécurisées (TLS et 3D Secure). EkoLink ne conserve aucune donnée bancaire.</p>
       </>
     ),
   },
@@ -216,18 +201,8 @@ const EN_SECTIONS: LegalSection[] = [
     content: (
       <>
         <h2 id="art2">Article 2 — Pricing</h2>
-        <p>The prices in force are shown in euros, all taxes included, on the site, on the order date. Three plans are offered:</p>
-        <table>
-          <thead>
-            <tr><th>Plan</th><th>Price incl. tax</th><th>Lead time</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Starter</td><td>149&nbsp;€</td><td>72 business hours</td></tr>
-            <tr><td>Pro</td><td>299&nbsp;€</td><td>48 business hours</td></tr>
-            <tr><td>Agency (5 listings)</td><td>599&nbsp;€</td><td>48 business hours</td></tr>
-          </tbody>
-        </table>
-        <p>EkoLink reserves the right to change its prices at any time, it being understood that any product will be billed on the basis of the price in force at the time of the order.</p>
+        <p>Each listing is offered at a unit price, shown in euros all taxes included (incl. tax) on its page, on the order date. The applicable price is the one displayed on the listing at the time payment is confirmed.</p>
+        <p>EkoLink reserves the right to change its prices at any time, it being understood that any listing will be billed on the basis of the price displayed at the time of the order.</p>
       </>
     ),
   },
@@ -248,13 +223,8 @@ const EN_SECTIONS: LegalSection[] = [
     content: (
       <>
         <h2 id="art4">Article 4 — Payment</h2>
-        <p>Payment is due immediately upon ordering. The accepted payment methods are:</p>
-        <ul>
-          <li>Card (Visa, Mastercard, American Express) via Stripe;</li>
-          <li>PayPal;</li>
-          <li>Bank transfer (on request, with extended processing time).</li>
-        </ul>
-        <p>Card transactions are secured by the TLS 1.3 and 3D Secure protocols. EkoLink keeps no banking data.</p>
+        <p>Payment is due immediately upon ordering, by card (Visa, Mastercard, American Express) via our provider Stripe.</p>
+        <p>Card transactions are secured (TLS and 3D Secure). EkoLink keeps no banking data.</p>
       </>
     ),
   },

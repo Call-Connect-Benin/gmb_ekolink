@@ -22,6 +22,13 @@ export default function CookieBanner() {
     return () => clearTimeout(t);
   }, []);
 
+  // M12 — réouverture depuis « Gérer mes cookies » (footer) pour revenir sur le choix.
+  useEffect(() => {
+    const reopen = () => setShow(true);
+    window.addEventListener("ekolink-open-consent", reopen);
+    return () => window.removeEventListener("ekolink-open-consent", reopen);
+  }, []);
+
   const choose = (value: "accept" | "reject") => {
     try {
       localStorage.setItem(

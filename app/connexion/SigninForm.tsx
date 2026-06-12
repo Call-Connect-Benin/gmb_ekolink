@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { safeNext } from "@/lib/utils";
 import PasswordInput from "../components/PasswordInput";
 
 const CONFIGURED =
@@ -26,7 +27,7 @@ export default function SigninForm() {
 
   const nextUrl = () =>
     typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("next")
+      ? safeNext(new URLSearchParams(window.location.search).get("next"))
       : null;
 
   // Affiche un message si le retour OAuth a échoué (?error=oauth).

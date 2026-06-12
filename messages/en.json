@@ -1,4 +1,17 @@
 {
+  "errors": {
+    "nfBadge": "Error 404",
+    "nfTitle": "Page not found",
+    "nfText": "The page you're looking for doesn't exist or has moved. Check the address or head back home.",
+    "nfHome": "Back to home",
+    "nfCatalogue": "Browse the catalogue",
+    "errBadge": "An error occurred",
+    "errTitle": "Oops, something went wrong",
+    "errText": "A technical issue occurred. You can try again or return to the homepage.",
+    "errRetry": "Try again",
+    "errHome": "Back to home",
+    "errRef": "Reference"
+  },
   "nav": {
     "home": "Home",
     "problems": "Problems",
@@ -82,7 +95,9 @@
       "seoTips": "Local SEO tips",
       "terms": "Terms of use",
       "privacy": "Privacy policy",
-      "cookies": "Cookie policy"
+      "cookies": "Cookie policy",
+      "legal": "Legal notice",
+      "manageCookies": "Manage cookies"
     }
   },
   "home": {
@@ -221,6 +236,7 @@
     "reviews": "{count} reviews",
     "cardBullets": ["Secure transfer", "Delivery in 24 to 48h", "Local SEO optimized", "Full access after purchase"],
     "buyNow": "Buy now",
+    "canceledMsg": "Payment canceled. The listing is still available.",
     "contactExpert": "Contact an expert",
     "securePay": "Secure payment",
     "dedicatedSupport": "Dedicated support",
@@ -385,7 +401,7 @@
       "errTel": "Invalid phone number.",
       "errMin": "Minimum {min} characters.",
       "statusFix": "Please fix the fields in error.",
-      "statusSuccess": "Your mail client has opened. Otherwise, write to contact@ekolink.fr.",
+      "statusSuccess": "Message sent! We'll reply within 24 business hours.", "statusError": "Sending failed. Please retry or email contact@ekolink.fr.",
       "statusHp": "Thank you, your request has been sent."
     }
   },
@@ -490,6 +506,7 @@
     "client": {
       "greeting": "Hello 👋",
       "greetingSub": "Here's an overview of your activity on EkoLink.",
+      "successTitle": "Payment confirmed — thank you!", "successText": "Your order is recorded. You'll receive everything you need by email to claim your listing.",
       "verifyTitle": "Verify your email to complete your purchase",
       "verifyText": "A confirmation email has just been sent to you. Click the link inside: you'll be brought back to your payment automatically.",
       "cardOrders": "Orders", "cardOrdersSub": "Total orders",
@@ -529,7 +546,6 @@
     "documents": {
       "title": "My documents",
       "subtitle": "Find and manage all your important files and documents related to your Google Business listing purchases.",
-      "tabs": ["All", "Guides", "Invoices", "Transfers", "Contracts"],
       "searchPlaceholder": "Search a document…",
       "total": "Total documents", "saved": "Saved documents",
       "empty": "No documents yet."
@@ -549,7 +565,7 @@
       "memberSince": "Member since", "accountType": "Account type", "admin": "Administrator", "buyer": "Buyer", "superAdmin": "Super administrator",
       "status": "Status", "active": "Active", "notConnected": "Not connected",
       "quickActions": "Quick actions",
-      "changePassword": "Change password", "pwNew": "New password", "pwConfirm": "Confirm password", "pwSave": "Update", "pwCancel": "Cancel", "pwMismatch": "Passwords do not match.", "pwSuccess": "Password updated.", "manageAddresses": "Manage my addresses",
+      "changePassword": "Change password", "pwOld": "Current password", "pwWrong": "Current password is incorrect.", "pwNew": "New password", "pwConfirm": "Confirm password", "pwSave": "Update", "pwCancel": "Cancel", "pwMismatch": "Passwords do not match.", "pwSuccess": "Password updated.", "manageAddresses": "Manage my addresses",
       "managePayments": "Manage my payment methods", "deleteAccount": "Delete my account", "delWarning": "This action is permanent. Your personal data will be deleted and you will be signed out.", "delCheck": "I understand this action is irreversible.", "delConfirmBtn": "Delete permanently", "secSignOutAll": "Sign out of all devices", "prefLanguage": "Interface language", "actLastSignin": "Last sign-in",
       "myAccount": "My account"
     },
@@ -573,7 +589,7 @@
       "exportCsv": "Export (CSV)", "newOrder": "New order",
       "stTotal": "Total orders", "stDone": "Completed", "stInProgress": "In progress", "stPending": "Pending", "stCancelled": "Cancelled", "stRevenue": "Revenue",
       "sDone": "Completed", "sInProgress": "In progress", "sPending": "Pending", "sCancelled": "Cancelled",
-      "payPaid": "Paid", "payPending": "Pending", "payRefunded": "Refunded",
+      "payPaid": "Paid", "payPending": "Pending", "payRefunded": "Refunded", "payCancelled": "Canceled",
       "searchPlaceholder": "Search an order, client, company…", "filterStatus": "Status: All", "filterPayment": "Payment: All",
       "thOrder": "Order", "thClient": "Client", "thFiche": "Listing", "thAmount": "Amount", "thStatus": "Status", "thPayment": "Payment", "thDate": "Date", "thActions": "Actions",
       "changeStatus": "Change status", "noClient": "—", "noFiche": "—",
@@ -590,7 +606,7 @@
       "stTotal": "Total users", "stActive": "Active users", "stAdmins": "Administrators", "stBuyers": "Buyers",
       "searchPlaceholder": "Search a user…", "role": "Role", "status": "Status", "export": "Export", "addUser": "Add a user",
       "thUser": "User", "thEmail": "Email", "thRole": "Role", "thStatus": "Status", "thDate": "Sign-up date",
-      "active": "Active", "stsActive": "Active", "stsSuspended": "Suspended", "stsPending": "Pending", "breakdown": "Breakdown by role", "latest": "Latest sign-ups",
+      "active": "Active", "stsActive": "Active", "stsSuspended": "Suspended", "stsPending": "Pending", "stsAnonymous": "Anonymized", "breakdown": "Breakdown by role", "latest": "Latest sign-ups",
       "quickActions": "Quick actions", "qaAddUser": "Add a user", "qaManageRoles": "Manage roles",
       "count": "{count, plural, one {# user} other {# users}}"
     },

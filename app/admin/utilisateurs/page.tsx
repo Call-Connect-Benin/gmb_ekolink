@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Users, CheckCircle2, ShieldCheck, UserPlus } from "lucide-react";
 import { StatCard, Panel, PanelHeader, Avatar, Pill, Table, Th, Td, Row, Pagination } from "../../components/dashboard/ui";
 import { PageHead, StatRow, EmptyRow, EmptyMini } from "../../components/dashboard/list";
-import { table, s } from "@/lib/dash";
+import { tableAdmin, s } from "@/lib/dash";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getTranslations } from "next-intl/server";
@@ -13,7 +13,7 @@ import UserRowActions from "./UserRowActions";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Utilisateurs — Admin", robots: { index: false, follow: false } };
 
-type U = { id: string; name: string; email: string; roleRaw: string; role: string; roleTone: "blue" | "purple" | "teal"; date: string };
+type U = { id: string; name: string; email: string; roleRaw: string; role: string; roleTone: "blue" | "purple" | "teal"; date: string; anon: boolean };
 
 export default async function AdminUtilisateurs({ searchParams }: { searchParams: Promise<{ q?: string; role?: string; page?: string }> }) {
   const t = await getTranslations("dash.usersAdmin");
@@ -25,36 +25,45 @@ export default async function AdminUtilisateurs({ searchParams }: { searchParams
     buyer: { label: t("rBuyer"), tone: "teal", color: "#0ea5e9" },
   };
   const TABS = t.raw("tabs") as string[];
-  const U = await table<U>("profiles", (r) => {
+  const U = await tableAdmin<U>("profiles", (r) => {
     const raw = s(r.role, "buyer"); const m = ROLE_MAP[raw] ?? ROLE_MAP.buyer;
-    return { id: s(r.id), name: s(r.full_name, s(r.email)), email: s(r.email), roleRaw: raw, role: m.label, roleTone: m.tone, date: s(r.created_at).slice(0, 10) };
-  }, [], { order: "created_at" });
+    return { id: s(r.id), name: s(r.full_name, s(r.email)), email: s(r.email), roleRaw: raw, role: m.label, roleTone: m.tone, date: s(r.created_at).slice(0, 10), anon: Boolean(r.anonymized) };
+  }, { order: "created_at" });
 
   // MD4 — Statut réel dérivé d'auth.users (suspension / dernière connexion).
   const authStatus = new Map<string, "active" | "suspended" | "pending">();
   if (isSupabaseConfigured()) {
     try {
-      const { data: authData } = await createAdminClient().auth.admin.listUsers({ perPage: 1000 });
+      const adminCli = createAdminClient();
       const now = Date.now();
-      for (const au of authData?.users ?? []) {
-        const banned = au.banned_until ? new Date(au.banned_until).getTime() > now : false;
-        authStatus.set(au.id, banned ? "suspended" : au.last_sign_in_at ? "active" : "pending");
+      const perPage = 1000;
+      // Pagination en boucle : statuts corrects même au-delà de 1000 comptes.
+      for (let page = 1; page <= 50; page++) {
+        const { data: authData } = await adminCli.auth.admin.listUsers({ perPage, page });
+        const users = authData?.users ?? [];
+        for (const au of users) {
+          const banned = au.banned_until ? new Date(au.banned_until).getTime() > now : false;
+          authStatus.set(au.id, banned ? "suspended" : au.last_sign_in_at ? "active" : "pending");
+        }
+        if (users.length < perPage) break;
       }
     } catch {
       /* repli : statut indéterminé (carte/colonne montrent l'état connu) */
     }
   }
   const hasAuth = authStatus.size > 0;
-  const STATUS_META: Record<"active" | "suspended" | "pending", { label: string; tone: "green" | "red" | "orange" }> = {
+  type UStatus = "active" | "suspended" | "pending" | "anonyme";
+  const STATUS_META: Record<UStatus, { label: string; tone: "green" | "red" | "orange" | "gray" }> = {
     active: { label: t("stsActive"), tone: "green" },
     suspended: { label: t("stsSuspended"), tone: "red" },
     pending: { label: t("stsPending"), tone: "orange" },
+    anonyme: { label: t("stsAnonymous"), tone: "gray" },
   };
 
   // Filtrage dynamique (recherche nom/email + rôle) via les paramètres d'URL.
   const filtered = U
     .filter((u) => (!role || u.roleRaw === role) && (!query || `${u.name} ${u.email}`.toLowerCase().includes(query)))
-    .map((u) => ({ ...u, status: (authStatus.get(u.id) ?? "active") as "active" | "suspended" | "pending" }));
+    .map((u) => ({ ...u, status: (u.anon ? "anonyme" : authStatus.get(u.id) ?? "active") as UStatus }));
 
   // MD6 — pagination réelle (navigation par URL ?page=, filtres conservés).
   const PER_PAGE = 10;

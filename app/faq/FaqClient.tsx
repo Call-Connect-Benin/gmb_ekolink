@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { WHATSAPP_URL } from "@/lib/contact";
 import {
   CheckCircle2,
   ChevronDown,
@@ -439,7 +440,7 @@ export default function FaqClient() {
 
             <div className="flex flex-1 flex-wrap gap-3 md:justify-end">
               <a
-                href="https://wa.me/"
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex min-h-13 items-center gap-2 rounded-2xl border border-[#dfe5ef] bg-white px-6 text-sm font-extrabold text-slate-900 transition hover:-translate-y-0.5"

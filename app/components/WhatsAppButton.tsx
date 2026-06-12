@@ -1,13 +1,12 @@
 import { useTranslations } from "next-intl";
+import { WHATSAPP_URL } from "@/lib/contact";
 
-const PHONE = process.env.NEXT_PUBLIC_WHATSAPP || "33644678642";
-
-/** Bouton flottant de support WhatsApp (CDC §3.4 — wa.me/33644678642). */
+/** Bouton flottant de support WhatsApp (CDC §3.4). */
 export default function WhatsAppButton() {
   const t = useTranslations("common");
   return (
     <a
-      href={`https://wa.me/${PHONE}`}
+      href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
       className="wa-button"

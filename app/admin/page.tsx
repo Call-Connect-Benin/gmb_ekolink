@@ -3,7 +3,7 @@ import { Users, ShoppingBag, BarChart3, FileText, Store, Boxes, Plus, Download, 
 import { Donut, Legend } from "../components/dashboard/Charts";
 import { StatCard, Panel, PanelHeader, Pill, QuickAction } from "../components/dashboard/ui";
 import { EmptyMini } from "../components/dashboard/list";
-import { table, count, s, n } from "@/lib/dash";
+import { tableAdmin, countAdmin, s, n } from "@/lib/dash";
 import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
@@ -18,12 +18,13 @@ export default async function AdminDashboard() {
     in_progress: { label: t("admin.oInProgress"), tone: "blue", color: "#1a73e8" }, paid: { label: t("admin.oPaid"), tone: "blue", color: "#1a73e8" },
     pending: { label: t("admin.oPending"), tone: "orange", color: "#f59e0b" }, cancelled: { label: t("admin.oCancelled"), tone: "red", color: "#ef4444" },
   };
-  const usersCount = await count("profiles", 0);
-  const orders = await table<{ id: string; amount: number; raw: string; label: string; tone: "green" | "blue" | "orange" | "red"; date: string }>("orders", (r) => {
+  // Agrégats admin via service_role (corrects même pour un admin ADMIN_EMAILS).
+  const usersCount = await countAdmin("profiles");
+  const orders = await tableAdmin<{ id: string; amount: number; raw: string; label: string; tone: "green" | "blue" | "orange" | "red"; date: string }>("orders", (r) => {
     const m = O_LABEL[s(r.status, "pending")] ?? O_LABEL.pending;
     return { id: `#CMD-${s(r.id).slice(0, 8)}`, amount: n(r.amount), raw: s(r.status, "pending"), label: m.label, tone: m.tone, date: s(r.created_at).slice(0, 10) };
-  }, [], { order: "created_at" });
-  const listings = await table<{ title: string; city: string; raw: string }>("listings", (r) => ({ title: s(r.title), city: s(r.city), raw: s(r.status, "available") }), [], { order: "created_at" });
+  }, { order: "created_at" });
+  const listings = await tableAdmin<{ title: string; slug: string; city: string; raw: string }>("listings", (r) => ({ title: s(r.title), slug: s(r.slug), city: s(r.city), raw: s(r.status, "available") }), { order: "created_at" });
 
   const paid = orders.filter((o) => ["paid", "in_progress", "delivered", "validated"].includes(o.raw));
   const ca = paid.reduce((a, o) => a + o.amount, 0);
@@ -81,8 +82,8 @@ export default async function AdminDashboard() {
         <Panel>
           <PanelHeader title={t("admin.recentListings")} action={<Link href="/admin/fiches" className="text-sm font-semibold text-primary hover:underline">{t("viewAll")}</Link>} />
           {listings.length ? (
-            <ul className="divide-y divide-border/70">{listings.slice(0, 6).map((l, i) => (
-              <li key={i} className="flex items-center gap-3 py-2.5"><span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-secondary"><FileText className="size-4 text-muted-foreground" /></span><div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold leading-tight">{l.title}</p><p className="truncate text-xs text-muted-foreground">{l.city}</p></div><Pill tone={l.raw === "available" ? "blue" : l.raw === "sold" ? "green" : "orange"}>{l.raw === "available" ? t("admin.liInStock") : l.raw === "sold" ? t("admin.liSold") : t("admin.liReserved")}</Pill></li>
+            <ul className="divide-y divide-border/70">{listings.slice(0, 6).map((l) => (
+              <li key={l.slug} className="flex items-center gap-3 py-2.5"><span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-secondary"><FileText className="size-4 text-muted-foreground" /></span><div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold leading-tight">{l.title}</p><p className="truncate text-xs text-muted-foreground">{l.city}</p></div><Pill tone={l.raw === "available" ? "blue" : l.raw === "sold" ? "green" : "orange"}>{l.raw === "available" ? t("admin.liInStock") : l.raw === "sold" ? t("admin.liSold") : t("admin.liReserved")}</Pill></li>
             ))}</ul>
           ) : <EmptyMini />}
         </Panel>

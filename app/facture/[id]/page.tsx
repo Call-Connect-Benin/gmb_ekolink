@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { isCurrentUserAdmin } from "@/lib/queries";
 import { getLocale } from "next-intl/server";
 import PrintButton from "../PrintButton";
 
@@ -10,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Facture", robots: { index: false, follow: false } };
 
 type Listing = { title: string | null; city: string | null };
-type OrderRow = { id: string; amount: number; status: string; created_at: string; buyer_id: string; listing: Listing | Listing[] | null };
+type OrderRow = { id: string; amount: number; status: string; created_at: string; buyer_id: string; invoice_number: number | null; billing_name: string | null; billing_email: string | null; listing_title: string | null; listing_city: string | null; listing: Listing | Listing[] | null };
 const one = (x: OrderRow["listing"]) => (Array.isArray(x) ? x[0] : x);
 
 export default async function Facture({ params }: { params: Promise<{ id: string }> }) {
@@ -22,17 +23,33 @@ export default async function Facture({ params }: { params: Promise<{ id: string
   // RLS : seule une commande appartenant à l'utilisateur courant est renvoyée.
   const { data } = await sb
     .from("orders")
-    .select("id,amount,status,created_at,buyer_id,listing:listings(title,city)")
+    .select("id,amount,status,created_at,buyer_id,invoice_number,billing_name,billing_email,listing_title,listing_city,listing:listings(title,city)")
     .eq("id", id)
     .maybeSingle();
   if (!data) notFound();
 
   const order = data as OrderRow;
+  // E4 — défense en profondeur : seul l'acheteur (ou un admin) accède à la facture.
+  const {
+    data: { user },
+  } = await sb.auth.getUser();
+  if (!user || (order.buyer_id !== user.id && !(await isCurrentUserAdmin()))) notFound();
+
   const listing = one(order.listing);
-  // « Facturé à » = l'acheteur de la commande (pas le viewer). RLS : self_read ou is_admin.
+  // C2 — « Facturé à » et désignation depuis le snapshot figé à l'achat (résiste à
+  // l'anonymisation RGPD) ; repli sur les données live pour les anciennes commandes.
   const { data: buyer } = await sb.from("profiles").select("full_name,email,phone").eq("id", order.buyer_id).maybeSingle();
-  const profile = buyer as { full_name: string | null; email: string | null; phone: string | null } | null;
+  const liveBuyer = buyer as { full_name: string | null; email: string | null; phone: string | null } | null;
+  const billName = order.billing_name ?? liveBuyer?.full_name ?? "—";
+  const billEmail = order.billing_email ?? liveBuyer?.email ?? "";
+  const billPhone = liveBuyer?.phone ?? null;
+  const itemTitle = order.listing_title ?? listing?.title ?? "—";
+  const itemCity = order.listing_city ?? listing?.city ?? "";
   const isPaid = ["paid", "in_progress", "delivered", "validated"].includes(order.status);
+  // Numéro séquentiel légal (attribué au paiement) ; repli sur l'id si absent.
+  const invoiceNo = order.invoice_number != null
+    ? `FACT-${String(order.invoice_number).padStart(6, "0")}`
+    : `FACT-${order.id.slice(0, 8).toUpperCase()}`;
 
   const ttc = order.amount;
   const ht = +(ttc / 1.2).toFixed(2);
@@ -82,7 +99,7 @@ export default async function Facture({ params }: { params: Promise<{ id: string
             </div>
             <div className="text-right">
               <p className="text-xl font-extrabold tracking-wide text-foreground/80">{T.invoice}</p>
-              <p className="mt-2 text-sm text-muted-foreground">{T.no} <span className="font-semibold text-foreground">FACT-{order.id.slice(0, 8).toUpperCase()}</span></p>
+              <p className="mt-2 text-sm text-muted-foreground">{T.no} <span className="font-semibold text-foreground">{invoiceNo}</span></p>
               <p className="text-sm text-muted-foreground">{T.date} : <span className="font-semibold text-foreground">{date}</span></p>
               <span className={`mt-2 inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold ${isPaid ? "bg-success/12 text-success" : "bg-accent/15 text-[#b25e00]"}`}>{isPaid ? T.paid : T.pending}</span>
             </div>
@@ -91,9 +108,9 @@ export default async function Facture({ params }: { params: Promise<{ id: string
           {/* Client */}
           <div className="py-6">
             <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{T.billedTo}</p>
-            <p className="mt-1 font-semibold">{profile?.full_name || "—"}</p>
-            <p className="text-sm text-muted-foreground">{profile?.email}</p>
-            {profile?.phone && <p className="text-sm text-muted-foreground">{profile.phone}</p>}
+            <p className="mt-1 font-semibold">{billName}</p>
+            <p className="text-sm text-muted-foreground">{billEmail}</p>
+            {billPhone && <p className="text-sm text-muted-foreground">{billPhone}</p>}
           </div>
 
           {/* Lignes */}
@@ -110,7 +127,7 @@ export default async function Facture({ params }: { params: Promise<{ id: string
               <tr className="border-b border-border">
                 <td className="py-4">
                   <p className="font-semibold">{T.item}</p>
-                  <p className="text-muted-foreground">{listing?.title || "—"}{listing?.city ? ` — ${listing.city}` : ""}</p>
+                  <p className="text-muted-foreground">{itemTitle}{itemCity ? ` — ${itemCity}` : ""}</p>
                 </td>
                 <td className="py-4 text-center">1</td>
                 <td className="py-4 text-right">{eur(ttc)}</td>

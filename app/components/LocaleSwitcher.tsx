@@ -19,7 +19,8 @@ export default function LocaleSwitcher({ onDark = false }: { onDark?: boolean })
 
   const setLocale = (code: string) => {
     if (code === locale || pending) return;
-    document.cookie = `locale=${code}; path=/; max-age=31536000; samesite=lax`;
+    const secure = typeof window !== "undefined" && window.location.protocol === "https:" ? "; secure" : "";
+    document.cookie = `locale=${code}; path=/; max-age=31536000; samesite=lax${secure}`;
     startTransition(() => router.refresh());
   };
 

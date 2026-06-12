@@ -9,7 +9,9 @@ import { getTranslations, getLocale } from "next-intl/server";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Mes factures", robots: { index: false, follow: false } };
 
-type Row = { id: string; amount: number; status: string; created_at: string; listing: { title: string | null } | { title: string | null }[] | null };
+type Row = { id: string; amount: number; status: string; created_at: string; invoice_number: number | null; listing: { title: string | null } | { title: string | null }[] | null };
+
+const invoiceLabel = (r: Row) => (r.invoice_number != null ? `FACT-${String(r.invoice_number).padStart(6, "0")}` : `FACT-${r.id.slice(0, 8).toUpperCase()}`);
 
 const one = (x: Row["listing"]) => (Array.isArray(x) ? x[0] : x);
 
@@ -22,11 +24,18 @@ export default async function MesDocuments() {
   let rows: Row[] = [];
   if (isSupabaseConfigured()) {
     const sb = await createClient();
-    const { data } = await sb
-      .from("orders")
-      .select("id,amount,status,created_at,listing:listings(title)")
-      .order("created_at", { ascending: false });
-    rows = (data as Row[]) ?? [];
+    // E4 — filtre explicite par buyer_id (défense en profondeur, en plus de la RLS).
+    const {
+      data: { user },
+    } = await sb.auth.getUser();
+    if (user) {
+      const { data } = await sb
+        .from("orders")
+        .select("id,amount,status,created_at,invoice_number,listing:listings(title)")
+        .eq("buyer_id", user.id)
+        .order("created_at", { ascending: false });
+      rows = (data as Row[]) ?? [];
+    }
   }
   // Une facture est émise dès que la commande est payée.
   const invoices = rows.filter((r) => ["paid", "in_progress", "delivered", "validated"].includes(r.status));
@@ -65,7 +74,7 @@ export default async function MesDocuments() {
               <tbody>
                 {invoices.map((o) => (
                   <tr key={o.id} className="border-b border-border/70 last:border-0">
-                    <td className="px-5 py-4 font-bold text-primary">FACT-{o.id.slice(0, 8).toUpperCase()}</td>
+                    <td className="px-5 py-4 font-bold text-primary">{invoiceLabel(o)}</td>
                     <td className="px-3 py-4 text-foreground/80">{one(o.listing)?.title ?? "—"}</td>
                     <td className="px-3 py-4 text-muted-foreground">{o.created_at.slice(0, 10)}</td>
                     <td className="px-3 py-4 font-bold">{eur(o.amount)}</td>

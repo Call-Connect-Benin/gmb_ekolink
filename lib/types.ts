@@ -50,6 +50,11 @@ export type Order = {
   stripe_session_id: string | null;
   status: OrderStatus;
   amount: number;
+  invoice_number: number | null;
+  billing_name: string | null;
+  billing_email: string | null;
+  listing_title: string | null;
+  listing_city: string | null;
   created_at: string;
   listing?: Listing | null;
 };
@@ -60,6 +65,7 @@ export type Profile = {
   full_name: string | null;
   phone: string | null;
   avatar_url: string | null;
+  anonymized: boolean;
   role: "buyer" | "admin" | "super_admin";
   created_at: string;
 };

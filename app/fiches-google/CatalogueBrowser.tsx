@@ -157,8 +157,12 @@ export default function CatalogueBrowser({ items, categories }: { items?: CatIte
   }, []);
 
   const filtered = useMemo(() => {
-    const minN = Number(min) || 0;
-    const maxN = Number(max) || Infinity;
+    // M15 — borne basse/haute normalisées : si l'utilisateur saisit min > max,
+    // on inverse au lieu de renvoyer un catalogue vide sans explication.
+    const a = Number(min) || 0;
+    const b = Number(max) || Infinity;
+    const minN = Math.min(a, b);
+    const maxN = Math.max(a, b);
     const out = data.filter((l) => {
       if (metier && l.metierSlug !== metier) return false;
       if (city && l.city !== city) return false;

@@ -36,8 +36,7 @@ const FR_SECTIONS: LegalSection[] = [
             <tr><th>Nom</th><th>Émetteur</th><th>Finalité</th><th>Durée</th></tr>
           </thead>
           <tbody>
-            <tr><td><code>fb_consent_v1</code></td><td>EkoLink</td><td>Mémoriser votre choix sur les cookies</td><td>13 mois</td></tr>
-            <tr><td><code>ek_form_token</code></td><td>EkoLink</td><td>Protection anti-CSRF des formulaires (sessionStorage)</td><td>Session</td></tr>
+            <tr><td><code>ekolink_consent_v1</code></td><td>EkoLink</td><td>Mémoriser votre choix sur les cookies (stockage local du navigateur)</td><td>Sans expiration (jusqu'à effacement)</td></tr>
           </tbody>
         </table>
 
@@ -47,8 +46,8 @@ const FR_SECTIONS: LegalSection[] = [
             <tr><th>Nom</th><th>Émetteur</th><th>Finalité</th><th>Durée</th></tr>
           </thead>
           <tbody>
-            <tr><td><code>_ga</code></td><td>Google Analytics 4</td><td>Identifier un visiteur unique (anonymisé)</td><td>13 mois</td></tr>
-            <tr><td><code>_ga_*</code></td><td>Google Analytics 4</td><td>Conserver l'état de session</td><td>13 mois</td></tr>
+            <tr><td><code>_ga</code></td><td>Google Analytics 4</td><td>Identifier un visiteur unique (anonymisé)</td><td>2 ans</td></tr>
+            <tr><td><code>_ga_*</code></td><td>Google Analytics 4</td><td>Conserver l'état de session</td><td>2 ans</td></tr>
           </tbody>
         </table>
         <p>Ces cookies ne sont déposés qu'après votre acceptation explicite via le bandeau de consentement. Tant que vous n'avez pas accepté, aucun cookie de mesure d'audience n'est créé.</p>
@@ -66,7 +65,7 @@ const FR_SECTIONS: LegalSection[] = [
           <li><strong>Tout accepter</strong> : autorise les cookies de mesure d'audience ;</li>
           <li><strong>Refuser</strong> : aucun cookie non-essentiel n'est déposé.</li>
         </ul>
-        <p>Votre choix est conservé pendant 13 mois. Pour modifier votre choix, supprimez les cookies de notre site dans votre navigateur — le bandeau réapparaîtra lors de votre prochaine visite.</p>
+        <p>Votre choix est conservé dans le stockage local de votre navigateur. Vous pouvez en changer à tout moment via le lien « Gérer mes cookies » en bas de page, qui rouvre le bandeau de consentement.</p>
 
         <div className="info-box">
           <strong>Refuser n'a aucun impact sur l'usage du site</strong>
@@ -137,8 +136,7 @@ const EN_SECTIONS: LegalSection[] = [
             <tr><th>Name</th><th>Issuer</th><th>Purpose</th><th>Duration</th></tr>
           </thead>
           <tbody>
-            <tr><td><code>fb_consent_v1</code></td><td>EkoLink</td><td>Remember your cookie choice</td><td>13 months</td></tr>
-            <tr><td><code>ek_form_token</code></td><td>EkoLink</td><td>Anti-CSRF form protection (sessionStorage)</td><td>Session</td></tr>
+            <tr><td><code>ekolink_consent_v1</code></td><td>EkoLink</td><td>Remember your cookie choice (browser local storage)</td><td>No expiry (until cleared)</td></tr>
           </tbody>
         </table>
 
@@ -148,8 +146,8 @@ const EN_SECTIONS: LegalSection[] = [
             <tr><th>Name</th><th>Issuer</th><th>Purpose</th><th>Duration</th></tr>
           </thead>
           <tbody>
-            <tr><td><code>_ga</code></td><td>Google Analytics 4</td><td>Identify a unique visitor (anonymized)</td><td>13 months</td></tr>
-            <tr><td><code>_ga_*</code></td><td>Google Analytics 4</td><td>Keep the session state</td><td>13 months</td></tr>
+            <tr><td><code>_ga</code></td><td>Google Analytics 4</td><td>Identify a unique visitor (anonymized)</td><td>2 years</td></tr>
+            <tr><td><code>_ga_*</code></td><td>Google Analytics 4</td><td>Keep the session state</td><td>2 years</td></tr>
           </tbody>
         </table>
         <p>These cookies are only placed after your explicit acceptance via the consent banner. As long as you have not accepted, no audience measurement cookie is created.</p>
@@ -167,7 +165,7 @@ const EN_SECTIONS: LegalSection[] = [
           <li><strong>Accept all</strong>: allows audience measurement cookies;</li>
           <li><strong>Decline</strong>: no non-essential cookie is placed.</li>
         </ul>
-        <p>Your choice is kept for 13 months. To change your choice, delete our site's cookies in your browser — the banner will reappear on your next visit.</p>
+        <p>Your choice is stored in your browser's local storage. You can change it at any time via the “Manage cookies” link in the page footer, which reopens the consent banner.</p>
 
         <div className="info-box">
           <strong>Declining has no impact on using the site</strong>

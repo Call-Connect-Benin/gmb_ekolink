@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { UserRound, Mail, Phone, ShieldCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { safeNext } from "@/lib/utils";
 import PasswordInput from "../components/PasswordInput";
 
 const CONFIGURED =
@@ -42,7 +43,7 @@ export default function SignupForm() {
 
   const nextUrl = () =>
     typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("next")
+      ? safeNext(new URLSearchParams(window.location.search).get("next"))
       : null;
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -79,9 +80,10 @@ export default function SignupForm() {
       if (data.session) {
         router.push(next || "/fiches-google");
         router.refresh();
-      } else if (next) {
-        router.push("/compte?verify=1");
       } else {
+        // M5 — Email à confirmer : on affiche le message SUR PLACE (pas de redirect
+        // vers /compte, protégé → rebond /connexion, bannière jamais vue).
+        // Le `next` est préservé via emailRedirectTo (lien de confirmation).
         setInfo(t("accountCreated"));
       }
     } catch (err) {
@@ -130,7 +132,7 @@ export default function SignupForm() {
             placeholder={t("passwordMinPlaceholder")}
             autoComplete="new-password"
             required
-            minLength={6}
+            minLength={8}
             value={password}
             onChange={setPassword}
             className="h-12 w-full rounded-xl border border-border bg-background pl-11 pr-11 text-sm outline-none focus:border-primary"

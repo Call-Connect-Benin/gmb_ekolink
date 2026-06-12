@@ -28,7 +28,9 @@ export const metadata: Metadata = {
     "agence google partner",
   ],
   authors: [{ name: "EkoLink S.A.S." }],
-  alternates: { canonical: "/" },
+  // E7 — Pas de canonical global ici : il serait hérité par TOUTES les pages
+  // (fiches, blog) et les ferait dédupliquer vers la home. Chaque page définit
+  // son propre canonical (la home le pose ci-dessous via app/page.tsx).
   // Favicon / icônes : détectés automatiquement via app/favicon.ico,
   // app/icon.png et app/apple-icon.png (conventions de fichiers Next).
   openGraph: {
@@ -39,12 +41,14 @@ export const metadata: Metadata = {
     description:
       "Obtenez une fiche Google Business clé en main, optimisée SEO local et livrée en 48h. Plus de 500 commerces accompagnés.",
     url: "/",
+    images: [{ url: "/assets/images/solution-mockup.png", width: 1200, height: 630, alt: "EkoLink — Fiche Google Business optimisée" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Fiche Google Business optimisée et prête à l'emploi",
     description:
       "Obtenez une fiche Google Business clé en main, optimisée SEO local et livrée en 48h.",
+    images: ["/assets/images/solution-mockup.png"],
   },
   robots: { index: true, follow: true },
 };

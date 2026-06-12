@@ -25,24 +25,21 @@ export default function ProfileForm({
 
   const avatarFormRef = useRef<HTMLFormElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const [uploading, setUploading] = useState(false);
   const [state, formAction] = useActionState(updateProfileAction, null);
+  const [avatarState, avatarAction, uploading] = useActionState(uploadAvatarAction, null);
 
   return (
     <div className="grid gap-5 sm:grid-cols-[auto_minmax(0,1fr)]">
       {/* Photo de profil : formulaire dédié, soumis automatiquement au choix du fichier. */}
-      <form ref={avatarFormRef} action={uploadAvatarAction} className="flex flex-col items-center gap-2">
+      <form ref={avatarFormRef} action={avatarAction} className="flex flex-col items-center gap-2">
         <input
           ref={fileRef}
           name="avatar"
           type="file"
-          accept="image/*"
+          accept="image/png,image/jpeg,image/webp"
           className="hidden"
           onChange={() => {
-            if (fileRef.current?.files?.length) {
-              setUploading(true);
-              avatarFormRef.current?.requestSubmit();
-            }
+            if (fileRef.current?.files?.length) avatarFormRef.current?.requestSubmit();
           }}
         />
         <button
@@ -68,6 +65,7 @@ export default function ProfileForm({
         >
           {uploading ? <Loader2 className="size-3.5 animate-spin" /> : <Camera className="size-3.5" />} {t("editPhoto")}
         </button>
+        {avatarState?.error && <p className="max-w-[140px] text-center text-[11px] text-destructive">{avatarState.error}</p>}
       </form>
 
       <form action={formAction} className="grid gap-4 sm:grid-cols-2">

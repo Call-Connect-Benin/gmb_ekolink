@@ -3,9 +3,12 @@
 
 const BOM = "﻿";
 
-/** Échappe une cellule : entoure de guillemets si elle contient ; " saut de ligne. */
+/** Échappe une cellule + neutralise l'injection de formules (CSV injection). */
 function cell(v: unknown): string {
-  const s = v == null ? "" : String(v);
+  let s = v == null ? "" : String(v);
+  // E4 — une valeur commençant par = + - @ (ou tab/CR) peut s'exécuter à
+  // l'ouverture dans Excel/Sheets : on la préfixe d'une apostrophe.
+  if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
   if (/[";\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
   return s;
 }

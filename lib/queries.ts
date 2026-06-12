@@ -1,6 +1,8 @@
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured, adminEmails } from "@/lib/supabase/config";
-import type { Category, Listing, Order, Profile, Review } from "@/lib/types";
+import type { Category, Listing, Order, Profile } from "@/lib/types";
 
 export type ListingFilters = {
   category?: string;
@@ -36,7 +38,8 @@ export async function getListings(filters: ListingFilters = {}): Promise<Listing
     if (filters.minPrice != null) query = query.gte("price", filters.minPrice);
     if (filters.maxPrice != null) query = query.lte("price", filters.maxPrice);
     if (filters.q) {
-      const term = filters.q.replace(/[%,]/g, " ").trim();
+      // M10 — neutralise les métacaractères du filtre PostgREST .or() : % , ( ) * : \
+      const term = filters.q.replace(/[%,()*:\\]/g, " ").replace(/\s+/g, " ").trim();
       if (term) query = query.or(`title.ilike.%${term}%,description.ilike.%${term}%`);
     }
     if (filters.sort === "price_asc") query = query.order("price", { ascending: true });
@@ -84,7 +87,8 @@ export async function getCurrentUser() {
   }
 }
 
-export async function getCurrentProfile(): Promise<Profile | null> {
+// Mémoïsé par requête (React.cache) : layout + gardes + pages le rappellent.
+export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
   if (!isSupabaseConfigured()) return null;
   try {
     const sb = await createClient();
@@ -97,7 +101,7 @@ export async function getCurrentProfile(): Promise<Profile | null> {
   } catch {
     return null;
   }
-}
+});
 
 /** Admin = rôle 'admin'/'super_admin' en base OU email listé dans ADMIN_EMAILS. */
 export async function isCurrentUserAdmin(): Promise<boolean> {
@@ -134,50 +138,6 @@ export async function getMyOrders(): Promise<Order[]> {
   }
 }
 
-export async function getReviews(listingId: string): Promise<Review[]> {
-  if (!isSupabaseConfigured()) return [];
-  try {
-    const sb = await createClient();
-    const { data } = await sb
-      .from("reviews")
-      .select("*")
-      .eq("listing_id", listingId)
-      .order("created_at", { ascending: false });
-    return (data as Review[]) ?? [];
-  } catch {
-    return [];
-  }
-}
-
-/** L'utilisateur courant peut-il laisser un avis (a acheté + pas déjà noté) ? */
-export async function userCanReview(listingId: string): Promise<boolean> {
-  if (!isSupabaseConfigured()) return false;
-  try {
-    const sb = await createClient();
-    const {
-      data: { user },
-    } = await sb.auth.getUser();
-    if (!user) return false;
-    const { data: orders } = await sb
-      .from("orders")
-      .select("id")
-      .eq("listing_id", listingId)
-      .eq("buyer_id", user.id)
-      .in("status", ["paid", "in_progress", "delivered", "validated"])
-      .limit(1);
-    if (!orders || orders.length === 0) return false;
-    const { data: existing } = await sb
-      .from("reviews")
-      .select("id")
-      .eq("listing_id", listingId)
-      .eq("buyer_id", user.id)
-      .limit(1);
-    return !existing || existing.length === 0;
-  } catch {
-    return false;
-  }
-}
-
 export async function getAllProfiles(): Promise<Profile[]> {
   if (!isSupabaseConfigured()) return [];
   try {
@@ -192,10 +152,15 @@ export async function getAllProfiles(): Promise<Profile[]> {
   }
 }
 
+// M7 — Client service_role (et non RLS) : appelée uniquement depuis l'export
+// admin (gardé par isCurrentUserAdmin). Évite un CSV tronqué/vide pour un admin
+// défini via ADMIN_EMAILS (que is_admin() en base ne reconnaît pas).
 export async function getAllOrders(): Promise<Order[]> {
   if (!isSupabaseConfigured()) return [];
+  // E8 — garde d'autorisation interne (cette fonction contourne la RLS).
+  if (!(await isCurrentUserAdmin())) return [];
   try {
-    const sb = await createClient();
+    const sb = createAdminClient();
     const { data } = await sb
       .from("orders")
       .select("*, listing:listings(*)")

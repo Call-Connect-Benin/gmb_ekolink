@@ -24,7 +24,7 @@ export default async function AdminCommandes({ searchParams }: { searchParams: P
 
   const PAY: Record<string, { label: string; tone: "green" | "orange" | "gray" | "red" }> = {
     paid: { label: t("payPaid"), tone: "green" }, in_progress: { label: t("payPaid"), tone: "green" }, delivered: { label: t("payPaid"), tone: "green" }, validated: { label: t("payPaid"), tone: "green" },
-    pending: { label: t("payPending"), tone: "orange" }, cancelled: { label: t("payRefunded"), tone: "gray" },
+    pending: { label: t("payPending"), tone: "orange" }, cancelled: { label: t("payCancelled"), tone: "gray" },
   };
   const STATUS_TONE: Record<string, "green" | "blue" | "orange" | "red"> = {
     delivered: "green", validated: "green", in_progress: "blue", paid: "blue", pending: "orange", cancelled: "red",
@@ -75,8 +75,9 @@ export default async function AdminCommandes({ searchParams }: { searchParams: P
   if (q) pgParams.q = q;
   if (status) pgParams.status = status;
 
-  // M4 — somme des montants bruts (numériques), pas des chaînes formatées.
-  const totalCA = rows.reduce((a, r) => a + n(r.amount), 0);
+  // M4 — somme des montants bruts ; M1 — uniquement les commandes encaissées.
+  const PAID_STATUSES = ["paid", "in_progress", "delivered", "validated"];
+  const totalCA = rows.reduce((a, r) => a + (PAID_STATUSES.includes(s(r.status, "pending")) ? n(r.amount) : 0), 0);
   const done = ALL.filter((o) => ["delivered", "validated"].includes(o.raw)).length;
   const inProgress = ALL.filter((o) => ["in_progress", "paid"].includes(o.raw)).length;
   const pend = ALL.filter((o) => o.raw === "pending").length;

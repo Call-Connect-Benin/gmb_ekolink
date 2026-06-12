@@ -13,8 +13,14 @@ export default getRequestConfig(async () => {
       ? (cookieLocale as Locale)
       : DEFAULT_LOCALE;
 
-  return {
-    locale,
-    messages: (await import(`../messages/${locale}.json`)).default,
-  };
+  // Repli sur la locale par défaut si le fichier de messages est introuvable/corrompu
+  // (évite de planter le rendu de toutes les pages).
+  let messages: Record<string, unknown>;
+  try {
+    messages = (await import(`../messages/${locale}.json`)).default;
+  } catch {
+    messages = (await import(`../messages/${DEFAULT_LOCALE}.json`)).default;
+  }
+
+  return { locale, messages };
 });

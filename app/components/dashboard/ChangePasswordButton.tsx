@@ -9,6 +9,7 @@ import PasswordInput from "../PasswordInput";
 export default function ChangePasswordButton() {
   const t = useTranslations("dash.profile");
   const [open, setOpen] = useState(false);
+  const [oldPw, setOldPw] = useState("");
   const [pw, setPw] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
@@ -17,6 +18,7 @@ export default function ChangePasswordButton() {
 
   const close = () => {
     setOpen(false);
+    setOldPw("");
     setPw("");
     setConfirm("");
     setError("");
@@ -33,6 +35,15 @@ export default function ChangePasswordButton() {
     setLoading(true);
     try {
       const sb = createClient();
+      // M11 — ré-authentification : on vérifie l'ancien mot de passe avant de changer.
+      const { data: { user } } = await sb.auth.getUser();
+      if (!user?.email) throw new Error(t("pwWrong"));
+      const { error: reauthErr } = await sb.auth.signInWithPassword({ email: user.email, password: oldPw });
+      if (reauthErr) {
+        setError(t("pwWrong"));
+        setLoading(false);
+        return;
+      }
       const { error } = await sb.auth.updateUser({ password: pw });
       if (error) throw error;
       setDone(true);
@@ -70,8 +81,12 @@ export default function ChangePasswordButton() {
             ) : (
               <form onSubmit={submit} className="flex flex-col gap-3">
                 <div className="grid gap-1.5">
+                  <label className="text-sm font-semibold">{t("pwOld")}</label>
+                  <PasswordInput value={oldPw} onChange={setOldPw} required autoComplete="current-password" />
+                </div>
+                <div className="grid gap-1.5">
                   <label className="text-sm font-semibold">{t("pwNew")}</label>
-                  <PasswordInput value={pw} onChange={setPw} required minLength={6} autoComplete="new-password" />
+                  <PasswordInput value={pw} onChange={setPw} required minLength={8} autoComplete="new-password" />
                 </div>
                 <div className="grid gap-1.5">
                   <label className="text-sm font-semibold">{t("pwConfirm")}</label>

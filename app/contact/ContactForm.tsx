@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
+import { submitContactAction } from "./actions";
 
 type Errors = Record<string, string>;
 
@@ -82,19 +83,16 @@ export default function ContactForm() {
     }
 
     setSubmitting(true);
-    const data: Record<string, string> = {};
-    new FormData(form).forEach((value, key) => {
-      if (typeof value === "string") data[key] = value;
-    });
-    const lines = Object.entries(data).filter(([k]) => k !== "website" && k !== "consent").map(([k, v]) => `${k}: ${v}`).join("\n");
-    const body = encodeURIComponent(`Nouveau message depuis ekolink.dev\n\n${lines}`);
-    const mailto = `mailto:contact@ekolink.fr?subject=${encodeURIComponent("Demande depuis ekolink.dev/contact")}&body=${body}`;
-
-    await new Promise((r) => setTimeout(r, 400));
-    window.location.href = mailto;
-    setStatus({ kind: "success", msg: t("statusSuccess") });
-    form.reset();
-    setSubmitting(false);
+    try {
+      // E6 — soumission serveur réelle (table contacts + notification équipe).
+      await submitContactAction(new FormData(form));
+      setStatus({ kind: "success", msg: t("statusSuccess") });
+      form.reset();
+    } catch {
+      setStatus({ kind: "error", msg: t("statusError") });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

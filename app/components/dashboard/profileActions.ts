@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { uploadImageToCloudinary } from "@/lib/cloudinary";
 import { isCurrentUserAdmin } from "@/lib/queries";
 
 function str(v: FormDataEntryValue | null): string {
@@ -36,32 +37,24 @@ export async function updateProfileAction(_prev: ProfileFormState, formData: For
   return { ok: true };
 }
 
-/** Téléverse une nouvelle photo de profil pour l'utilisateur courant et enregistre son URL. */
-export async function uploadAvatarAction(formData: FormData) {
+export type AvatarState = { ok?: boolean; error?: string } | null;
+
+/** Téléverse une photo de profil et enregistre son URL. Retourne un état (spinner/erreur). */
+export async function uploadAvatarAction(_prev: AvatarState, formData: FormData): Promise<AvatarState> {
   const sb = await createClient();
   const {
     data: { user },
   } = await sb.auth.getUser();
-  if (!user) return;
+  if (!user) return { error: "Non authentifié." };
 
   const file = formData.get("avatar");
-  if (!(file instanceof File) || file.size === 0) return;
-  if (!file.type.startsWith("image/")) throw new Error("Le fichier doit être une image.");
-  if (file.size > 5 * 1024 * 1024) throw new Error("L'image ne doit pas dépasser 5 Mo.");
+  if (!(file instanceof File) || file.size === 0) return null;
 
-  const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-  const path = `${user.id}/avatar.${ext}`;
-
-  // Upload via le client service_role (contourne la RLS du storage).
-  const admin = createAdminClient();
-  const { error: upErr } = await admin.storage
-    .from("avatars")
-    .upload(path, file, { upsert: true, contentType: file.type });
-  if (upErr) throw new Error(upErr.message);
-
-  const { data: pub } = admin.storage.from("avatars").getPublicUrl(path);
-  // Cache-buster pour forcer le rafraîchissement de l'image après remplacement.
-  const url = `${pub.publicUrl}?v=${Date.now()}`;
+  // Upload sur Cloudinary (whitelist MIME + taille gérées dans le helper).
+  // publicId = id utilisateur → l'ancienne photo est remplacée (pas d'accumulation).
+  const up = await uploadImageToCloudinary(file, { folder: "ekolink/avatars", publicId: user.id });
+  if (up.error || !up.url) return { error: up.error ?? "Échec de l'upload." };
+  const url = up.url;
 
   await sb.from("profiles").update({ avatar_url: url }).eq("id", user.id);
   await sb.auth.updateUser({ data: { avatar_url: url } });
@@ -70,9 +63,14 @@ export async function uploadAvatarAction(formData: FormData) {
   revalidatePath("/admin/profil");
   revalidatePath("/compte");
   revalidatePath("/admin");
+  return { ok: true };
 }
 
-/** Supprime le compte de l'utilisateur courant (acheteur uniquement). Déconnecte puis redirige. */
+/**
+ * Suppression de compte (acheteur uniquement) = anonymisation RGPD (M4).
+ * On conserve la ligne profil et les commandes/factures (obligation légale ~10 ans),
+ * mais on retire toutes les données personnelles et on bloque l'accès au compte.
+ */
 export async function deleteOwnAccountAction() {
   const sb = await createClient();
   const {
@@ -86,7 +84,24 @@ export async function deleteOwnAccountAction() {
   }
 
   const admin = createAdminClient();
-  await admin.auth.admin.deleteUser(user.id);
+  const anonEmail = `deleted-${user.id.slice(0, 8)}@anonymized.invalid`;
+
+  // 1) Anonymise le profil (PII retirée) + marque anonymisé (badge admin).
+  await admin
+    .from("profiles")
+    .update({ full_name: "Utilisateur supprimé", email: anonEmail, phone: null, avatar_url: null, anonymized: true })
+    .eq("id", user.id);
+
+  // 2) Anonymise les avis laissés par l'utilisateur (nom d'auteur + commentaire libre).
+  await admin.from("reviews").update({ author_name: "Utilisateur supprimé", comment: null }).eq("buyer_id", user.id);
+
+  // 3) Compte auth : email anonymisé, métadonnées vidées, connexion bloquée.
+  await admin.auth.admin.updateUserById(user.id, {
+    email: anonEmail,
+    user_metadata: {},
+    ban_duration: "876000h",
+  });
+
   await sb.auth.signOut();
   redirect("/");
 }

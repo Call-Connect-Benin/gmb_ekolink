@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, FileText, MapPin, CalendarDays, Receipt, ExternalLink } from "lucide-react";
+import { ArrowLeft, FileText, MapPin, CalendarDays, Receipt, ExternalLink, MessageCircle } from "lucide-react";
 import { Panel, PanelHeader } from "../../../components/dashboard/ui";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { WHATSAPP_URL } from "@/lib/contact";
 import { getTranslations, getLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
@@ -21,11 +22,17 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
 
   if (!isSupabaseConfigured()) notFound();
   const sb = await createClient();
-  // RLS : seule une commande appartenant à l'utilisateur courant est renvoyée.
+  // E4 — défense en profondeur : on filtre explicitement par buyer_id (en plus de
+  // la RLS orders_self_read) pour ne pas dépendre uniquement de la RLS.
+  const {
+    data: { user },
+  } = await sb.auth.getUser();
+  if (!user) notFound();
   const { data } = await sb
     .from("orders")
     .select("id,amount,status,created_at,listing:listings(title,city,slug)")
     .eq("id", id)
+    .eq("buyer_id", user.id)
     .maybeSingle();
   if (!data) notFound();
 
@@ -55,7 +62,13 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
     nextTitle: en ? "What happens next?" : "Et ensuite ?",
     nextText: en ? "After payment, you receive everything to claim the listing. We guide you until the transfer succeeds." : "Après paiement, vous recevez tout pour revendiquer la fiche. Nous vous accompagnons jusqu'à la réussite du transfert.",
     guide: en ? "View the guide" : "Voir le guide",
+    refund: en ? "Request a refund" : "Demander un remboursement",
   };
+  // C3 — pas de système d'avoir automatisé : les demandes de remboursement passent
+  // par le support WhatsApp (message pré-rempli avec la référence de commande).
+  const refundUrl = `${WHATSAPP_URL}?text=${encodeURIComponent(
+    `${en ? "Hello, I'd like a refund for my order" : "Bonjour, je souhaite un remboursement pour ma commande"} #CMD-${order.id.slice(0, 8).toUpperCase()}.`
+  )}`;
 
   return (
     <div className="mx-auto max-w-[900px] space-y-6">
@@ -86,6 +99,7 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
           <h3 className="font-bold">{T.nextTitle}</h3>
           <p className="mt-1 text-sm text-muted-foreground">{T.nextText}</p>
           <Link href="/comment-ca-marche" className="mt-3 inline-flex items-center gap-2 rounded-xl border border-border bg-white px-4 py-2.5 text-sm font-bold text-primary hover:bg-secondary">{T.guide} <ExternalLink className="size-4" /></Link>
+          <a href={refundUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-2 rounded-xl border border-border bg-white px-4 py-2.5 text-sm font-bold text-success hover:bg-secondary"><MessageCircle className="size-4" /> {T.refund}</a>
         </Panel>
       </div>
     </div>

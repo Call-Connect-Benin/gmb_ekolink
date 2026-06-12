@@ -96,7 +96,7 @@ export default async function AdminSearch({ searchParams }: { searchParams: Prom
               <Link key={u.id} href="/admin/utilisateurs" className="flex items-center gap-3 py-2.5 text-sm transition hover:bg-secondary/50">
                 <span className="flex-1 truncate font-semibold">{u.full_name || "—"}</span>
                 <span className="truncate text-muted-foreground">{u.email}</span>
-                <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${u.role === "admin" ? "bg-accent/15 text-[#b25e00]" : "bg-primary/10 text-primary"}`}>{u.role === "admin" ? T.admin : T.buyer}</span>
+                <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${u.role === "admin" || u.role === "super_admin" ? "bg-accent/15 text-[#b25e00]" : "bg-primary/10 text-primary"}`}>{u.role === "admin" || u.role === "super_admin" ? T.admin : T.buyer}</span>
               </Link>
             ))}
           </Section>

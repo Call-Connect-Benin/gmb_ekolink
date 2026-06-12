@@ -1,3 +1,4 @@
+import "server-only";
 import Stripe from "stripe";
 
 /** Instance Stripe côté serveur (lazy : ne lève que si réellement utilisée sans clé). */

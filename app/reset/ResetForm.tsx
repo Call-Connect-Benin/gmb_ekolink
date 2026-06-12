@@ -73,7 +73,7 @@ export default function ResetForm() {
     <form onSubmit={onSubmit} className="mt-7 space-y-4">
       <div className="grid gap-1.5">
         <label className="text-sm font-bold">{t("newPassword")}</label>
-        <PasswordInput placeholder={t("passwordMinPlaceholder")} autoComplete="new-password" required minLength={6} value={password} onChange={setPassword} />
+        <PasswordInput placeholder={t("passwordMinPlaceholder")} autoComplete="new-password" required minLength={8} value={password} onChange={setPassword} />
       </div>
       <div className="grid gap-1.5">
         <label className="text-sm font-bold">{t("confirmPassword")}</label>

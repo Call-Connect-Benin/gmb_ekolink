@@ -14,8 +14,11 @@ import { getCategories, getListings } from "@/lib/queries";
 import { categoryIcon } from "@/lib/categoryIcons";
 import { listingImage } from "@/lib/listingImage";
 import type { Listing } from "@/lib/types";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+// E7 — canonical propre à la home (le layout n'en pose plus globalement).
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 const Container = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={`mx-auto max-w-[1240px] px-5 ${className}`}>{children}</div>
@@ -91,6 +94,14 @@ export default async function Home() {
   // Statistiques vitrine — calculées depuis la base (aucune valeur fictive).
   const totalFiches = listings.length;
   const villes = new Set(listings.map((l) => l.city)).size;
+  // M14 — villes du filtre dérivées des fiches réelles (au lieu d'une liste figée).
+  const cityList = Array.from(new Set(listings.map((l) => l.city).filter(Boolean))).sort();
+  // Paliers de budget dérivés du prix max réel (arrondis à 50 €), au lieu de valeurs figées.
+  const priceVals = listings.map((l) => l.price).filter((p) => p > 0);
+  const maxPrice = priceVals.length ? Math.max(...priceVals) : 600;
+  const budgetTiers = Array.from(
+    new Set([0.25, 0.5, 0.75, 1].map((f) => Math.max(50, Math.ceil((maxPrice * f) / 50) * 50)))
+  );
   const totalReviews = listings.reduce((s, l) => s + (l.reviews_count || 0), 0);
   const rated = listings.map((l) => l.rating).filter((n): n is number => n != null);
   const avgRating = rated.length ? (rated.reduce((a, b) => a + b, 0) / rated.length).toFixed(1) : null;
@@ -104,8 +115,8 @@ export default async function Home() {
 
   const SEARCH = [
     { name: "category", label: t("search.metier"), Icon: Briefcase, all: t("search.allMetiers"), opts: categories.map((c) => ({ v: c.slug, l: locale === "en" ? c.name_en : c.name_fr })) },
-    { name: "city", label: t("search.ville"), Icon: MapPin, all: t("search.allVilles"), opts: ["Toulouse", "Bordeaux", "Nice", "Lille", "Nantes", "Rennes"].map((c) => ({ v: c, l: c })) },
-    { name: "maxPrice", label: t("search.budget"), Icon: Wallet, all: t("search.budgetMax"), opts: ["200", "300", "400", "600"].map((p) => ({ v: p, l: p })) },
+    { name: "city", label: t("search.ville"), Icon: MapPin, all: t("search.allVilles"), opts: cityList.map((c) => ({ v: c, l: c })) },
+    { name: "maxPrice", label: t("search.budget"), Icon: Wallet, all: t("search.budgetMax"), opts: budgetTiers.map((p) => ({ v: String(p), l: `≤ ${p} €` })) },
     { name: "state", label: t("search.etat"), Icon: Flag, all: t("search.allEtats"), opts: [{ v: "disponible", l: t("search.sDisponible") }, { v: "réservé", l: t("search.sReserve") }, { v: "vendu", l: t("search.sVendu") }] },
   ];
 

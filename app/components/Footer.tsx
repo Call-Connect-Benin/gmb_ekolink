@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Mail, Phone, Clock, MapPin, Lock } from "lucide-react";
+import ManageCookiesButton from "./ManageCookiesButton";
 
 function Column({ title, links }: { title: string; links: { href: string; label: string }[] }) {
   return (
@@ -84,8 +85,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-6 text-center text-xs">
-          &copy; {year} EkoLink. {t("rights")}
+        <div className="mt-12 flex flex-col items-center gap-2 border-t border-white/10 pt-6 text-center text-xs sm:flex-row sm:justify-between">
+          <span>&copy; {year} EkoLink. {t("rights")}</span>
+          <ManageCookiesButton />
         </div>
       </div>
     </footer>

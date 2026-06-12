@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { uploadImageToCloudinary } from "@/lib/cloudinary";
 import { isCurrentUserAdmin, isCurrentUserSuperAdmin } from "@/lib/queries";
 
 async function assertAdmin() {
@@ -18,58 +19,55 @@ async function assertSuperAdmin() {
 }
 
 /** Crée un administrateur (rôle admin ou super_admin). Réservé au super admin. */
-export async function createAdminAction(formData: FormData) {
-  await assertSuperAdmin();
-  const admin = createAdminClient();
+export type AdminActionState = { ok?: boolean; error?: string } | null;
 
-  const email = str(formData.get("email"));
-  const password = str(formData.get("password"));
-  const fullName = str(formData.get("full_name"));
-  const role = ["admin", "super_admin"].includes(str(formData.get("role"))) ? str(formData.get("role")) : "admin";
-  if (!email || password.length < 6) {
-    throw new Error("Email requis et mot de passe d'au moins 6 caractères.");
+export async function createAdminAction(_prev: AdminActionState, formData: FormData): Promise<AdminActionState> {
+  try {
+    await assertSuperAdmin();
+    const admin = createAdminClient();
+
+    const email = str(formData.get("email"));
+    const password = str(formData.get("password"));
+    const fullName = str(formData.get("full_name"));
+    const role = ["admin", "super_admin"].includes(str(formData.get("role"))) ? str(formData.get("role")) : "admin";
+    if (!email || password.length < 8) {
+      return { error: "Email requis et mot de passe d'au moins 8 caractères." };
+    }
+
+    const { data, error } = await admin.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: { full_name: fullName },
+    });
+    if (error) return { error: error.message };
+    if (data.user) {
+      // E7 — rollback du compte auth si l'attribution du rôle échoue.
+      const { error: roleErr } = await admin.from("profiles").update({ full_name: fullName, role }).eq("id", data.user.id);
+      if (roleErr) {
+        await admin.auth.admin.deleteUser(data.user.id);
+        return { error: roleErr.message };
+      }
+    }
+
+    revalidatePath("/admin/roles");
+    revalidatePath("/admin/utilisateurs");
+    return { ok: true };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Erreur lors de la création." };
   }
-
-  const { data, error } = await admin.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,
-    user_metadata: { full_name: fullName },
-  });
-  if (error) throw new Error(error.message);
-  if (data.user) {
-    await admin.from("profiles").update({ full_name: fullName, role }).eq("id", data.user.id);
-  }
-
-  revalidatePath("/admin/roles");
-  revalidatePath("/admin/utilisateurs");
 }
 
 function str(v: FormDataEntryValue | null): string {
   return typeof v === "string" ? v.trim() : "";
 }
 
-/** Téléverse une image dans le bucket 'listings' et renvoie son URL publique. */
+/** Téléverse une image de galerie de fiche sur Cloudinary et renvoie son URL. */
 export async function uploadListingImageAction(formData: FormData): Promise<{ url?: string; error?: string }> {
   await assertAdmin();
   const file = formData.get("file");
   if (!(file instanceof File) || file.size === 0) return { error: "Fichier manquant." };
-  if (!file.type.startsWith("image/")) return { error: "Le fichier doit être une image." };
-  if (file.size > 5 * 1024 * 1024) return { error: "Image trop lourde (max 5 Mo)." };
-
-  const admin = createAdminClient();
-  const ext = (file.name.split(".").pop() || "png").toLowerCase().replace(/[^a-z0-9]/g, "") || "png";
-  const path = `gallery/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const buffer = await file.arrayBuffer();
-
-  const { error } = await admin.storage.from("listings").upload(path, buffer, {
-    contentType: file.type || "image/png",
-    upsert: false,
-  });
-  if (error) return { error: error.message };
-
-  const { data } = admin.storage.from("listings").getPublicUrl(path);
-  return { url: data.publicUrl };
+  return uploadImageToCloudinary(file, { folder: "ekolink/listings" });
 }
 
 export async function saveListingAction(formData: FormData) {
@@ -99,7 +97,7 @@ export async function saveListingAction(formData: FormData) {
     category_slug: str(formData.get("category_slug")),
     city: str(formData.get("city")),
     postal_code: str(formData.get("postal_code")) || null,
-    price: Number(str(formData.get("price")) || 0),
+    price: Math.max(0, Math.round(Number(str(formData.get("price"))) || 0)),
     status: str(formData.get("status")) || "available",
     state: str(formData.get("state")) || "vierge",
     description: str(formData.get("description")) || null,
@@ -117,11 +115,12 @@ export async function saveListingAction(formData: FormData) {
     delivery_time: str(formData.get("delivery_time")) || "24-48h",
   };
 
-  if (id) {
-    await admin.from("listings").update(payload).eq("id", id);
-  } else {
-    await admin.from("listings").insert(payload);
-  }
+  // E5 — Supabase retourne l'erreur (slug unique, NOT NULL…) sans throw :
+  // on la remonte pour ne pas afficher un faux succès et rediriger à tort.
+  const { error } = id
+    ? await admin.from("listings").update(payload).eq("id", id)
+    : await admin.from("listings").insert(payload);
+  if (error) throw new Error(error.message);
 
   revalidatePath("/admin");
   revalidatePath("/admin/fiches");
@@ -164,11 +163,11 @@ export async function saveCategoryAction(formData: FormData) {
     icon: str(formData.get("icon")) || null,
   };
 
-  if (id) {
-    await admin.from("categories").update(payload).eq("id", id);
-  } else {
-    await admin.from("categories").insert(payload);
-  }
+  // E7 — on remonte l'erreur (slug en doublon, contrainte…) au lieu d'un faux succès.
+  const { error } = id
+    ? await admin.from("categories").update(payload).eq("id", id)
+    : await admin.from("categories").insert(payload);
+  if (error) throw new Error(error.message);
 
   revalidatePath("/admin/categories");
   revalidatePath("/fiches-google");
@@ -193,7 +192,8 @@ export async function deleteCategoryAction(formData: FormData) {
         throw new Error(`Impossible de supprimer « ${slug} » : ${count} fiche(s) y sont rattachées. Réaffectez-les d'abord.`);
       }
     }
-    await admin.from("categories").delete().eq("id", id);
+    const { error } = await admin.from("categories").delete().eq("id", id);
+    if (error) throw new Error(error.message);
   }
 
   revalidatePath("/admin/categories");
@@ -208,7 +208,8 @@ export async function updateOrderStatusAction(formData: FormData) {
   const allowed = ["pending", "paid", "in_progress", "delivered", "validated", "cancelled"];
   if (id && allowed.includes(status)) {
     const admin = createAdminClient();
-    await admin.from("orders").update({ status }).eq("id", id);
+    const { error } = await admin.from("orders").update({ status }).eq("id", id);
+    if (error) throw new Error(error.message);
   }
   revalidatePath("/admin");
   revalidatePath("/admin/commandes");

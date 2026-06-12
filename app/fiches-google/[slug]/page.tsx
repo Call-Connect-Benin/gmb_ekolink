@@ -11,6 +11,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import BuyButton from "../../components/BuyButton";
 import { getListingBySlug, getCategories } from "@/lib/queries";
 import { listingImage } from "@/lib/listingImage";
+import { WHATSAPP_URL } from "@/lib/contact";
 import type { Listing } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -27,14 +28,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const real = await getListingBySlug(slug);
   const title = real ? `${real.title} — ${real.price} €` : cap(slug.replace(/-/g, " "));
-  return { title };
+  // E7 — canonical propre à la fiche (sinon hérité « / » du layout → dédup SEO).
+  return { title, alternates: { canonical: `/fiches-google/${slug}` } };
 }
 
 const INCLUDED_ICONS = [KeyRound, BookOpen, Pencil, Headphones, PackageCheck, Settings];
 const GUARANTEE_ICONS = [ShieldCheck, CheckCircle2, Headphones, Truck];
 
-export default async function FicheDetail({ params }: { params: Promise<{ slug: string }> }) {
+export default async function FicheDetail({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Promise<{ canceled?: string }> }) {
   const { slug } = await params;
+  const { canceled } = await searchParams;
   const t = await getTranslations("fiche");
   const locale = await getLocale();
   const [real, categories] = await Promise.all([getListingBySlug(slug), getCategories()]);
@@ -131,8 +134,15 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
               <div className="flex items-center gap-3"><span className="text-3xl font-extrabold text-primary">{f.price} €</span><span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${STATUS_TONE[f.status]}`}>{statusLabel(f.status)}</span></div>
               <div className="mt-2 flex flex-wrap items-center gap-2 border-b border-border pb-3 text-sm"><span className="font-bold">{f.rating}</span><span className="inline-flex text-[#fbbc04]">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`size-3.5 ${i < Math.round(f.ratingNum) ? "fill-current" : "fill-transparent text-border"}`} />)}</span><span className="text-muted-foreground">{t("reviews", { count: f.avis })}</span><span className="ml-auto inline-flex items-center gap-1 text-muted-foreground"><MapPin className="size-3.5" /> {f.city}</span><span className="rounded bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">{f.metier}</span></div>
               <ul className="my-3 space-y-2 text-sm">{cardBullets.map((i) => <li key={i} className="flex items-center gap-2"><Check className="size-4 text-success" /> {i}</li>)}</ul>
-              <BuyButton listingId={real.id} slug={slug} label={t("buyNow")} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold text-white hover:bg-primary/90 disabled:opacity-70" />
-              <a href="https://wa.me/33644678642" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3 text-sm font-bold text-accent-foreground hover:bg-accent/90"><MessageSquare className="size-4" /> {t("contactExpert")}</a>
+              {canceled === "1" && (
+                <p className="mb-2 rounded-lg bg-accent/10 px-3 py-2 text-xs font-semibold text-[#b25e00]">{t("canceledMsg")}</p>
+              )}
+              {f.status === "available" ? (
+                <BuyButton listingId={real.id} slug={slug} label={t("buyNow")} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold text-white hover:bg-primary/90 disabled:opacity-70" />
+              ) : (
+                <button type="button" disabled className="inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-xl bg-secondary py-3 text-sm font-bold text-muted-foreground">{statusLabel(f.status)}</button>
+              )}
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3 text-sm font-bold text-accent-foreground hover:bg-accent/90"><MessageSquare className="size-4" /> {t("contactExpert")}</a>
               <div className="mt-3 flex justify-between border-t border-border pt-3 text-xs text-muted-foreground"><span className="inline-flex items-center gap-1"><Lock className="size-3.5" /> {t("securePay")}</span><span className="inline-flex items-center gap-1"><Headphones className="size-3.5" /> {t("dedicatedSupport")}</span><span className="inline-flex items-center gap-1"><ShieldCheck className="size-3.5" /> {t("guaranteedTransfer")}</span></div>
             </div>
 
@@ -202,7 +212,9 @@ export default async function FicheDetail({ params }: { params: Promise<{ slug: 
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
             <div><h2 className="text-2xl font-extrabold">{t("ctaTitle")}</h2><p className="mt-1 text-sm text-white/70">{t("ctaText", { city: f.city })}</p></div>
             <div className="flex flex-wrap gap-3">
-              <Link href={`/inscription?next=${encodeURIComponent(`/fiches-google/${slug}?buy=1`)}`} className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white hover:bg-primary/90"><ShoppingCart className="size-4" /> {t("buyNow")}</Link>
+              {f.status === "available" && (
+                <Link href={`/inscription?next=${encodeURIComponent(`/fiches-google/${slug}?buy=1`)}`} className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white hover:bg-primary/90"><ShoppingCart className="size-4" /> {t("buyNow")}</Link>
+              )}
               <Link href="/fiches-google" className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-bold text-accent-foreground hover:bg-accent/90">{t("ctaOther")} <ArrowRight className="size-4" /></Link>
             </div>
           </div>

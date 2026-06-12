@@ -1,4 +1,17 @@
 {
+  "errors": {
+    "nfBadge": "Erreur 404",
+    "nfTitle": "Page introuvable",
+    "nfText": "La page que vous cherchez n'existe pas ou a été déplacée. Vérifiez l'adresse ou repartez de l'accueil.",
+    "nfHome": "Retour à l'accueil",
+    "nfCatalogue": "Voir le catalogue",
+    "errBadge": "Une erreur est survenue",
+    "errTitle": "Oups, quelque chose s'est mal passé",
+    "errText": "Un incident technique s'est produit. Vous pouvez réessayer ou revenir à l'accueil.",
+    "errRetry": "Réessayer",
+    "errHome": "Retour à l'accueil",
+    "errRef": "Référence"
+  },
   "nav": {
     "home": "Accueil",
     "problems": "Problèmes",
@@ -82,7 +95,9 @@
       "seoTips": "Conseils SEO local",
       "terms": "Conditions d'utilisation",
       "privacy": "Politique de confidentialité",
-      "cookies": "Politique des cookies"
+      "cookies": "Politique des cookies",
+      "legal": "Mentions légales",
+      "manageCookies": "Gérer mes cookies"
     }
   },
   "home": {
@@ -221,6 +236,7 @@
     "reviews": "{count} avis",
     "cardBullets": ["Transfert sécurisé", "Livraison 24 à 48h", "SEO local optimisé", "Accès complet après achat"],
     "buyNow": "Acheter maintenant",
+    "canceledMsg": "Paiement annulé. La fiche est toujours disponible.",
     "contactExpert": "Contacter un expert",
     "securePay": "Paiement sécurisé",
     "dedicatedSupport": "Support dédié",
@@ -385,7 +401,7 @@
       "errTel": "Numéro de téléphone invalide.",
       "errMin": "Minimum {min} caractères.",
       "statusFix": "Merci de corriger les champs en erreur.",
-      "statusSuccess": "Votre client mail s'est ouvert. Sinon, écrivez à contact@ekolink.fr.",
+      "statusSuccess": "Message envoyé ! Nous vous répondons sous 24 h ouvrées.", "statusError": "L'envoi a échoué. Réessayez ou écrivez à contact@ekolink.fr.",
       "statusHp": "Merci, votre demande a été envoyée."
     }
   },
@@ -490,6 +506,7 @@
     "client": {
       "greeting": "Bonjour 👋",
       "greetingSub": "Voici un aperçu de votre activité sur EkoLink.",
+      "successTitle": "Paiement confirmé — merci !", "successText": "Votre commande est enregistrée. Vous recevrez par email tout le nécessaire pour revendiquer votre fiche.",
       "verifyTitle": "Vérifiez votre email pour finaliser votre achat",
       "verifyText": "Un email de confirmation vient de vous être envoyé. Cliquez sur le lien qu'il contient : vous reviendrez automatiquement à votre paiement.",
       "cardOrders": "Commandes", "cardOrdersSub": "Total commandes",
@@ -529,7 +546,6 @@
     "documents": {
       "title": "Mes documents",
       "subtitle": "Retrouvez et gérez tous vos fichiers et documents importants liés à vos achats de fiches Google Business.",
-      "tabs": ["Tous", "Guides", "Factures", "Transferts", "Contrats"],
       "searchPlaceholder": "Rechercher un document…",
       "total": "Total documents", "saved": "Documents enregistrés",
       "empty": "Aucun document pour le moment."
@@ -549,7 +565,7 @@
       "memberSince": "Membre depuis", "accountType": "Type de compte", "admin": "Administrateur", "buyer": "Acheteur", "superAdmin": "Super administrateur",
       "status": "Statut", "active": "Actif", "notConnected": "Non connecté",
       "quickActions": "Actions rapides",
-      "changePassword": "Changer de mot de passe", "pwNew": "Nouveau mot de passe", "pwConfirm": "Confirmer le mot de passe", "pwSave": "Mettre à jour", "pwCancel": "Annuler", "pwMismatch": "Les mots de passe ne correspondent pas.", "pwSuccess": "Mot de passe mis à jour.", "manageAddresses": "Gérer mes adresses",
+      "changePassword": "Changer de mot de passe", "pwOld": "Mot de passe actuel", "pwWrong": "Mot de passe actuel incorrect.", "pwNew": "Nouveau mot de passe", "pwConfirm": "Confirmer le mot de passe", "pwSave": "Mettre à jour", "pwCancel": "Annuler", "pwMismatch": "Les mots de passe ne correspondent pas.", "pwSuccess": "Mot de passe mis à jour.", "manageAddresses": "Gérer mes adresses",
       "managePayments": "Gérer mes moyens de paiement", "deleteAccount": "Supprimer mon compte", "delWarning": "Cette action est définitive. Toutes vos données personnelles seront supprimées et vous serez déconnecté.", "delCheck": "Je comprends que cette action est irréversible.", "delConfirmBtn": "Supprimer définitivement", "secSignOutAll": "Se déconnecter de tous les appareils", "prefLanguage": "Langue de l'interface", "actLastSignin": "Dernière connexion",
       "myAccount": "Mon compte"
     },
@@ -573,7 +589,7 @@
       "exportCsv": "Exporter (CSV)", "newOrder": "Nouvelle commande",
       "stTotal": "Total commandes", "stDone": "Terminées", "stInProgress": "En cours", "stPending": "En attente", "stCancelled": "Annulées", "stRevenue": "Chiffre d'affaires",
       "sDone": "Terminée", "sInProgress": "En cours", "sPending": "En attente", "sCancelled": "Annulée",
-      "payPaid": "Payé", "payPending": "En attente", "payRefunded": "Remboursé",
+      "payPaid": "Payé", "payPending": "En attente", "payRefunded": "Remboursé", "payCancelled": "Annulé",
       "searchPlaceholder": "Rechercher une commande, client, entreprise…", "filterStatus": "Statut : Tous", "filterPayment": "Paiement : Tous",
       "thOrder": "Commande", "thClient": "Client", "thFiche": "Fiche", "thAmount": "Montant", "thStatus": "Statut", "thPayment": "Paiement", "thDate": "Date", "thActions": "Actions",
       "changeStatus": "Changer le statut", "noClient": "—", "noFiche": "—",
@@ -590,7 +606,7 @@
       "stTotal": "Total utilisateurs", "stActive": "Utilisateurs actifs", "stAdmins": "Administrateurs", "stBuyers": "Acheteurs",
       "searchPlaceholder": "Rechercher un utilisateur…", "role": "Rôle", "status": "Statut", "export": "Exporter", "addUser": "Ajouter un utilisateur",
       "thUser": "Utilisateur", "thEmail": "Email", "thRole": "Rôle", "thStatus": "Statut", "thDate": "Date d'inscription",
-      "active": "Actif", "stsActive": "Actif", "stsSuspended": "Suspendu", "stsPending": "En attente", "breakdown": "Répartition par rôle", "latest": "Dernières inscriptions",
+      "active": "Actif", "stsActive": "Actif", "stsSuspended": "Suspendu", "stsPending": "En attente", "stsAnonymous": "Anonyme", "breakdown": "Répartition par rôle", "latest": "Dernières inscriptions",
       "quickActions": "Actions rapides", "qaAddUser": "Ajouter un utilisateur", "qaManageRoles": "Gérer les rôles",
       "count": "{count, plural, one {# utilisateur} other {# utilisateurs}}"
     },

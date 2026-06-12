@@ -66,7 +66,9 @@ export async function POST(req: Request) {
   // Libère la réservation si la suite échoue (création commande / session Stripe).
   const release = () => admin.from("listings").update({ status: "available" }).eq("id", listing.id).eq("status", "reserved");
 
-  // Crée la commande en attente (RLS : buyer_id = utilisateur courant)
+  // Crée la commande en attente (RLS : buyer_id = utilisateur courant).
+  // Le snapshot de facturation (billing_*) est posé par le webhook au paiement,
+  // depuis des données de confiance (jamais l'entrée utilisateur).
   const { data: order, error: orderErr } = await sb
     .from("orders")
     .insert({

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FileText, CheckCircle2, Clock, ShieldAlert, Plus } from "lucide-react";
 import { StatCard, Panel, PanelHeader, Pill, Table, Th, Td, Row, Pagination } from "../../components/dashboard/ui";
 import { PageHead, StatRow, EmptyRow } from "../../components/dashboard/list";
-import { table, s } from "@/lib/dash";
+import { tableAdmin, s } from "@/lib/dash";
 import { getCategories } from "@/lib/queries";
 import { getTranslations, getLocale } from "next-intl/server";
 import FichesFilter from "./FichesFilter";
@@ -33,11 +33,11 @@ export default async function AdminFiches({ searchParams }: { searchParams: Prom
     reserved: { label: t("sReserved"), tone: "orange", color: "#f59e0b" },
     sold: { label: t("sSold"), tone: "gray", color: "#94a3b8" },
   };
-  const FICHES = await table<Fi>("listings", (r) => {
+  const FICHES = await tableAdmin<Fi>("listings", (r) => {
     const raw = s(r.status, "available"); const st = ST[raw] ?? ST.available;
     const catSlug = s(r.category_slug);
     return { title: s(r.title), id: `#FIC-${s(r.slug, s(r.id)).slice(0, 14)}`, realId: s(r.id), slug: s(r.slug), cat: catName(catSlug), catSlug, raw, st: st.label, stt: st.tone, city: s(r.city), date: s(r.created_at).slice(0, 10), price: Number(r.price) || 0 };
-  }, [], { order: "created_at" });
+  }, { order: "created_at" });
 
   const filtered = FICHES.filter(
     (f) =>
