@@ -51,6 +51,11 @@ export const metadata: Metadata = {
     images: ["/assets/images/solution-mockup.png"],
   },
   robots: { index: true, follow: true },
+  // Vérification Google Search Console : coller le code dans NEXT_PUBLIC_GSC_VERIFICATION
+  // (Vercel + .env.local). Génère <meta name="google-site-verification" ...>.
+  verification: process.env.NEXT_PUBLIC_GSC_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION }
+    : undefined,
 };
 
 export const viewport: Viewport = {
