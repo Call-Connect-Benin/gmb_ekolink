@@ -48,10 +48,9 @@ export default function Footer() {
             <p className="mb-5 max-w-[260px] text-sm leading-relaxed">{t("blurb")}</p>
             <ul className="flex list-none gap-3 pl-0" aria-label="Réseaux sociaux">
               {[
-                { label: "Facebook", href: "#", icon: "facebook" },
-                { label: "Instagram", href: "#", icon: "instagram" },
-                { label: "LinkedIn", href: "#", icon: "linkedin" },
-                { label: "YouTube", href: "#", icon: "youtube" },
+                { label: "Facebook", href: "https://www.facebook.com/profile.php?id=100086166664875", icon: "facebook" },
+                { label: "Instagram", href: "https://www.instagram.com/lannkinassociates/", icon: "instagram" },
+                { label: "YouTube", href: "https://www.youtube.com/@AlbertLanneAds", icon: "youtube" },
               ].map((s) => (
                 <li key={s.label}>
                   <a href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer" className="block transition-transform hover:-translate-y-0.5 hover:opacity-90">
