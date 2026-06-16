@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/compte", "/admin", "/auth"],
     },
-    sitemap: "https://ekolink.dev/sitemap.xml",
-    host: "https://ekolink.dev",
+    sitemap: "https://gmb.ekolink.dev/sitemap.xml",
+    host: "https://gmb.ekolink.dev",
   };
 }

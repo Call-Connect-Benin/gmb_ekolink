@@ -15,7 +15,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   name: "Contact EkoLink",
-  url: "https://ekolink.dev/contact",
+  url: "https://gmb.ekolink.dev/contact",
   mainEntity: {
     "@type": "Organization",
     name: "EkoLink",

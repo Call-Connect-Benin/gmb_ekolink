@@ -90,7 +90,7 @@ export default async function APropos() {
             <h2 className="text-[clamp(1.6rem,3vw,2.2rem)] font-extrabold tracking-tight">{t("storyTitle")}</h2>
             <p className="mt-4 text-muted-foreground">{t("storyP1")}</p>
             <p className="mt-3 text-muted-foreground">{t("storyP2")}</p>
-            <a href="https://ekolink.dev" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-bold hover:bg-secondary">{t("storyCta")}</a>
+            <a href="https://gmb.ekolink.dev" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-bold hover:bg-secondary">{t("storyCta")}</a>
           </div>
           <ol className="relative space-y-7 border-l-2 border-border pl-8">
             {story.map((s) => (

@@ -20,7 +20,7 @@ const FR_SECTIONS: LegalSection[] = [
     content: (
       <div className="info-box">
         <strong>Préambule</strong>{" "}
-        Les présentes Conditions Générales de Vente (CGV) régissent l'ensemble des relations contractuelles entre EkoLink S.A.S., société par actions simplifiée immatriculée au RCS sous le SIRET 1179695284, ayant son siège social au 7 Rue Vulpian, 75013 Paris (ci-après « EkoLink » ou « le Prestataire »), et toute personne physique ou morale qui passe commande sur le site ekolink.dev (ci-après « le Client »).
+        Les présentes Conditions Générales de Vente (CGV) régissent l'ensemble des relations contractuelles entre EkoLink S.A.S., société par actions simplifiée immatriculée au RCS sous le SIRET 1179695284, ayant son siège social au 7 Rue Vulpian, 75013 Paris (ci-après « EkoLink » ou « le Prestataire »), et toute personne physique ou morale qui passe commande sur le site gmb.ekolink.dev (ci-après « le Client »).
       </div>
     ),
   },
@@ -167,7 +167,7 @@ const FR_SECTIONS: LegalSection[] = [
     content: (
       <div className="info-box">
         <strong>Acceptation</strong>{" "}
-        En validant votre commande sur ekolink.dev, vous reconnaissez avoir lu et accepté les présentes Conditions Générales de Vente dans leur intégralité.
+        En validant votre commande sur gmb.ekolink.dev, vous reconnaissez avoir lu et accepté les présentes Conditions Générales de Vente dans leur intégralité.
       </div>
     ),
   },
@@ -180,7 +180,7 @@ const EN_SECTIONS: LegalSection[] = [
     content: (
       <div className="info-box">
         <strong>Preamble</strong>{" "}
-        These Terms and Conditions of Sale (T&Cs) govern all the contractual relationships between EkoLink S.A.S., a simplified joint-stock company registered with the trade register under SIRET 1179695284, with its registered office at 7 Rue Vulpian, 75013 Paris (hereinafter "EkoLink" or "the Provider"), and any natural or legal person who places an order on the ekolink.dev site (hereinafter "the Client").
+        These Terms and Conditions of Sale (T&Cs) govern all the contractual relationships between EkoLink S.A.S., a simplified joint-stock company registered with the trade register under SIRET 1179695284, with its registered office at 7 Rue Vulpian, 75013 Paris (hereinafter "EkoLink" or "the Provider"), and any natural or legal person who places an order on the gmb.ekolink.dev site (hereinafter "the Client").
       </div>
     ),
   },
@@ -327,7 +327,7 @@ const EN_SECTIONS: LegalSection[] = [
     content: (
       <div className="info-box">
         <strong>Acceptance</strong>{" "}
-        By validating your order on ekolink.dev, you acknowledge having read and accepted these Terms and Conditions of Sale in their entirety.
+        By validating your order on gmb.ekolink.dev, you acknowledge having read and accepted these Terms and Conditions of Sale in their entirety.
       </div>
     ),
   },

@@ -28,7 +28,7 @@ const FR_SECTIONS: LegalSection[] = [
     label: "Cookies utilisés",
     content: (
       <>
-        <h2>2. Cookies utilisés sur ekolink.dev</h2>
+        <h2>2. Cookies utilisés sur gmb.ekolink.dev</h2>
 
         <h3>Cookies strictement nécessaires (exemptés de consentement)</h3>
         <table>
@@ -128,7 +128,7 @@ const EN_SECTIONS: LegalSection[] = [
     label: "Cookies used",
     content: (
       <>
-        <h2>2. Cookies used on ekolink.dev</h2>
+        <h2>2. Cookies used on gmb.ekolink.dev</h2>
 
         <h3>Strictly necessary cookies (exempt from consent)</h3>
         <table>

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getListings } from "@/lib/queries";
 
-const BASE = "https://ekolink.dev";
+const BASE = "https://gmb.ekolink.dev";
 
 const routes = [
   "/",

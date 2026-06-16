@@ -12,7 +12,7 @@ import Analytics from "./components/Analytics";
 import SiteChrome from "./components/SiteChrome";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ekolink.dev"),
+  metadataBase: new URL("https://gmb.ekolink.dev"),
   title: {
     default: "Fiche Google Business optimisée en 48h | EkoLink",
     template: "%s | EkoLink",
