@@ -49,7 +49,7 @@ export async function requestPurchaseAction(listingId: string): Promise<Purchase
     .select("id");
   if (!reserved || reserved.length === 0) return { error: "Cette fiche vient d'être réservée." };
 
-  // Commande `pending` (= réservée) + snapshot de facturation (données serveur de confiance).
+  // Commande `pending` (= réservée). Colonnes de base d'abord (toujours présentes).
   const { data: order, error: orderErr } = await admin
     .from("orders")
     .insert({
@@ -57,18 +57,26 @@ export async function requestPurchaseAction(listingId: string): Promise<Purchase
       buyer_id: user.id,
       amount: listing.price,
       status: "pending",
-      billing_name: profile.full_name,
-      billing_email: profile.email,
-      listing_title: listing.title,
-      listing_city: listing.city,
     })
     .select("id")
     .single();
   if (orderErr || !order) {
     // Rollback de la réservation si la commande n'a pas pu être créée.
     await admin.from("listings").update({ status: "available" }).eq("id", listing.id).eq("status", "reserved");
-    return { error: "Impossible de créer la commande." };
+    return { error: `Impossible de créer la commande${orderErr ? ` : ${orderErr.message}` : ""}` };
   }
+
+  // Snapshot de facturation (best-effort : ignoré si les colonnes billing_* ne sont
+  // pas encore présentes sur la base — la commande reste valide).
+  await admin
+    .from("orders")
+    .update({
+      billing_name: profile.full_name,
+      billing_email: profile.email,
+      listing_title: listing.title,
+      listing_city: listing.city,
+    })
+    .eq("id", order.id);
 
   // Message WhatsApp pré-rempli : Client · Fiche · Montant.
   const ref = `#CMD-${order.id.slice(0, 8).toUpperCase()}`;
