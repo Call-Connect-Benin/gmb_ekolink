@@ -143,7 +143,7 @@ export default async function AdminUtilisateurs({ searchParams }: { searchParams
                 <Td><Pill tone={u.roleTone}>{u.role}</Pill></Td>
                 <Td><Pill tone={STATUS_META[u.status].tone} dot>{STATUS_META[u.status].label}</Pill></Td>
                 <Td className="text-muted-foreground">{u.date}</Td>
-                <Td><UserRowActions id={u.id} role={u.roleRaw} labels={{ actions: t("actions"), changeRole: t("changeRole"), delete: t("delete"), confirmDelete: t("confirmDelete") }} roleOptions={editRoleOptions} /></Td>
+                <Td><UserRowActions id={u.id} labels={{ actions: t("actions"), delete: t("delete"), confirmDelete: t("confirmDelete") }} /></Td>
               </Row>
             ))}
           </Table>

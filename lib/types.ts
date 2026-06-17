@@ -46,7 +46,7 @@ export type Listing = {
 export type Order = {
   id: string;
   listing_id: string;
-  buyer_id: string;
+  buyer_id: string | null; // null après suppression/anonymisation du compte (facture conservée)
   stripe_session_id: string | null;
   status: OrderStatus;
   amount: number;

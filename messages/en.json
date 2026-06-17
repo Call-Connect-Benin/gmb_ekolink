@@ -41,7 +41,7 @@
     "whatsappAria": "WhatsApp support",
     "whatsappTitle": "A question? Contact us on WhatsApp",
     "buyNow": "Buy this listing",
-    "buyRedirecting": "Redirecting to payment…",
+    "buyRedirecting": "Opening WhatsApp…",
     "errGeneric": "An error occurred.",
     "sessionUnavailable": "Payment session unavailable.",
     "viewListing": "View listing",
@@ -565,8 +565,8 @@
       "memberSince": "Member since", "accountType": "Account type", "admin": "Administrator", "buyer": "Buyer", "superAdmin": "Super administrator",
       "status": "Status", "active": "Active", "notConnected": "Not connected",
       "quickActions": "Quick actions",
-      "changePassword": "Change password", "pwOld": "Current password", "pwWrong": "Current password is incorrect.", "pwNew": "New password", "pwConfirm": "Confirm password", "pwSave": "Update", "pwCancel": "Cancel", "pwMismatch": "Passwords do not match.", "pwSuccess": "Password updated.", "manageAddresses": "Manage my addresses",
-      "managePayments": "Manage my payment methods", "deleteAccount": "Delete my account", "delWarning": "This action is permanent. Your personal data will be deleted and you will be signed out.", "delCheck": "I understand this action is irreversible.", "delConfirmBtn": "Delete permanently", "secSignOutAll": "Sign out of all devices", "prefLanguage": "Interface language", "actLastSignin": "Last sign-in",
+      "changePassword": "Change password", "pwOld": "Current password", "pwWrong": "Current password is incorrect.", "pwNew": "New password", "pwConfirm": "Confirm password", "pwSave": "Update", "pwCancel": "Cancel", "pwMismatch": "Passwords do not match.", "pwSuccess": "Password updated.", "pwError": "Something went wrong. The new password must be at least 8 characters and different from the old one.", "manageAddresses": "Manage my addresses",
+      "managePayments": "Manage my payment methods", "deleteAccount": "Delete my account", "delWarning": "This action is permanent. Your personal data will be deleted and you will be signed out.", "delCheck": "I understand this action is irreversible.", "delConfirmBtn": "Delete permanently", "delPending": "Deleting…", "delError": "Deletion failed. No data was changed, please try again.", "delAdminError": "Account deletion is disabled for administrators.", "secSignOutAll": "Sign out of all devices", "prefLanguage": "Interface language", "actLastSignin": "Last sign-in",
       "myAccount": "My account"
     },
     "admin": {

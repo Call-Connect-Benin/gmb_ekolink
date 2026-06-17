@@ -74,20 +74,10 @@ export async function createUserAction(_prev: UserActionState, formData: FormDat
   }
 }
 
-/** Change le rôle d'un utilisateur (buyer ↔ admin). */
-export async function updateUserRoleAction(formData: FormData) {
-  await assertAdmin();
-  const id = str(formData.get("id"));
-  const role = str(formData.get("role"));
-  if (id && ROLES.includes(role)) {
-    await assertCanManageTarget(id);
-    await assertCanGrantRole(role); // E3 — promotion vers admin = super_admin only
-    const admin = createAdminClient();
-    const { error } = await admin.from("profiles").update({ role }).eq("id", id);
-    if (error) throw new Error(error.message);
-  }
-  revalidatePath("/admin/utilisateurs");
-}
+// Note : le changement de rôle depuis le menu d'actions utilisateur a été retiré.
+// L'attribution de rôle se fait à la création (createUserAction) et via la page
+// dédiée « Rôles » (createAdminAction). Cela réduit la surface d'escalade/rétrogradation
+// latérale entre administrateurs (cf. audit E2).
 
 /** Supprime un utilisateur (compte auth + profil). Impossible sur son propre compte. */
 export async function deleteUserAction(formData: FormData) {

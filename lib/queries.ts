@@ -103,20 +103,30 @@ export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
   }
 });
 
-/** Admin = rôle 'admin'/'super_admin' en base OU email listé dans ADMIN_EMAILS. */
-export async function isCurrentUserAdmin(): Promise<boolean> {
-  const profile = await getCurrentProfile();
-  if (!profile) return false;
-  if (profile.role === "admin" || profile.role === "super_admin") return true;
-  return adminEmails().includes((profile.email || "").toLowerCase());
+// C1 — L'autorisation par email DOIT reposer sur l'email VÉRIFIÉ d'auth.users
+// (jamais sur profiles.email, que l'utilisateur peut modifier via profiles_self_update).
+// Le rôle, lui, vient de profiles et est verrouillé en base (trigger service_role only).
+async function currentVerifiedEmail(): Promise<string> {
+  const user = await getCurrentUser();
+  return (user?.email || "").toLowerCase();
 }
 
-/** Super admin = rôle 'super_admin' en base OU email listé dans ADMIN_EMAILS (le propriétaire). */
+function isAdminEmail(email: string): boolean {
+  return email !== "" && adminEmails().includes(email);
+}
+
+/** Admin = rôle 'admin'/'super_admin' en base OU email VÉRIFIÉ listé dans ADMIN_EMAILS. */
+export async function isCurrentUserAdmin(): Promise<boolean> {
+  const profile = await getCurrentProfile();
+  if (profile && (profile.role === "admin" || profile.role === "super_admin")) return true;
+  return isAdminEmail(await currentVerifiedEmail());
+}
+
+/** Super admin = rôle 'super_admin' en base OU email VÉRIFIÉ listé dans ADMIN_EMAILS (le propriétaire). */
 export async function isCurrentUserSuperAdmin(): Promise<boolean> {
   const profile = await getCurrentProfile();
-  if (!profile) return false;
-  if (profile.role === "super_admin") return true;
-  return adminEmails().includes((profile.email || "").toLowerCase());
+  if (profile && profile.role === "super_admin") return true;
+  return isAdminEmail(await currentVerifiedEmail());
 }
 
 export async function getMyOrders(): Promise<Order[]> {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Trash2, ChevronRight, X, AlertTriangle } from "lucide-react";
 import { deleteOwnAccountAction } from "./profileActions";
@@ -9,6 +9,7 @@ export default function DeleteAccountButton() {
   const t = useTranslations("dash.profile");
   const [open, setOpen] = useState(false);
   const [ack, setAck] = useState(false);
+  const [state, formAction, pending] = useActionState(deleteOwnAccountAction, null);
 
   const close = () => {
     setOpen(false);
@@ -43,9 +44,15 @@ export default function DeleteAccountButton() {
               <span>{t("delCheck")}</span>
             </label>
 
-            <form action={deleteOwnAccountAction} className="mt-5 flex justify-end gap-2">
-              <button type="button" onClick={close} className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:bg-secondary">{t("pwCancel")}</button>
-              <button type="submit" disabled={!ack} className="rounded-lg bg-destructive px-4 py-2 text-sm font-bold text-white hover:bg-destructive/90 disabled:cursor-not-allowed disabled:opacity-50">{t("delConfirmBtn")}</button>
+            {state?.error && (
+              <p className="mt-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {state.error === "admin" ? t("delAdminError") : t("delError")}
+              </p>
+            )}
+
+            <form action={formAction} className="mt-5 flex justify-end gap-2">
+              <button type="button" onClick={close} disabled={pending} className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:bg-secondary disabled:opacity-50">{t("pwCancel")}</button>
+              <button type="submit" disabled={!ack || pending} className="rounded-lg bg-destructive px-4 py-2 text-sm font-bold text-white hover:bg-destructive/90 disabled:cursor-not-allowed disabled:opacity-50">{pending ? t("delPending") : t("delConfirmBtn")}</button>
             </form>
           </div>
         </div>

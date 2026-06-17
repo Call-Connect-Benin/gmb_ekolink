@@ -41,7 +41,7 @@
     "whatsappAria": "Support WhatsApp",
     "whatsappTitle": "Une question ? Contactez-nous sur WhatsApp",
     "buyNow": "Acheter cette fiche",
-    "buyRedirecting": "Redirection vers le paiement…",
+    "buyRedirecting": "Ouverture de WhatsApp…",
     "errGeneric": "Une erreur est survenue.",
     "sessionUnavailable": "Session de paiement indisponible.",
     "viewListing": "Voir la fiche",
@@ -565,8 +565,8 @@
       "memberSince": "Membre depuis", "accountType": "Type de compte", "admin": "Administrateur", "buyer": "Acheteur", "superAdmin": "Super administrateur",
       "status": "Statut", "active": "Actif", "notConnected": "Non connecté",
       "quickActions": "Actions rapides",
-      "changePassword": "Changer de mot de passe", "pwOld": "Mot de passe actuel", "pwWrong": "Mot de passe actuel incorrect.", "pwNew": "Nouveau mot de passe", "pwConfirm": "Confirmer le mot de passe", "pwSave": "Mettre à jour", "pwCancel": "Annuler", "pwMismatch": "Les mots de passe ne correspondent pas.", "pwSuccess": "Mot de passe mis à jour.", "manageAddresses": "Gérer mes adresses",
-      "managePayments": "Gérer mes moyens de paiement", "deleteAccount": "Supprimer mon compte", "delWarning": "Cette action est définitive. Toutes vos données personnelles seront supprimées et vous serez déconnecté.", "delCheck": "Je comprends que cette action est irréversible.", "delConfirmBtn": "Supprimer définitivement", "secSignOutAll": "Se déconnecter de tous les appareils", "prefLanguage": "Langue de l'interface", "actLastSignin": "Dernière connexion",
+      "changePassword": "Changer de mot de passe", "pwOld": "Mot de passe actuel", "pwWrong": "Mot de passe actuel incorrect.", "pwNew": "Nouveau mot de passe", "pwConfirm": "Confirmer le mot de passe", "pwSave": "Mettre à jour", "pwCancel": "Annuler", "pwMismatch": "Les mots de passe ne correspondent pas.", "pwSuccess": "Mot de passe mis à jour.", "pwError": "Une erreur est survenue. Le nouveau mot de passe doit comporter au moins 8 caractères et différer de l'ancien.", "manageAddresses": "Gérer mes adresses",
+      "managePayments": "Gérer mes moyens de paiement", "deleteAccount": "Supprimer mon compte", "delWarning": "Cette action est définitive. Toutes vos données personnelles seront supprimées et vous serez déconnecté.", "delCheck": "Je comprends que cette action est irréversible.", "delConfirmBtn": "Supprimer définitivement", "delPending": "Suppression…", "delError": "La suppression a échoué. Aucune donnée n'a été modifiée, veuillez réessayer.", "delAdminError": "La suppression de compte est désactivée pour les administrateurs.", "secSignOutAll": "Se déconnecter de tous les appareils", "prefLanguage": "Langue de l'interface", "actLastSignin": "Dernière connexion",
       "myAccount": "Mon compte"
     },
     "admin": {

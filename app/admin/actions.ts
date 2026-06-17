@@ -208,9 +208,24 @@ export async function updateOrderStatusAction(formData: FormData) {
   const allowed = ["pending", "paid", "in_progress", "delivered", "validated", "cancelled"];
   if (id && allowed.includes(status)) {
     const admin = createAdminClient();
+    // Récupère la fiche liée pour synchroniser son statut.
+    const { data: order } = await admin.from("orders").select("listing_id").eq("id", id).maybeSingle();
     const { error } = await admin.from("orders").update({ status }).eq("id", id);
     if (error) throw new Error(error.message);
+
+    // Flux manuel : payé → fiche VENDUE ; annulé → fiche DISPONIBLE ; en attente → RÉSERVÉE.
+    if (order?.listing_id) {
+      const listingStatus = ["paid", "in_progress", "delivered", "validated"].includes(status)
+        ? "sold"
+        : status === "cancelled"
+          ? "available"
+          : "reserved";
+      const { error: lErr } = await admin.from("listings").update({ status: listingStatus }).eq("id", order.listing_id);
+      if (lErr) throw new Error(lErr.message);
+    }
   }
   revalidatePath("/admin");
   revalidatePath("/admin/commandes");
+  revalidatePath("/admin/fiches");
+  revalidatePath("/fiches-google");
 }

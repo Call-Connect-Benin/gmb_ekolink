@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { KeyRound, ChevronRight, X } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { changePasswordAction } from "./profileActions";
 import PasswordInput from "../PasswordInput";
 
 export default function ChangePasswordButton() {
@@ -34,22 +34,17 @@ export default function ChangePasswordButton() {
     }
     setLoading(true);
     try {
-      const sb = createClient();
-      // M11 — ré-authentification : on vérifie l'ancien mot de passe avant de changer.
-      const { data: { user } } = await sb.auth.getUser();
-      if (!user?.email) throw new Error(t("pwWrong"));
-      const { error: reauthErr } = await sb.auth.signInWithPassword({ email: user.email, password: oldPw });
-      if (reauthErr) {
-        setError(t("pwWrong"));
-        setLoading(false);
+      // C2 — La vérification de l'ancien mot de passe et la mise à jour se font
+      // côté serveur (action) : la session active n'est jamais réécrite.
+      const res = await changePasswordAction(oldPw, pw);
+      if (res.error) {
+        setError(res.error === "wrong" ? t("pwWrong") : t("pwError"));
         return;
       }
-      const { error } = await sb.auth.updateUser({ password: pw });
-      if (error) throw error;
       setDone(true);
       setTimeout(close, 1500);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Error");
+    } catch {
+      setError(t("pwError"));
     } finally {
       setLoading(false);
     }
