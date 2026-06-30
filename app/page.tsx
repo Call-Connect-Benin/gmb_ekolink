@@ -154,8 +154,23 @@ export default async function Home() {
   const faqItems = (t.raw("faq") as { q: string; a: string }[]).map((it) => ({ q: it.q, a: <p>{it.a}</p> }));
   const resources = (t.raw("resources.items") as { tag: string; title: string }[]).map((it, i) => ({ ...it, ...RES_META[i] }));
 
+  // CDC §4.1 — Schema.org Organization sur la page d'accueil.
+  const orgLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "EkoLink",
+    url: "https://gmb.ekolink.dev",
+    logo: "https://gmb.ekolink.dev/assets/icons/logo-tight.png",
+    sameAs: [
+      "https://www.facebook.com/profile.php?id=100086166664875",
+      "https://www.instagram.com/lannkinassociates/",
+      "https://www.youtube.com/@AlbertLanneAds",
+    ],
+  };
+
   return (
     <main id="main">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
       {/* ===== HERO ===== */}
       <section className="relative overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#ffffff_55%,#f4f8ff_100%)] pb-8 pt-20">
         <Container className="grid min-h-[80vh] items-center gap-8 lg:grid-cols-2">

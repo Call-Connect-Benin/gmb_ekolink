@@ -105,8 +105,35 @@ export default async function FicheDetail({ params, searchParams }: { params: Pr
   const ctaTrustIcons = [Lock, CheckCircle2, Truck, ShieldCheck];
   const ctaTrust = (t.raw("ctaTrust") as string[]).map((label, i) => ({ icon: ctaTrustIcons[i], label }));
 
+  // CDC §4.1 — Schema.org Product (prix, disponibilité, nom) sur la page fiche.
+  const ldImage = mainImg.startsWith("http") ? mainImg : `https://gmb.ekolink.dev${mainImg}`;
+  const productLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: f.title,
+    description: f.description || t("lead", { metier: metierLower, city: f.city }),
+    image: ldImage,
+    category: f.metier,
+    offers: {
+      "@type": "Offer",
+      price: f.price,
+      priceCurrency: "EUR",
+      availability:
+        f.status === "available"
+          ? "https://schema.org/InStock"
+          : f.status === "reserved"
+            ? "https://schema.org/PreOrder"
+            : "https://schema.org/OutOfStock",
+      url: `https://gmb.ekolink.dev/fiches-google/${slug}`,
+    },
+    ...(f.ratingNum > 0 && f.avis > 0
+      ? { aggregateRating: { "@type": "AggregateRating", ratingValue: f.ratingNum, reviewCount: f.avis } }
+      : {}),
+  };
+
   return (
     <main id="main" className="bg-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
       <div className="mx-auto max-w-[1180px] px-5 pt-24">
         <nav className="flex items-center gap-2 py-4 text-sm text-muted-foreground"><Link href="/" className="hover:text-primary">{t("breadcrumbHome")}</Link><span className="opacity-50">/</span><Link href="/fiches-google" className="hover:text-primary">{t("breadcrumbCatalogue")}</Link><span className="opacity-50">/</span><span className="font-medium text-foreground">{f.title}</span></nav>
 
