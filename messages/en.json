@@ -41,7 +41,7 @@
     "whatsappAria": "WhatsApp support",
     "whatsappTitle": "A question? Contact us on WhatsApp",
     "buyNow": "Buy this listing",
-    "buyRedirecting": "Opening WhatsApp…",
+    "buyRedirecting": "Redirecting to payment…",
     "errGeneric": "An error occurred.",
     "sessionUnavailable": "Payment session unavailable.",
     "viewListing": "View listing",
@@ -504,7 +504,7 @@
     "view": "View",
     "viewAll": "View all",
     "client": {
-      "greeting": "Hello 👋",
+      "greeting": "Hello {name}",
       "greetingSub": "Here's an overview of your activity on EkoLink.",
       "successTitle": "Payment confirmed — thank you!", "successText": "Your order is recorded. You'll receive everything you need by email to claim your listing.",
       "verifyTitle": "Verify your email to complete your purchase",

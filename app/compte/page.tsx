@@ -28,6 +28,8 @@ export default async function ClientDashboard({ searchParams }: { searchParams: 
   const spent = orders.reduce((a, o) => a + o.amount, 0);
   // MD10 — ancienneté réelle du compte (au lieu d'un « Actif » statique).
   const profile = await getCurrentProfile();
+  // Prénom affiché dans le salut (à défaut : la partie locale de l'email).
+  const firstName = profile?.full_name?.trim().split(/\s+/)[0] || profile?.email?.split("@")[0] || "";
   const memberSince = profile?.created_at
     ? new Date(profile.created_at).toLocaleDateString(locale === "en" ? "en-US" : "fr-FR", { month: "long", year: "numeric" })
     : "—";
@@ -48,7 +50,7 @@ export default async function ClientDashboard({ searchParams }: { searchParams: 
   return (
     <div className="mx-auto max-w-[1200px] space-y-6">
       <div>
-        <h1 className="text-3xl font-extrabold tracking-tight">{t("client.greeting")}</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight">{t("client.greeting", { name: firstName })}</h1>
         <p className="mt-1 text-muted-foreground">{t("client.greetingSub")}</p>
       </div>
 

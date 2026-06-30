@@ -41,7 +41,7 @@
     "whatsappAria": "Support WhatsApp",
     "whatsappTitle": "Une question ? Contactez-nous sur WhatsApp",
     "buyNow": "Acheter cette fiche",
-    "buyRedirecting": "Ouverture de WhatsApp…",
+    "buyRedirecting": "Redirection vers le paiement…",
     "errGeneric": "Une erreur est survenue.",
     "sessionUnavailable": "Session de paiement indisponible.",
     "viewListing": "Voir la fiche",
@@ -504,7 +504,7 @@
     "view": "Voir",
     "viewAll": "Voir toutes",
     "client": {
-      "greeting": "Bonjour 👋",
+      "greeting": "Bonjour {name}",
       "greetingSub": "Voici un aperçu de votre activité sur EkoLink.",
       "successTitle": "Paiement confirmé — merci !", "successText": "Votre commande est enregistrée. Vous recevrez par email tout le nécessaire pour revendiquer votre fiche.",
       "verifyTitle": "Vérifiez votre email pour finaliser votre achat",

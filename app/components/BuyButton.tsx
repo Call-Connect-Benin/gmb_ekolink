@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ShoppingCart } from "lucide-react";
-import { requestPurchaseAction } from "../fiches-google/purchase";
 
 export default function BuyButton({
   listingId,
@@ -27,29 +26,31 @@ export default function BuyButton({
     setLoading(true);
     setError("");
     try {
-      const res = await requestPurchaseAction(listingId);
-      if (res.needsAuth) {
-        // Non authentifié → inscription, puis retour ici avec ?buy=1 pour relancer.
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ listingId }),
+      });
+      if (res.status === 401) {
+        // Non authentifié → inscription, puis retour ici avec ?buy=1 pour relancer le paiement.
         const next = encodeURIComponent(`/fiches-google/${slug}?buy=1`);
         router.push(`/inscription?next=${next}`);
         return;
       }
-      if (res.error) throw new Error(res.error);
-      if (res.whatsappUrl) {
-        // Ouvre WhatsApp (message pré-rempli) + emmène l'acheteur vers ses commandes
-        // (la fiche est désormais réservée, en attente de validation admin).
-        window.open(res.whatsappUrl, "_blank", "noopener,noreferrer");
-        router.push("/compte/commandes");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || t("errGeneric"));
+      if (data.url) {
+        window.location.href = data.url as string;
         return;
       }
-      throw new Error(t("errGeneric"));
+      throw new Error(t("sessionUnavailable"));
     } catch (e) {
       setError(e instanceof Error ? e.message : t("errGeneric"));
       setLoading(false);
     }
   };
 
-  // Retour d'inscription/connexion : ?buy=1 relance automatiquement la demande.
+  // Retour d'inscription/connexion : ?buy=1 relance automatiquement le paiement.
   useEffect(() => {
     if (autoStarted.current) return;
     const params = new URLSearchParams(window.location.search);
