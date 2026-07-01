@@ -8,6 +8,14 @@ function euros(amount: number): string {
   return new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(amount);
 }
 
+/** "Titre — Ville", sans dupliquer la ville si le titre la contient déjà. */
+function ficheLabel(title?: string | null, city?: string | null, fallback = ""): string {
+  const t = (title ?? "").trim();
+  const c = (city ?? "").trim();
+  if (t && c && !t.toLowerCase().includes(c.toLowerCase())) return `${t} — ${c}`;
+  return t || c || fallback;
+}
+
 function layout(title: string, body: string): string {
   return `<!doctype html><html lang="fr"><body style="margin:0;background:#f4f6fb;font-family:Segoe UI,Arial,sans-serif;color:#1a2233">
   <div style="max-width:560px;margin:0 auto;padding:24px">
@@ -33,7 +41,7 @@ export function buyerConfirmationEmail(p: {
   amount: number;
 }): { subject: string; html: string } {
   const hello = p.name ? `Bonjour ${p.name},` : "Bonjour,";
-  const fiche = [p.listingTitle, p.city].filter(Boolean).join(" — ") || "votre fiche Google Business";
+  const fiche = ficheLabel(p.listingTitle, p.city, "votre fiche Google Business");
   const subject = `Achat confirmé — ${p.listingTitle ?? "votre fiche Google Business"}`;
   const html = layout("Merci, votre achat est confirmé ✅", `
     <p style="margin:0 0 14px">${hello}</p>
@@ -55,7 +63,7 @@ export function teamSaleAlertEmail(p: {
   amount: number;
   orderId?: string;
 }): { subject: string; html: string } {
-  const fiche = [p.listingTitle, p.city].filter(Boolean).join(" — ") || "(fiche inconnue)";
+  const fiche = ficheLabel(p.listingTitle, p.city, "(fiche inconnue)");
   const subject = `🟢 Nouvelle vente — ${p.listingTitle ?? "fiche"} (${euros(p.amount)})`;
   const html = layout("Nouvelle vente à traiter", `
     <table style="width:100%;border-collapse:collapse;font-size:14px">
