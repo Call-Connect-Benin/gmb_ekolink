@@ -43,7 +43,7 @@ export function buyerConfirmationEmail(p: {
   const hello = p.name ? `Bonjour ${p.name},` : "Bonjour,";
   const fiche = ficheLabel(p.listingTitle, p.city, "votre fiche Google Business");
   const subject = `Achat confirmé — ${p.listingTitle ?? "votre fiche Google Business"}`;
-  const html = layout("Merci, votre achat est confirmé ✅", `
+  const html = layout("Merci, votre achat est confirmé", `
     <p style="margin:0 0 14px">${hello}</p>
     <p style="margin:0 0 14px">Nous avons bien reçu votre paiement de <strong>${euros(p.amount)}</strong> pour :</p>
     <p style="margin:0 0 18px;padding:12px 14px;background:#f4f6fb;border-radius:10px;font-weight:600">${fiche}</p>
@@ -64,7 +64,7 @@ export function teamSaleAlertEmail(p: {
   orderId?: string;
 }): { subject: string; html: string } {
   const fiche = ficheLabel(p.listingTitle, p.city, "(fiche inconnue)");
-  const subject = `🟢 Nouvelle vente — ${p.listingTitle ?? "fiche"} (${euros(p.amount)})`;
+  const subject = `Nouvelle vente — ${p.listingTitle ?? "fiche"} (${euros(p.amount)})`;
   const html = layout("Nouvelle vente à traiter", `
     <table style="width:100%;border-collapse:collapse;font-size:14px">
       <tr><td style="padding:6px 0;color:#6b7280">Fiche</td><td style="padding:6px 0;text-align:right;font-weight:600">${fiche}</td></tr>
