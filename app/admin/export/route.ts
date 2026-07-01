@@ -10,8 +10,8 @@ export async function GET() {
   }
   const orders = await getAllOrders();
   const csv = toCsv(
-    ["id", "date", "fiche", "ville", "montant_eur", "statut", "acheteur_id"],
-    orders.map((o) => [o.id, o.created_at, o.listing?.title ?? "", o.listing?.city ?? "", o.amount, o.status, o.buyer_id])
+    ["id", "date", "fiche", "ville", "montant_eur", "statut", "client", "email_client", "acheteur_id"],
+    orders.map((o) => [o.id, o.created_at, o.listing?.title ?? "", o.listing?.city ?? "", o.amount, o.status, o.billing_name ?? "", o.billing_email ?? "", o.buyer_id])
   );
 
   return new NextResponse(csv, {

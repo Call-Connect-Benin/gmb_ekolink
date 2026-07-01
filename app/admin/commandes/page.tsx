@@ -11,7 +11,7 @@ import OrderRowActions from "./OrderRowActions";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Commandes — Admin" };
 
-type Ord = { id: string; orderId: string; client: string; fiche: string; amount: string; raw: string; pay: string; payt: "green" | "orange" | "gray" | "red"; date: string };
+type Ord = { id: string; orderId: string; client: string; email: string; fiche: string; amount: string; raw: string; pay: string; payt: "green" | "orange" | "gray" | "red"; date: string };
 
 const one = (x: unknown) => (Array.isArray(x) ? x[0] : x) as Record<string, unknown> | null;
 
@@ -57,13 +57,14 @@ export default async function AdminCommandes({ searchParams }: { searchParams: P
     const pay = PAY[raw] ?? PAY.pending;
     const buyer = one(r.buyer);
     const listing = one(r.listing);
-    const client = s(buyer?.full_name) || s(buyer?.email) || s(r.buyer_id).slice(0, 8) || t("noClient");
+    const email = s(buyer?.email);
+    const client = s(buyer?.full_name) || email || s(r.buyer_id).slice(0, 8) || t("noClient");
     const fiche = s(listing?.title) || t("noFiche");
-    return { id: s(r.id), orderId: `#CMD-${s(r.id).slice(0, 8)}`, client, fiche, amount: eur(n(r.amount)), raw, pay: pay.label, payt: pay.tone, date: s(r.created_at).slice(0, 16).replace("T", ", ") };
+    return { id: s(r.id), orderId: `#CMD-${s(r.id).slice(0, 8)}`, client, email, fiche, amount: eur(n(r.amount)), raw, pay: pay.label, payt: pay.tone, date: s(r.created_at).slice(0, 16).replace("T", ", ") };
   });
 
   const filtered = ALL.filter(
-    (o) => (!status || o.raw === status) && (!query || `${o.orderId} ${o.client} ${o.fiche}`.toLowerCase().includes(query))
+    (o) => (!status || o.raw === status) && (!query || `${o.orderId} ${o.client} ${o.email} ${o.fiche}`.toLowerCase().includes(query))
   );
 
   // MD6 — pagination réelle (navigation par URL ?page=, filtres conservés).
@@ -133,7 +134,10 @@ export default async function AdminCommandes({ searchParams }: { searchParams: P
               {shown.length === 0 ? <EmptyRow cols={8} /> : shown.map((o) => (
                 <Row key={o.id}>
                   <Td className="pl-5 font-semibold text-primary">{o.orderId}</Td>
-                  <Td className="text-foreground/80">{o.client}</Td>
+                  <Td className="text-foreground/80">
+                    <div>{o.client}</div>
+                    {o.email && <div className="text-xs text-muted-foreground">{o.email}</div>}
+                  </Td>
                   <Td className="text-foreground/80">{o.fiche}</Td>
                   <Td className="font-bold">{o.amount}</Td>
                   <Td><Pill tone={STATUS_TONE[o.raw] ?? "orange"}>{statusLabel(o.raw)}</Pill></Td>
