@@ -58,7 +58,16 @@ export default async function Catalogue() {
   const name = (c: { name_fr: string; name_en: string }) => (locale === "en" ? c.name_en : c.name_fr);
   const catName = new Map(categories.map((c) => [c.slug, name(c)]));
   const items = listings.map((l) => toCatItem(l, catName));
-  const cats = categories.map((c) => ({ slug: c.slug, name: name(c), icon: c.icon }));
+  // Catalogue « vivant » : on n'affiche que 10 catégories max, en priorité celles qui
+  // ont des fiches (les plus fournies d'abord). Les 50 restent en base pour plus tard.
+  const catCount = new Map<string, number>();
+  for (const l of listings) catCount.set(l.category_slug, (catCount.get(l.category_slug) ?? 0) + 1);
+  const nonEmpty = categories.filter((c) => (catCount.get(c.slug) ?? 0) > 0);
+  const cats = (nonEmpty.length ? nonEmpty : categories)
+    .slice()
+    .sort((a, b) => (catCount.get(b.slug) ?? 0) - (catCount.get(a.slug) ?? 0))
+    .slice(0, 10)
+    .map((c) => ({ slug: c.slug, name: name(c), icon: c.icon }));
 
   // Stats réelles calculées depuis le catalogue Supabase.
   const availableCount = listings.filter((l) => l.status === "available").length;

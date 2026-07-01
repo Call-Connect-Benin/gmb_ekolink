@@ -12,7 +12,7 @@ import ArticleCta from "@/app/components/ArticleCta";
 export const metadata: Metadata = {
   title: "+340% d'appels en 60 jours : cas d'une boulangerie parisienne",
   description:
-    "Étude de cas réelle : comment une boulangerie parisienne est passée de 3 à 13 appels par jour en 60 jours grâce à 4 optimisations stratégiques sur sa fiche Google.",
+    "Étude de cas réelle : comment une boulangerie parisienne est passée de 3 à 13 appels par semaine en 60 jours grâce à 4 optimisations stratégiques sur sa fiche Google.",
   alternates: { canonical: "/blog/cas-boulangerie-340-appels" },
 };
 
@@ -31,7 +31,7 @@ export default async function ArticleCasBoulangerie() {
             <TrendingUp className="size-3.5" /> {en ? "Case study" : "Étude de cas"}
           </span>
           <h1 className="mt-4 max-w-[880px] text-[clamp(2rem,4.4vw,3.2rem)] font-extrabold leading-[1.08] tracking-tight">{en ? "+340% calls in 60 days: a Parisian bakery case" : "+340% d'appels en 60 jours : le cas d'une boulangerie parisienne"}</h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{en ? "From 3 to 13 calls a day thanks to 4 strategic optimizations. The complete methodology detailed step by step." : "De 3 à 13 appels par jour grâce à 4 optimisations stratégiques. La méthodologie complète détaillée étape par étape."}</p>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{en ? "From 3 to 13 calls a week thanks to 4 strategic optimizations. The complete methodology detailed step by step." : "De 3 à 13 appels par semaine grâce à 4 optimisations stratégiques. La méthodologie complète détaillée étape par étape."}</p>
           <p className="mt-4 text-sm text-muted-foreground">{en ? "April 28, 2026 · 12 min read · By " : "28 avril 2026 · 12 min de lecture · Par "}<strong className="text-foreground">EkoLink</strong></p>
         </div>
       </section>
@@ -94,13 +94,13 @@ export default async function ArticleCasBoulangerie() {
                     <tr><td>Local Pack position</td><td>#18</td><td>#2</td><td>+16 spots</td></tr>
                     <tr><td>Weekly views</td><td>140</td><td>1,050</td><td>+650%</td></tr>
                     <tr><td>Direction requests / wk</td><td>11</td><td>82</td><td>+645%</td></tr>
-                    <tr><td><strong>Calls / wk</strong></td><td><strong>3</strong></td><td><strong>91</strong></td><td><strong>+2,933%</strong></td></tr>
+                    <tr><td><strong>Calls / wk</strong></td><td><strong>3</strong></td><td><strong>13</strong></td><td><strong>+340%</strong></td></tr>
                     <tr><td>Google reviews</td><td>24</td><td>55</td><td>+129%</td></tr>
                     <tr><td>Average rating</td><td>4.3</td><td>4.7</td><td>+0.4 ⭐</td></tr>
                   </tbody>
                 </table>
 
-                <p>The <strong>91 weekly calls</strong> represented an estimated additional revenue of <strong>€4,800/month</strong> (phone orders, catering, events).</p>
+                <p>The <strong>13 weekly calls</strong> represented an estimated additional revenue of <strong>€1,800/month</strong> (phone orders, catering, events).</p>
 
                 <h2>How long before results?</h2>
                 <p>The first ranking gains appeared as early as D+7. But the significant step came at D+30 (moving to page 1). The "stable top 3" stage was reached at D+45-50. Google needs 6 to 8 weeks to fully re-evaluate your signals.</p>
@@ -160,13 +160,13 @@ export default async function ArticleCasBoulangerie() {
                     <tr><td>Position Pack Local</td><td>#18</td><td>#2</td><td>+16 places</td></tr>
                     <tr><td>Vues hebdomadaires</td><td>140</td><td>1 050</td><td>+650 %</td></tr>
                     <tr><td>Demandes d'itinéraire / sem</td><td>11</td><td>82</td><td>+645 %</td></tr>
-                    <tr><td><strong>Appels / sem</strong></td><td><strong>3</strong></td><td><strong>91</strong></td><td><strong>+2 933 %</strong></td></tr>
+                    <tr><td><strong>Appels / sem</strong></td><td><strong>3</strong></td><td><strong>13</strong></td><td><strong>+340 %</strong></td></tr>
                     <tr><td>Avis Google</td><td>24</td><td>55</td><td>+129 %</td></tr>
                     <tr><td>Note moyenne</td><td>4,3</td><td>4,7</td><td>+0,4 ⭐</td></tr>
                   </tbody>
                 </table>
 
-                <p>Les <strong>91 appels hebdomadaires</strong> ont représenté un chiffre d'affaires additionnel estimé à <strong>4 800 €/mois</strong> (commandes par téléphone, traiteur, événementiel).</p>
+                <p>Les <strong>13 appels hebdomadaires</strong> ont représenté un chiffre d'affaires additionnel estimé à <strong>1 800 €/mois</strong> (commandes par téléphone, traiteur, événementiel).</p>
 
                 <h2>Combien de temps avant les résultats ?</h2>
                 <p>Les premiers gains de position sont apparus dès J+7. Mais le palier significatif est arrivé à J+30 (passage en page 1). Le stade « top 3 stable » a été atteint à J+45-50. Google a besoin de 6 à 8 semaines pour ré-évaluer entièrement vos signaux.</p>

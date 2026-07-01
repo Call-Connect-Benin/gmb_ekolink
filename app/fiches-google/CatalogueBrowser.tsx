@@ -173,9 +173,15 @@ export default function CatalogueBrowser({ items, categories }: { items?: CatIte
       if (deliveries.size && !deliveries.has(l.delivery)) return false;
       return true;
     });
-    if (sort === "price_asc") out.sort((a, b) => a.price - b.price);
-    else if (sort === "price_desc") out.sort((a, b) => b.price - a.price);
-    else if (sort === "rating") out.sort((a, b) => b.rating - a.rating);
+    // Priorité d'affichage : Disponible en premier, Vendu en dernier (le visiteur
+    // tombe d'abord sur de l'achetable ; les « Vendu » restent visibles = preuve sociale).
+    const rank: Record<ListingStatus, number> = { available: 0, reserved: 1, sold: 2 };
+    const secondary =
+      sort === "price_asc" ? (a: CatItem, b: CatItem) => a.price - b.price
+      : sort === "price_desc" ? (a: CatItem, b: CatItem) => b.price - a.price
+      : sort === "rating" ? (a: CatItem, b: CatItem) => b.rating - a.rating
+      : () => 0; // "recent" : conserve l'ordre du catalogue (déjà trié par date)
+    out.sort((a, b) => (rank[a.status] - rank[b.status]) || secondary(a, b));
     return out;
   }, [data, metier, city, q, min, max, states, minRating, deliveries, sort]);
 
