@@ -59,12 +59,18 @@ export async function POST(req: Request) {
         .maybeSingle();
       if (order) {
         const expected = Math.round(Number(order.amount) * 100);
-        // M2 — montant ET devise doivent correspondre.
-        const amountOk = session.amount_total == null || session.amount_total === expected;
-        const currencyOk = !session.currency || session.currency.toLowerCase() === "eur";
-        if (!amountOk || !currencyOk) {
+        // M2 (adapté Adaptive Pricing) — la session est TOUJOURS créée en EUR côté
+        // serveur (montant = prix fiche, order_id en metadata) et l'event est signé.
+        // • Paiement direct en EUR → on exige le montant exact (protection anti-écart).
+        // • Paiement converti (FCFA/autre devise via Adaptive Pricing) → session.currency
+        //   n'est plus "eur" ; on ne peut pas comparer le total converti, on se fie à la
+        //   session qu'on a fixée nous-mêmes + payment_status='paid'. Sûr : le client ne
+        //   peut pas payer moins que le montant EUR imposé (Stripe convertit à la hausse).
+        const isEur = !session.currency || session.currency.toLowerCase() === "eur";
+        const amountMismatch = isEur && session.amount_total != null && session.amount_total !== expected;
+        if (amountMismatch) {
           await notifyN8n("order.amount_mismatch", { orderId, listingId, expected, paid: session.amount_total, currency: session.currency });
-          return NextResponse.json({ received: true, ignored: "amount_or_currency_mismatch" });
+          return NextResponse.json({ received: true, ignored: "amount_mismatch" });
         }
       }
 
