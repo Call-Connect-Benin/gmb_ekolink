@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { isCurrentUserAdmin } from "@/lib/queries";
 import { getLocale } from "next-intl/server";
@@ -20,8 +21,16 @@ export default async function Facture({ params }: { params: Promise<{ id: string
 
   if (!isSupabaseConfigured()) notFound();
   const sb = await createClient();
-  // RLS : seule une commande appartenant à l'utilisateur courant est renvoyée.
-  const { data } = await sb
+  const {
+    data: { user },
+  } = await sb.auth.getUser();
+  if (!user) notFound();
+
+  // L'acheteur lit sa propre facture via la RLS ; un admin peut consulter n'importe
+  // quelle facture via le client privilégié (service_role).
+  const isAdmin = await isCurrentUserAdmin();
+  const db = isAdmin ? createAdminClient() : sb;
+  const { data } = await db
     .from("orders")
     .select("id,amount,status,created_at,buyer_id,invoice_number,billing_name,billing_email,listing_title,listing_city,listing:listings(title,city)")
     .eq("id", id)
@@ -30,15 +39,12 @@ export default async function Facture({ params }: { params: Promise<{ id: string
 
   const order = data as OrderRow;
   // E4 — défense en profondeur : seul l'acheteur (ou un admin) accède à la facture.
-  const {
-    data: { user },
-  } = await sb.auth.getUser();
-  if (!user || (order.buyer_id !== user.id && !(await isCurrentUserAdmin()))) notFound();
+  if (order.buyer_id !== user.id && !isAdmin) notFound();
 
   const listing = one(order.listing);
   // C2 — « Facturé à » et désignation depuis le snapshot figé à l'achat (résiste à
   // l'anonymisation RGPD) ; repli sur les données live pour les anciennes commandes.
-  const { data: buyer } = await sb.from("profiles").select("full_name,email,phone").eq("id", order.buyer_id).maybeSingle();
+  const { data: buyer } = await db.from("profiles").select("full_name,email,phone").eq("id", order.buyer_id).maybeSingle();
   const liveBuyer = buyer as { full_name: string | null; email: string | null; phone: string | null } | null;
   const billName = order.billing_name ?? liveBuyer?.full_name ?? "—";
   const billEmail = order.billing_email ?? liveBuyer?.email ?? "";

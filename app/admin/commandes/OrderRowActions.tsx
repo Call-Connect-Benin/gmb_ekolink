@@ -1,10 +1,13 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, Receipt } from "lucide-react";
 import { updateOrderStatusAction } from "../actions";
 import RowMenu from "../../components/dashboard/RowMenu";
 
-type Labels = { actions: string; changeStatus: string };
+type Labels = { actions: string; changeStatus: string; invoice: string };
+
+// Une facture n'existe que pour une commande encaissée.
+const PAID = ["paid", "in_progress", "delivered", "validated"];
 
 export default function OrderRowActions({
   id,
@@ -21,6 +24,20 @@ export default function OrderRowActions({
     <RowMenu label={labels.actions} width={224}>
       {(close) => (
         <>
+          {PAID.includes(status) && (
+            <>
+              <a
+                href={`/facture/${id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={close}
+                className="flex w-full items-center gap-2 px-3 py-2 text-left font-medium hover:bg-secondary"
+              >
+                <Receipt className="size-4 text-primary" /> {labels.invoice}
+              </a>
+              <div className="my-1 border-t border-border" />
+            </>
+          )}
           <p className="px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">{labels.changeStatus}</p>
           {statusOptions.map((o) => (
             <form key={o.value} action={updateOrderStatusAction} onSubmit={close}>

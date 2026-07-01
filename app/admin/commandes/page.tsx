@@ -143,7 +143,7 @@ export default async function AdminCommandes({ searchParams }: { searchParams: P
                   <Td><Pill tone={STATUS_TONE[o.raw] ?? "orange"}>{statusLabel(o.raw)}</Pill></Td>
                   <Td><Pill tone={o.payt}>{o.pay}</Pill></Td>
                   <Td className="whitespace-nowrap text-muted-foreground">{o.date}</Td>
-                  <Td><OrderRowActions id={o.id} status={o.raw} labels={{ actions: t("thActions"), changeStatus: t("changeStatus") }} statusOptions={statusOptions} /></Td>
+                  <Td><OrderRowActions id={o.id} status={o.raw} labels={{ actions: t("thActions"), changeStatus: t("changeStatus"), invoice: locale === "en" ? "Invoice" : "Facture" }} statusOptions={statusOptions} /></Td>
                 </Row>
               ))}
             </Table>
