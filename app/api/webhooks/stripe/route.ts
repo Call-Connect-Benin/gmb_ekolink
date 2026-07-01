@@ -3,6 +3,8 @@ import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { notifyN8n } from "@/lib/notify";
+import { sendMail } from "@/lib/mail";
+import { buyerConfirmationEmail, teamSaleAlertEmail } from "@/lib/emails";
 
 export const runtime = "nodejs";
 
@@ -87,6 +89,34 @@ export async function POST(req: Request) {
       // Erreur DB → 500 sans marquer l'event traité : Stripe rejouera (opérations idempotentes).
       if (oErr) return NextResponse.json({ error: oErr.message }, { status: 500 });
       changed = (updated?.length ?? 0) > 0;
+
+      // Emails transactionnels (Brevo/SMTP) — uniquement si la commande vient de passer
+      // à 'paid'. Best-effort : sendMail n'échoue jamais bruyamment (le paiement prime).
+      if (changed) {
+        const amountEuros = Number(order?.amount ?? (session.amount_total ?? 0) / 100);
+        const buyerEmail =
+          (billing.billing_email as string | null) ?? session.customer_details?.email ?? null;
+        if (buyerEmail) {
+          const mail = buyerConfirmationEmail({
+            name: billing.billing_name as string | null,
+            listingTitle: billing.listing_title as string | null,
+            city: billing.listing_city as string | null,
+            amount: amountEuros,
+          });
+          await sendMail({ to: buyerEmail, subject: mail.subject, html: mail.html });
+        }
+        const team = process.env.TEAM_EMAIL || process.env.ADMIN_EMAILS?.split(",")[0]?.trim();
+        if (team) {
+          const mail = teamSaleAlertEmail({
+            listingTitle: billing.listing_title as string | null,
+            city: billing.listing_city as string | null,
+            buyerEmail,
+            amount: amountEuros,
+            orderId,
+          });
+          await sendMail({ to: team, subject: mail.subject, html: mail.html, replyTo: buyerEmail ?? undefined });
+        }
+      }
     }
 
     if (changed && listingId) {
