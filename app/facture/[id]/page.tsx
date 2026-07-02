@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Mail, UserRound, Heart } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
@@ -51,6 +51,10 @@ export default async function Facture({ params }: { params: Promise<{ id: string
   const billPhone = liveBuyer?.phone ?? null;
   const itemTitle = order.listing_title ?? listing?.title ?? "—";
   const itemCity = order.listing_city ?? listing?.city ?? "";
+  // Évite « Titre — Ville — Ville » si le titre contient déjà la ville.
+  const itemDetail = itemCity && !itemTitle.toLowerCase().includes(itemCity.toLowerCase())
+    ? `${itemTitle} — ${itemCity}`
+    : itemTitle;
   const isPaid = ["paid", "in_progress", "delivered", "validated"].includes(order.status);
   // Numéro séquentiel légal (attribué au paiement) ; repli sur l'id si absent.
   const invoiceNo = order.invoice_number != null
@@ -69,7 +73,11 @@ export default async function Facture({ params }: { params: Promise<{ id: string
     invoice: en ? "INVOICE" : "FACTURE",
     no: en ? "Invoice no." : "Facture n°",
     date: en ? "Date" : "Date",
+    status: en ? "Status" : "Statut",
     billedTo: en ? "Billed to" : "Facturé à",
+    nameL: en ? "Name" : "Nom",
+    emailL: "Email",
+    phoneL: en ? "Phone" : "Téléphone",
     desc: en ? "Description" : "Désignation",
     qty: en ? "Qty" : "Qté",
     unit: en ? "Unit (incl. tax)" : "PU TTC",
@@ -84,74 +92,98 @@ export default async function Facture({ params }: { params: Promise<{ id: string
   };
 
   return (
-    <main id="main" className="min-h-screen bg-[#eef2f7] px-4 py-10 print:bg-white print:p-0">
-      <div className="mx-auto max-w-[820px]">
+    <main id="main" className="relative min-h-screen overflow-hidden bg-[#eef2f7] px-4 py-10 print:bg-white print:p-0">
+      {/* Décor orange (masqué à l'impression) */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden print:hidden">
+        <div className="absolute -right-24 -top-24 size-72 rounded-full bg-[radial-gradient(circle,#f89f1b55,transparent_65%)]" />
+        <div className="absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,#f89f1b40,transparent_65%)]" />
+      </div>
+
+      <div className="relative mx-auto max-w-[820px]">
         <div className="mb-4 flex items-center justify-between print:hidden">
           <Link href="/compte/documents" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"><ArrowLeft className="size-4" /> {T.back}</Link>
           <PrintButton label={T.print} />
         </div>
 
-        <div className="rounded-2xl border border-border bg-white p-8 shadow-sm print:border-0 print:shadow-none sm:p-12">
-          {/* En-tête */}
-          <div className="flex flex-wrap items-start justify-between gap-6 border-b border-border pb-6">
-            <div>
-              <p className="text-2xl font-extrabold tracking-tight"><span className="text-primary">Eko</span>Link</p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                EkoLink S.A.S.<br />
-                7 Rue Vulpian, 75013 Paris<br />
-                SIRET 1179695284<br />
-                contact@ekolink.fr
-              </p>
+        <div className="overflow-hidden rounded-3xl border border-border bg-white shadow-[0_20px_60px_-25px_rgba(26,115,232,0.35)] print:rounded-none print:border-0 print:shadow-none">
+          <div className="p-8 sm:p-12">
+            {/* En-tête */}
+            <div className="flex flex-wrap items-start justify-between gap-6 border-b border-border pb-7">
+              <div className="min-w-[240px] max-w-[52%] sm:border-r sm:border-border sm:pr-6">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/assets/icons/logo.png" alt="EkoLink" width={200} height={56} className="h-12 w-auto object-contain" />
+                <p className="mt-4 text-base font-extrabold text-primary">EkoLink S.A.S.</p>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                  7 Rue Vulpian, 75013 Paris<br />
+                  SIRET : 1179695284
+                </p>
+                <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <Mail className="size-4 text-primary" /> contact@ekolink.fr
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-4xl font-black tracking-tight">{T.invoice}</p>
+                <div className="mt-4 space-y-1.5 text-sm">
+                  <p className="text-muted-foreground">{T.no} : <span className="ml-1 font-bold text-primary">{invoiceNo}</span></p>
+                  <p className="text-muted-foreground">{T.date} : <span className="ml-1 font-semibold text-foreground">{date}</span></p>
+                  <p className="text-muted-foreground">{T.status} : <span className={`ml-1 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold ${isPaid ? "bg-success/12 text-success" : "bg-accent/15 text-[#b25e00]"}`}>{isPaid ? "✓ " : ""}{isPaid ? T.paid : T.pending}</span></p>
+                </div>
+              </div>
             </div>
-            <div className="text-right">
-              <p className="text-xl font-extrabold tracking-wide text-foreground/80">{T.invoice}</p>
-              <p className="mt-2 text-sm text-muted-foreground">{T.no} <span className="font-semibold text-foreground">{invoiceNo}</span></p>
-              <p className="text-sm text-muted-foreground">{T.date} : <span className="font-semibold text-foreground">{date}</span></p>
-              <span className={`mt-2 inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold ${isPaid ? "bg-success/12 text-success" : "bg-accent/15 text-[#b25e00]"}`}>{isPaid ? T.paid : T.pending}</span>
+
+            {/* Facturé à */}
+            <div className="mt-8 rounded-2xl border border-border p-6">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex size-10 items-center justify-center rounded-full bg-primary text-white"><UserRound className="size-5" /></span>
+                <p className="text-lg font-extrabold">{T.billedTo}</p>
+              </div>
+              <div className="mt-4 space-y-2 text-sm">
+                <div className="flex gap-3"><span className="w-24 shrink-0 text-muted-foreground">{T.nameL} :</span><span className="font-bold">{billName}</span></div>
+                {billEmail && <div className="flex gap-3"><span className="w-24 shrink-0 text-muted-foreground">{T.emailL} :</span><span className="font-semibold text-primary">{billEmail}</span></div>}
+                {billPhone && <div className="flex gap-3"><span className="w-24 shrink-0 text-muted-foreground">{T.phoneL} :</span><span className="font-medium">{billPhone}</span></div>}
+              </div>
+            </div>
+
+            {/* Lignes */}
+            <div className="mt-8 overflow-hidden rounded-2xl border border-border">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-[linear-gradient(90deg,#1a73e8,#f89f1b)] text-left text-xs font-bold uppercase tracking-wide text-white">
+                    <th className="px-5 py-3">{T.desc}</th>
+                    <th className="px-3 py-3 text-center">{T.qty}</th>
+                    <th className="px-3 py-3 text-right">{T.unit}</th>
+                    <th className="px-5 py-3 text-right">{T.total}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="px-5 py-4">
+                      <p className="font-bold">{T.item}</p>
+                      <p className="text-muted-foreground">{itemDetail}</p>
+                    </td>
+                    <td className="px-3 py-4 text-center">1</td>
+                    <td className="px-3 py-4 text-right">{eur(ttc)}</td>
+                    <td className="px-5 py-4 text-right font-semibold">{eur(ttc)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Totaux */}
+            <div className="mt-6 flex justify-end">
+              <div className="w-full max-w-[320px] rounded-2xl bg-secondary/60 p-5 text-sm">
+                <div className="flex justify-between py-1"><span className="text-muted-foreground">{T.subtotal} :</span><span>{eur(ht)}</span></div>
+                <div className="flex justify-between py-1"><span className="text-muted-foreground">{T.vat} :</span><span>{eur(tva)}</span></div>
+                <div className="mt-2 flex items-center justify-between border-t border-border pt-3"><span className="text-base font-extrabold">{T.grand} :</span><span className="text-2xl font-black text-accent">{eur(ttc)}</span></div>
+              </div>
+            </div>
+
+            {/* Remerciement */}
+            <div className="mt-10 flex flex-col items-center gap-2 border-t border-border pt-8">
+              <span className="inline-flex size-9 items-center justify-center rounded-full border border-accent/40 text-accent"><Heart className="size-4" /></span>
+              <p className="text-sm text-muted-foreground">{T.thanks}</p>
             </div>
           </div>
-
-          {/* Client */}
-          <div className="py-6">
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{T.billedTo}</p>
-            <p className="mt-1 font-semibold">{billName}</p>
-            <p className="text-sm text-muted-foreground">{billEmail}</p>
-            {billPhone && <p className="text-sm text-muted-foreground">{billPhone}</p>}
-          </div>
-
-          {/* Lignes */}
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-y border-border text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                <th className="py-2.5">{T.desc}</th>
-                <th className="py-2.5 text-center">{T.qty}</th>
-                <th className="py-2.5 text-right">{T.unit}</th>
-                <th className="py-2.5 text-right">{T.total}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b border-border">
-                <td className="py-4">
-                  <p className="font-semibold">{T.item}</p>
-                  <p className="text-muted-foreground">{itemTitle}{itemCity ? ` — ${itemCity}` : ""}</p>
-                </td>
-                <td className="py-4 text-center">1</td>
-                <td className="py-4 text-right">{eur(ttc)}</td>
-                <td className="py-4 text-right font-semibold">{eur(ttc)}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          {/* Totaux */}
-          <div className="mt-6 flex justify-end">
-            <div className="w-full max-w-[280px] space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-muted-foreground">{T.subtotal}</span><span>{eur(ht)}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">{T.vat}</span><span>{eur(tva)}</span></div>
-              <div className="flex justify-between border-t border-border pt-2 text-base font-extrabold"><span>{T.grand}</span><span className="text-primary">{eur(ttc)}</span></div>
-            </div>
-          </div>
-
-          <p className="mt-10 border-t border-border pt-6 text-center text-sm text-muted-foreground">{T.thanks}</p>
         </div>
       </div>
     </main>
