@@ -92,7 +92,7 @@ export default async function Facture({ params }: { params: Promise<{ id: string
   };
 
   return (
-    <main id="main" className="relative min-h-screen overflow-hidden bg-[#eef2f7] px-4 py-10 print:bg-white print:p-0">
+    <main id="main" className="relative min-h-screen overflow-hidden bg-[#eef2f7] px-4 pb-12 pt-28 print:bg-white print:p-0">
       {/* Décor orange (masqué à l'impression) */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden print:hidden">
         <div className="absolute -right-24 -top-24 size-72 rounded-full bg-[radial-gradient(circle,#f89f1b55,transparent_65%)]" />
@@ -100,9 +100,8 @@ export default async function Facture({ params }: { params: Promise<{ id: string
       </div>
 
       <div className="relative mx-auto max-w-[820px]">
-        <div className="mb-4 flex items-center justify-between print:hidden">
+        <div className="mb-4 print:hidden">
           <Link href="/compte/documents" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"><ArrowLeft className="size-4" /> {T.back}</Link>
-          <PrintButton label={T.print} />
         </div>
 
         <div className="overflow-hidden rounded-3xl border border-border bg-white shadow-[0_20px_60px_-25px_rgba(26,115,232,0.35)] print:rounded-none print:border-0 print:shadow-none">
@@ -182,6 +181,11 @@ export default async function Facture({ params }: { params: Promise<{ id: string
             <div className="mt-10 flex flex-col items-center gap-2 border-t border-border pt-8">
               <span className="inline-flex size-9 items-center justify-center rounded-full border border-accent/40 text-accent"><Heart className="size-4" /></span>
               <p className="text-sm text-muted-foreground">{T.thanks}</p>
+            </div>
+
+            {/* Action — en bas à droite, masquée à l'impression */}
+            <div className="mt-8 flex justify-end print:hidden">
+              <PrintButton label={T.print} />
             </div>
           </div>
         </div>
