@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Mail, UserRound, Heart } from "lucide-react";
+import { Mail, Heart } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
@@ -92,14 +92,8 @@ export default async function Facture({ params }: { params: Promise<{ id: string
   };
 
   return (
-    <main id="main" className="relative min-h-screen overflow-hidden bg-[#eef2f7] px-4 pb-12 pt-28 print:bg-white print:p-0">
-      {/* Décor orange (masqué à l'impression) */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden print:hidden">
-        <div className="absolute -right-24 -top-24 size-72 rounded-full bg-[radial-gradient(circle,#f89f1b55,transparent_65%)]" />
-        <div className="absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,#f89f1b40,transparent_65%)]" />
-      </div>
-
-      <div className="relative mx-auto max-w-[820px]">
+    <main id="main" className="min-h-screen bg-[#eef2f7] px-4 pb-12 pt-28 print:bg-white print:p-0">
+      <div className="mx-auto max-w-[820px]">
         <div className="mb-4 print:hidden">
           <Link href={isAdmin ? "/admin/commandes" : "/compte/commandes"} className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">{T.back}</Link>
         </div>
@@ -132,10 +126,7 @@ export default async function Facture({ params }: { params: Promise<{ id: string
 
             {/* Facturé à */}
             <div className="mt-8 rounded-2xl border border-border p-6">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex size-10 items-center justify-center rounded-full bg-primary text-white"><UserRound className="size-5" /></span>
-                <p className="text-lg font-extrabold">{T.billedTo}</p>
-              </div>
+              <p className="text-lg font-extrabold">{T.billedTo}</p>
               <div className="mt-4 space-y-2 text-sm">
                 <div className="flex gap-3"><span className="w-24 shrink-0 text-muted-foreground">{T.nameL} :</span><span className="font-bold">{billName}</span></div>
                 {billEmail && <div className="flex gap-3"><span className="w-24 shrink-0 text-muted-foreground">{T.emailL} :</span><span className="font-semibold text-primary">{billEmail}</span></div>}
@@ -147,7 +138,7 @@ export default async function Facture({ params }: { params: Promise<{ id: string
             <div className="mt-8 overflow-hidden rounded-2xl border border-border">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-primary text-left text-xs font-bold uppercase tracking-wide text-white">
+                  <tr className="border-b border-border text-left text-xs font-bold uppercase tracking-wide text-muted-foreground">
                     <th className="px-5 py-3">{T.desc}</th>
                     <th className="px-3 py-3 text-center">{T.qty}</th>
                     <th className="px-3 py-3 text-right">{T.unit}</th>
@@ -170,7 +161,7 @@ export default async function Facture({ params }: { params: Promise<{ id: string
 
             {/* Totaux */}
             <div className="mt-6 flex justify-end">
-              <div className="w-full max-w-[320px] rounded-2xl bg-secondary/60 p-5 text-sm">
+              <div className="w-full max-w-[320px] text-sm">
                 <div className="flex justify-between py-1"><span className="text-muted-foreground">{T.subtotal} :</span><span>{eur(ht)}</span></div>
                 <div className="flex justify-between py-1"><span className="text-muted-foreground">{T.vat} :</span><span>{eur(tva)}</span></div>
                 <div className="mt-2 flex items-center justify-between border-t border-border pt-3"><span className="text-base font-extrabold">{T.grand} :</span><span className="text-2xl font-black text-accent">{eur(ttc)}</span></div>
