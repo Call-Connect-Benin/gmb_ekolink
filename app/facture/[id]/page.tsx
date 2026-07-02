@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Mail, UserRound, Heart } from "lucide-react";
+import { Mail, UserRound, Heart } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
@@ -68,7 +68,7 @@ export default async function Facture({ params }: { params: Promise<{ id: string
   const date = new Date(order.created_at).toLocaleDateString(en ? "en-US" : "fr-FR", { day: "2-digit", month: "long", year: "numeric" });
 
   const T = {
-    back: en ? "Back to my invoices" : "Retour à mes factures",
+    back: en ? "Back" : "Retour",
     print: en ? "Print / Download (PDF)" : "Imprimer / Télécharger (PDF)",
     invoice: en ? "INVOICE" : "FACTURE",
     no: en ? "Invoice no." : "Facture n°",
@@ -101,7 +101,7 @@ export default async function Facture({ params }: { params: Promise<{ id: string
 
       <div className="relative mx-auto max-w-[820px]">
         <div className="mb-4 print:hidden">
-          <Link href="/compte/documents" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"><ArrowLeft className="size-4" /> {T.back}</Link>
+          <Link href={isAdmin ? "/admin/commandes" : "/compte/commandes"} className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">{T.back}</Link>
         </div>
 
         <div className="overflow-hidden rounded-3xl border border-border bg-white shadow-[0_20px_60px_-25px_rgba(26,115,232,0.35)] print:rounded-none print:border-0 print:shadow-none">
