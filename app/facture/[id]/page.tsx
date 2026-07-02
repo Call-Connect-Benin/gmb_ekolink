@@ -147,7 +147,7 @@ export default async function Facture({ params }: { params: Promise<{ id: string
             <div className="mt-8 overflow-hidden rounded-2xl border border-border">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[linear-gradient(90deg,#1a73e8,#f89f1b)] text-left text-xs font-bold uppercase tracking-wide text-white">
+                  <tr className="bg-primary text-left text-xs font-bold uppercase tracking-wide text-white">
                     <th className="px-5 py-3">{T.desc}</th>
                     <th className="px-3 py-3 text-center">{T.qty}</th>
                     <th className="px-3 py-3 text-right">{T.unit}</th>
