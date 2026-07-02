@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Users, ShoppingBag, BarChart3, FileText, Store, Boxes, Plus, Download, ChevronRight } from "lucide-react";
+import { Users, ShoppingBag, BarChart3, FileText, Store, Boxes, Plus, Download } from "lucide-react";
 import { Donut, Legend } from "../components/dashboard/Charts";
 import { StatCard, Panel, PanelHeader, Pill, QuickAction } from "../components/dashboard/ui";
 import { EmptyMini } from "../components/dashboard/list";

@@ -14,8 +14,15 @@ export const isStripeConfigured = () => {
   return (k.startsWith("sk_") || k.startsWith("rk_")) && !k.includes("xxx");
 };
 
-export const adminEmails = () =>
-  (process.env.ADMIN_EMAILS || "")
+const parseEmails = (raw: string | undefined) =>
+  (raw || "")
     .split(",")
     .map((e) => e.trim().toLowerCase())
     .filter(Boolean);
+
+export const adminEmails = () => parseEmails(process.env.ADMIN_EMAILS);
+
+// Super administrateurs par email : variable DÉDIÉE (ne pas réutiliser ADMIN_EMAILS,
+// sinon tout admin listé obtiendrait les droits super_admin — escalade). Vide = super
+// admin uniquement via le rôle 'super_admin' en base.
+export const superAdminEmails = () => parseEmails(process.env.SUPER_ADMIN_EMAILS);

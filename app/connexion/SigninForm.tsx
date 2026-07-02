@@ -104,8 +104,6 @@ export default function SigninForm() {
           />
           <div className="text-right"><Link href="/mot-de-passe-oublie" className="text-sm font-semibold text-primary hover:underline">{t("forgotPassword")}</Link></div>
         </div>
-        <label className="flex items-center gap-2 text-sm"><input type="checkbox" defaultChecked className="size-4 rounded border-border accent-[#1a73e8]" /> {t("rememberMe")}</label>
-
         {error && (
           <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive" role="alert">{error}</p>
         )}

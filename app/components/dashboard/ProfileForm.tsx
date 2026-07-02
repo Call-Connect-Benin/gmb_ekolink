@@ -25,7 +25,7 @@ export default function ProfileForm({
 
   const avatarFormRef = useRef<HTMLFormElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const [state, formAction] = useActionState(updateProfileAction, null);
+  const [state, formAction, pending] = useActionState(updateProfileAction, null);
   const [avatarState, avatarAction, uploading] = useActionState(uploadAvatarAction, null);
 
   return (
@@ -88,7 +88,7 @@ export default function ProfileForm({
         <div className="flex items-center justify-end gap-3 sm:col-span-2">
           {state?.ok && <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-success"><CheckCircle2 className="size-4" /> {t("saved")}</span>}
           {state?.error && <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-destructive"><AlertCircle className="size-4" /> {t("saveError")}</span>}
-          <button type="submit" className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary/90">{t("save")}</button>
+          <button type="submit" disabled={pending} className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 disabled:opacity-70">{pending && <Loader2 className="size-4 animate-spin" />}{t("save")}</button>
         </div>
       </form>
     </div>

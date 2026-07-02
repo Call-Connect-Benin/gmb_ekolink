@@ -42,6 +42,10 @@ export default function ResetForm() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    if (password.length < 8) {
+      setError(t("passwordMinPlaceholder"));
+      return;
+    }
     if (password !== confirm) {
       setError(t("passwordMismatch"));
       return;

@@ -88,7 +88,8 @@ export async function uploadAvatarAction(_prev: AvatarState, formData: FormData)
   if (up.error || !up.url) return { error: up.error ?? "Échec de l'upload." };
   const url = up.url;
 
-  await sb.from("profiles").update({ avatar_url: url }).eq("id", user.id);
+  const { error: dbErr } = await sb.from("profiles").update({ avatar_url: url }).eq("id", user.id);
+  if (dbErr) return { error: "Échec de l'enregistrement de la photo." };
   await sb.auth.updateUser({ data: { avatar_url: url } });
 
   revalidatePath("/compte/profil");

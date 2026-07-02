@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { isSupabaseConfigured, adminEmails } from "@/lib/supabase/config";
+import { isSupabaseConfigured, adminEmails, superAdminEmails } from "@/lib/supabase/config";
 import type { Category, Listing, Order, Profile } from "@/lib/types";
 
 export type ListingFilters = {
@@ -122,11 +122,13 @@ export async function isCurrentUserAdmin(): Promise<boolean> {
   return isAdminEmail(await currentVerifiedEmail());
 }
 
-/** Super admin = rôle 'super_admin' en base OU email VÉRIFIÉ listé dans ADMIN_EMAILS (le propriétaire). */
+/** Super admin = rôle 'super_admin' en base OU email VÉRIFIÉ listé dans SUPER_ADMIN_EMAILS
+ * (variable DÉDIÉE — un simple ADMIN_EMAILS n'accorde PAS super_admin, cf. audit E2). */
 export async function isCurrentUserSuperAdmin(): Promise<boolean> {
   const profile = await getCurrentProfile();
   if (profile && profile.role === "super_admin") return true;
-  return isAdminEmail(await currentVerifiedEmail());
+  const email = await currentVerifiedEmail();
+  return email !== "" && superAdminEmails().includes(email);
 }
 
 export async function getMyOrders(): Promise<Order[]> {

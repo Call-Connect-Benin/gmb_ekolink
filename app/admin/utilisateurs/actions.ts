@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isCurrentUserAdmin, isCurrentUserSuperAdmin, getCurrentProfile } from "@/lib/queries";
+import { adminEmails, superAdminEmails } from "@/lib/supabase/config";
 
 const ROLES = ["buyer", "admin"];
 
@@ -92,6 +93,25 @@ export async function deleteUserAction(formData: FormData) {
   await assertCanManageTarget(id);
 
   const admin = createAdminClient();
+
+  // Email vérifié + rôle de la cible (protection propriétaire / dernier super_admin).
+  const { data: targetAuth } = await admin.auth.admin.getUserById(id);
+  const targetEmail = (targetAuth?.user?.email || "").toLowerCase();
+  const { data: targetProfile } = await admin.from("profiles").select("role").eq("id", id).maybeSingle();
+
+  // Le propriétaire (listé dans SUPER_ADMIN_EMAILS/ADMIN_EMAILS) ne peut jamais être supprimé.
+  if (targetEmail && (superAdminEmails().includes(targetEmail) || adminEmails().includes(targetEmail))) {
+    throw new Error("Ce compte administrateur (propriétaire) ne peut pas être supprimé.");
+  }
+
+  // Impossible de supprimer le dernier super administrateur (verrouillage du back-office).
+  if (targetProfile?.role === "super_admin") {
+    const { count } = await admin.from("profiles").select("id", { count: "exact", head: true }).eq("role", "super_admin");
+    if ((count ?? 0) <= 1) {
+      throw new Error("Impossible de supprimer le dernier super administrateur.");
+    }
+  }
+
   const { error: delErr } = await admin.auth.admin.deleteUser(id);
   if (delErr) throw new Error(delErr.message);
   await admin.from("profiles").delete().eq("id", id); // au cas où la cascade n'opère pas

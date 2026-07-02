@@ -115,7 +115,9 @@ export async function POST(req: Request) {
       cancel_url: `${site}/fiches-google/${listing.slug}?canceled=1`,
     });
 
-    await sb.from("orders").update({ stripe_session_id: session.id }).eq("id", order.id);
+    // Via le client admin : il n'existe pas de policy UPDATE côté acheteur (l'écriture
+    // RLS serait silencieusement bloquée → stripe_session_id resterait NULL).
+    await admin.from("orders").update({ stripe_session_id: session.id }).eq("id", order.id);
 
     return NextResponse.json({ url: session.url });
   } catch {
